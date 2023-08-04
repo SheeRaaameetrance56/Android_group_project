@@ -7,4 +7,9 @@
     <string name="name">Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="sign_organization">Sign as Organization</string>
+    <string name="sign_as_organization">Sign as Organization</string>
+    <string name="organization_name">Name of Organization</string>
+    <string name="email_organization">Company Email</string>
+    <string name="address">Company Adress</string>
+    <string name="sign_as_individual">Sign an an individual</string>
 </resources>
