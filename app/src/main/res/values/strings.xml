@@ -18,4 +18,9 @@
     <string name="phone_number">Phone Number</string>
     <string name="name">Name</string>
     <string name="sign_organization">Sign as an Organization</string>
+    <string name="sign_as_organization">Sign as an Organization</string>
+    <string name="organization_name">Name of Organization</string>
+    <string name="email_organization">Organization Email</string>
+    <string name="address">Address</string>
+    <string name="sign_as_individual">Sign as Individual</string>
 </resources>
