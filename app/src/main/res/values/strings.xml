@@ -15,4 +15,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="create_account">Create Account</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="name">Name</string>
+    <string name="sign_organization">Sign as an Organization</string>
 </resources>
