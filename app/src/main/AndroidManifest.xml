@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Application_Event_Management"
         tools:targetApi="31">
         <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".dashboard"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
@@ -21,6 +24,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
