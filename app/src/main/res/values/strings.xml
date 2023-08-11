@@ -23,4 +23,7 @@
     <string name="email_organization">Organization Email</string>
     <string name="address">Address</string>
     <string name="sign_as_individual">Sign as Individual</string>
+    <string name="friend_list">Friend List</string>
+    <string name="make_public_event">Make Public Event</string>
+    <string name="set_banner">Set Banner</string>
 </resources>
