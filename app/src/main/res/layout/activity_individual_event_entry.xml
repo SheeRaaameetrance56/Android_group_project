@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="100dp"
-        android:text="Cancel"
+        android:text="@android:string/cancel"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pri_event_publish_btn"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:text="Publish"
+        android:text="@string/publish"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/pri_event_cancel_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,13 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
-        android:text="Invite"
+        android:text="@string/invite"
         android:textColor="#0044CC"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_cancel_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_limitations"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_limitations" />
 
     <EditText
         android:id="@+id/pri_event_title"
@@ -56,12 +56,14 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="50dp"
-        android:text="Event Title"
+        android:text="@string/event_title"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView3"/>
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/pri_event_venue"
@@ -72,12 +74,14 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:text="Venue"
+        android:text="@string/venue"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_description"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_description"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/pri_event_time"
@@ -86,14 +90,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="datetime|time"
         android:minHeight="48dp"
-        android:text="Time"
+        android:text="@string/time"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_limitations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_date"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_date"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/pri_event_limitations"
@@ -102,14 +108,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:text="Limitations"
+        android:inputType="text|textImeMultiLine"
+        android:minHeight="50dp"
+        android:text="@string/limitations"
         app:layout_constraintBottom_toTopOf="@+id/pri_invite_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_time"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_time"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/pri_event_date"
@@ -118,14 +126,16 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="datetime|date"
         android:minHeight="48dp"
-        android:text="Date"
+        android:text="@string/date"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_venue"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_venue"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/pri_event_description"
@@ -136,19 +146,21 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:text="Description"
+        android:text="@string/discription"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_venue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pri_event_title"/>
+        app:layout_constraintTop_toBottomOf="@id/pri_event_title"
+        tools:ignore="LabelFor,VisualLintTextFieldSize"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Make Your Event"
+        android:text="@string/make_your_event"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/pri_event_title"

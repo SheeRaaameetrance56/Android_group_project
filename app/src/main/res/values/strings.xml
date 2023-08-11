@@ -26,4 +26,16 @@
     <string name="friend_list">Friend List</string>
     <string name="make_public_event">Make Public Event</string>
     <string name="set_banner">Set Banner</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="add">Add</string>
+    <string name="make_your_event">Make Your Event</string>
+    <string name="event_title">Event Title</string>
+    <string name="discription">Discription</string>
+    <string name="venue">Venue</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="limitations">Limitations</string>
+    <string name="invite">Invite</string>
+    <string name="publish">Publish</string>
+    <string name="todo">TODO</string>
 </resources>

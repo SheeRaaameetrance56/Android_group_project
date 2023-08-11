@@ -11,7 +11,7 @@
         android:id="@+id/invite_add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="@string/add"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="80dp"
-        android:text="Cancel"
+        android:text="@android:string/cancel"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/invite_btn"
@@ -37,14 +37,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:text="Invite"
+        android:text="@string/invite"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/invite_cancel_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/invite_cancel_btn"
         app:layout_constraintTop_toTopOf="@+id/invite_cancel_btn"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <EditText
         android:id="@+id/Invite_contact_num"
@@ -55,12 +56,14 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:text="Contact number"
+        android:text="@string/contact_number"
         app:layout_constraintBottom_toTopOf="@id/invite_add_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/invite_name" />
+        app:layout_constraintTop_toBottomOf="@+id/invite_name"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/invite_name"
@@ -71,19 +74,21 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:text="Name"
+        android:text="@string/name"
         app:layout_constraintBottom_toTopOf="@id/Invite_contact_num"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        android:autofillHints=""
+        tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Invite"
+        android:text="@string/invite"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/invite_name"
