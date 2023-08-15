@@ -12,21 +12,26 @@
         android:theme="@style/Theme.Application_Event_Management"
         tools:targetApi="31">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrivateEventShowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PublicEventShowActivity"
+            android:exported="false" />
+        <activity
             android:name=".Frind_list"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Invite"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Individual_event_entry"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Public_event_entry"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".CreateAccountOrganizationActivity"
             android:exported="false" />

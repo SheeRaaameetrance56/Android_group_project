@@ -38,4 +38,7 @@
     <string name="invite">Invite</string>
     <string name="publish">Publish</string>
     <string name="todo">TODO</string>
+    <string name="event_name">Event Name</string>
+    <string name="description">Description</string>
+    <string name="massage">Massage</string>
 </resources>
