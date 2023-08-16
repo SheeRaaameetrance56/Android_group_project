@@ -41,4 +41,8 @@
     <string name="event_name">Event Name</string>
     <string name="description">Description</string>
     <string name="massage">Massage</string>
+    <string name="profile">Profile</string>
+    <string name="my_events">My Events</string>
+    <string name="log_out">Log Out</string>
+    <string name="about_us">About Us</string>
 </resources>

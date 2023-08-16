@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.ui.gallery;
+package com.ousl.application_event_management.dashboard_fragments.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
