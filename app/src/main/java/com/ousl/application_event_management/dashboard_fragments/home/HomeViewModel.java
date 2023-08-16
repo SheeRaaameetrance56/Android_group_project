@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.ui.home;
+package com.ousl.application_event_management.dashboard_fragments.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
