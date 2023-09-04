@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.databinding.ActivityCreateAccountBinding;
+import com.ousl.application_event_management.models.Users;
 
 import static android.content.ContentValues.TAG;
 
@@ -60,6 +61,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressDialog.dismiss();
                                     if(task.isSuccessful()){
+                                        Users user = new Users(binding.inputCreateEmail.getText().toString(), binding.inputCreatePassword.getText().toString());
+                                        String id = task.getResult().getUser().getUid();
+                                        database.getReference().child("users").child(id).setValue(user);
                                         Toast.makeText(CreateAccountActivity.this, "Your account created", Toast.LENGTH_SHORT).show();
                                     }
                                     else {
