@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "646527654281",
-    "project_id": "database-event-management",
-    "storage_bucket": "database-event-management.appspot.com"
+    "project_number": "659923382113",
+    "project_id": "database-splendy",
+    "storage_bucket": "database-splendy.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:646527654281:android:1d169710b9e5685de96958",
+        "mobilesdk_app_id": "1:659923382113:android:3682775b44fcf1c65f1f20",
         "android_client_info": {
           "package_name": "com.ousl.application_event_management"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "646527654281-cue0vu4rj5h5hkh2fdhcoutsts9mcn4e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB51BqpmguKw7mlZ9Jk9H5rG-aXfGdzLWs"
+          "current_key": "AIzaSyCnGfZrmgZHyMCufDuGXXRKJsC7wmIfB0A"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "646527654281-cue0vu4rj5h5hkh2fdhcoutsts9mcn4e.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
