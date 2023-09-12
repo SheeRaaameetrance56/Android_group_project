@@ -14,9 +14,11 @@ public class Users {
         this.password = password;
     }
 
-    public Users(String email, String password) {
+    public Users(String name ,String email, String password, String phoneNo) {
+        this.name = name;
         this.email = email;
         this.password = password;
+        this.phoneNo = phoneNo;
     }
 
     public String getName() {
