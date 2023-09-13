@@ -40,13 +40,15 @@ public class CreateAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_create_account);
+        //Used view binding for screen connectivity and access.
         binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Firebase initiate
+        // Firebase authentication and realtime database initiate
         createAccountAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
+        // Progress dialog shows progress while creating account
         progressDialog = new ProgressDialog(CreateAccountActivity.this);
         progressDialog.setTitle("Creating Account");
         progressDialog.setMessage("Wait a minute....");
@@ -55,19 +57,25 @@ public class CreateAccountActivity extends AppCompatActivity {
         binding.buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get text on text inputs input by the user
                 name = binding.inputCreateName.getText().toString();
                 email = binding.inputCreateEmail.getText().toString();
                 password = binding.inputCreatePassword.getText().toString();
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
 
+                // validation conditions.
                 if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !phoneNo.isEmpty()) {
                     progressDialog.show();
+
+                    // creating google authentication and task performing on complete
                     createAccountAuth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    // If successful authentication created.
                                     if (task.isSuccessful()) {
                                         Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
+                                        // save authentication details on realtime database.
                                         FirebaseUser currentUser = createAccountAuth.getCurrentUser();
                                         if (currentUser != null) {
                                             String uid = currentUser.getUid();
