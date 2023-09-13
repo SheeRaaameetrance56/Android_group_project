@@ -69,6 +69,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        if(loginAuth.getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, dashboard.class);
+            startActivity(intent);
+            finish();
+        }
+
         binding.createAccountNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
