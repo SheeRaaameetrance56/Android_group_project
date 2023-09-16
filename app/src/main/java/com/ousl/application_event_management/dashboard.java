@@ -1,5 +1,6 @@
 package com.ousl.application_event_management;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -53,6 +54,23 @@ public class dashboard extends AppCompatActivity {
                 }
             }
         });
+
+        binding.appBarDashboard.publicEventAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, Public_event_entry.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.appBarDashboard.privateEventAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(dashboard.this, Individual_event_entry.class);
+                startActivity(intent);
+            }
+        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
