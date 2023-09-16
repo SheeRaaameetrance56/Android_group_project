@@ -42,4 +42,6 @@
     <string name="my_events">My Events</string>
     <string name="log_out">Log Out</string>
     <string name="about_us">About Us</string>
+    <string name="private_event">Private Event</string>
+    <string name="public_event">Public Event</string>
 </resources>

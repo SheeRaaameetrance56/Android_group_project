@@ -3,6 +3,9 @@ package com.ousl.application_event_management;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,6 +24,7 @@ public class dashboard extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +33,24 @@ public class dashboard extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarDashboard.toolbar);
-        binding.appBarDashboard.fab.setOnClickListener(new View.OnClickListener() {
+
+        binding.appBarDashboard.mainActionButton.setOnClickListener(new View.OnClickListener() {
+            boolean shown = false;
             @Override
             public void onClick(View view) {
-                Toast.makeText(dashboard.this, "This is new event activity", Toast.LENGTH_SHORT).show();
+
+                if(shown != true){
+                    binding.appBarDashboard.privateEventAction.setVisibility(view.VISIBLE);
+                    binding.appBarDashboard.publicEventAction.setVisibility(view.VISIBLE);
+
+                    shown = true;
+                }
+                else{
+                    binding.appBarDashboard.privateEventAction.setVisibility(view.GONE);
+                    binding.appBarDashboard.publicEventAction.setVisibility(view.GONE);
+
+                    shown = false;
+                }
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
