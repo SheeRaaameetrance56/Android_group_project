@@ -41,6 +41,15 @@ public class dashboard extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(shown != true){
+                    Animation animation = AnimationUtils.loadAnimation(dashboard.this, R.anim.rotate_open_anim);
+                    binding.appBarDashboard.mainActionButton.startAnimation(animation);
+
+//                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
+//                    binding.appBarDashboard.publicEventAction.startAnimation(animation2);
+//
+//                    Animation animation3 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
+//                    binding.appBarDashboard.privateEventAction.startAnimation(animation3);
+
                     binding.appBarDashboard.privateEventAction.setVisibility(view.VISIBLE);
                     binding.appBarDashboard.publicEventAction.setVisibility(view.VISIBLE);
 
@@ -49,6 +58,15 @@ public class dashboard extends AppCompatActivity {
                 else{
                     binding.appBarDashboard.privateEventAction.setVisibility(view.GONE);
                     binding.appBarDashboard.publicEventAction.setVisibility(view.GONE);
+
+                    Animation animation = AnimationUtils.loadAnimation(dashboard.this, R.anim.rotate_close_anim);
+                    binding.appBarDashboard.mainActionButton.startAnimation(animation);
+
+//                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.to_bottom_anim);
+//                    binding.appBarDashboard.publicEventAction.startAnimation(animation2);
+//
+//                    Animation animation3 = AnimationUtils.loadAnimation(dashboard.this, R.anim.to_bottom_anim);
+//                    binding.appBarDashboard.privateEventAction.startAnimation(animation3);
 
                     shown = false;
                 }
