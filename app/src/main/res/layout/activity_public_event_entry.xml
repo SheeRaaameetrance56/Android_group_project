@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/pub_event_publish_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_limitations" />
+        app:layout_constraintTop_toBottomOf="@id/pub_event_limitations" />
 
     <Button
         android:id="@+id/pub_event_publish_btn"
@@ -56,11 +56,11 @@
         android:hint="@string/venue"
         android:inputType="text"
         android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@id/pub_event_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pub_event_description"
+        app:layout_constraintBottom_toTopOf="@id/pub_event_date"
         tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
@@ -100,24 +100,6 @@
         tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <EditText
-        android:id="@+id/pub_event_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/time"
-        android:inputType="datetime|time"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@id/pub_event_limitations"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_date"
-        tools:ignore="LabelFor,VisualLintTextFieldSize" />
-
-    <EditText
         android:id="@+id/pub_event_limitations"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -132,25 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_time"
-        tools:ignore="LabelFor,VisualLintTextFieldSize" />
-
-    <EditText
-        android:id="@+id/pub_event_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/date"
-        android:inputType="datetime|date"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@id/pub_event_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_venue"
+        app:layout_constraintTop_toBottomOf="@id/pub_event_time"
         tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
     <ImageView
@@ -170,7 +134,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:text="@string/make_public_event"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -178,5 +142,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/pub_event_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="@string/date"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@id/pub_event_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pub_event_venue" />
+
+    <EditText
+        android:id="@+id/pub_event_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="@string/time"
+        android:inputType="time"
+        app:layout_constraintBottom_toTopOf="@id/pub_event_limitations"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pub_event_date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
