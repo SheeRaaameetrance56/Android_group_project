@@ -155,7 +155,8 @@
         app:layout_constraintBottom_toTopOf="@id/pub_event_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_venue" />
+        app:layout_constraintTop_toBottomOf="@+id/pub_event_venue"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/pub_event_time"
@@ -169,6 +170,7 @@
         app:layout_constraintBottom_toTopOf="@id/pub_event_limitations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_date" />
+        app:layout_constraintTop_toBottomOf="@+id/pub_event_date"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
