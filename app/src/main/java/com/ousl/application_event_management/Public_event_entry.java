@@ -43,7 +43,7 @@ public class Public_event_entry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!title.isEmpty() && !description.isEmpty() && !venue.isEmpty() && !time.isEmpty() && !date.isEmpty()){
-                    // TODO database approach
+
                     Intent intent = new Intent(Public_event_entry.this, PublicEventShowActivity.class);
                     startActivity(intent);
                 }
