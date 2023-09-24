@@ -44,4 +44,6 @@
     <string name="about_us">About Us</string>
     <string name="private_event">Private Event</string>
     <string name="public_event">Public Event</string>
+    <string name="menu">Menu</string>
+    <string name="dashboard">Dashboard</string>
 </resources>
