@@ -74,7 +74,7 @@ public class Public_event_entry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!title.isEmpty() && !description.isEmpty() && !venue.isEmpty() && !dateStr.isEmpty() && !timeStr.isEmpty()) {
-
+// TODO solve error coming on if condition
                     BitmapDrawable drawable = (BitmapDrawable) banner.getDrawable();
                     Bitmap imageBitmap = drawable.getBitmap();
 
