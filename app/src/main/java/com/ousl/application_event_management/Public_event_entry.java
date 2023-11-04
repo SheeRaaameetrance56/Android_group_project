@@ -104,6 +104,7 @@ public class Public_event_entry extends AppCompatActivity {
                                 binding.pubEventLimitations.setText("");
                                 binding.pubEventDate.setText("");
                                 binding.pubEventTime.setText("");
+                                binding.banner.setImageDrawable(null);
                             } else {
                                 Toast.makeText(Public_event_entry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                             }
@@ -112,6 +113,7 @@ public class Public_event_entry extends AppCompatActivity {
 
                     Intent intent = new Intent(Public_event_entry.this, PublicEventShowActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(Public_event_entry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                 }
@@ -128,7 +130,24 @@ public class Public_event_entry extends AppCompatActivity {
                 );
             }
         });
+
+        binding.pubEventCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.pubEventTitle.setText("");
+                binding.pubEventDescription.setText("");
+                binding.pubEventVenue.setText("");
+                binding.pubEventLimitations.setText("");
+                binding.pubEventDate.setText("");
+                binding.pubEventTime.setText("");
+                binding.banner.setImageDrawable(null);
+                Intent intent = new Intent(Public_event_entry.this, dashboard.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
