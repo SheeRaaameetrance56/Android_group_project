@@ -7,7 +7,7 @@ import java.sql.Time;
 import java.util.Date;
 
 public class PublicEvent {
-    private String title, description, venue, limitations;
+    private String eventID, title, description, venue, limitations;
     private Date date;
     private Time time;
     private Bitmap banner;
@@ -31,6 +31,14 @@ public class PublicEvent {
         this.venue = venue;
         this.date = date;
         this.time = time;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 
     public String getTitle() {

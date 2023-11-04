@@ -7,11 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
-import com.ousl.application_event_management.models.Users;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -38,7 +36,7 @@ public class Public_event_entry extends AppCompatActivity {
     String title, description, venue, limitations, dateStr, timeStr;
     Date date;
     Time time;
-    ImageView banner;
+    Drawable banner;
     private static final int SELECT_IMAGE = 100;
 
     PublicEvent publicEvent;
@@ -49,64 +47,76 @@ public class Public_event_entry extends AppCompatActivity {
         binding = ActivityPublicEventEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // database instantiate
+        // Initialize Firebase
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-
-        title = binding.pubEventTitle.getText().toString();
-        description = binding.pubEventDescription.getText().toString();
-        venue = binding.pubEventVenue.getText().toString();
-        limitations = binding.pubEventLimitations.getText().toString();
-        banner = binding.imageView2;
-
-        try {
-            dateStr = binding.pubEventDate.getText().toString();
-            timeStr = binding.pubEventTime.getText().toString();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault());
-            SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-            date = dateFormat.parse(dateStr);
-            time = new Time(timeFormat.parse(timeStr).getTime());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        reference = database.getReference(); // Get the root reference
 
         binding.pubEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!title.isEmpty() && !description.isEmpty() && !venue.isEmpty() && !dateStr.isEmpty() && !timeStr.isEmpty()) {
-// TODO solve error coming on if condition
-                    BitmapDrawable drawable = (BitmapDrawable) banner.getDrawable();
-                    Bitmap imageBitmap = drawable.getBitmap();
+                title = binding.pubEventTitle.getText().toString();
+                description = binding.pubEventDescription.getText().toString();
+                venue = binding.pubEventVenue.getText().toString();
+                limitations = binding.pubEventLimitations.getText().toString();
+                dateStr = binding.pubEventDate.getText().toString();
+                timeStr = binding.pubEventTime.getText().toString();
 
-                    FirebaseUser currentUser = auth.getCurrentUser();
-                    if (currentUser != null) {
-                        String uid = currentUser.getUid();
-                        publicEvent = new PublicEvent(title, description, venue, limitations, date, time, imageBitmap);
-                        database = FirebaseDatabase.getInstance();
-                        reference = database.getReference("public_events");
-                        reference.child(uid).setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                // Ensure the user is authenticated
+                FirebaseUser currentUser = auth.getCurrentUser();
+                if (currentUser != null) {
+                    String uid = currentUser.getUid();
+
+                    // Create a new event with a unique key under the user's node
+                    DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
+
+                    try {
+                        // Convert date and time to the correct format
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
+                        date = dateFormat.parse(dateStr);
+                        time = new Time(timeFormat.parse(timeStr).getTime());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // Fetch the banner image here as well
+                    Bitmap imageBitmap = null;
+                    try {
+                        BitmapDrawable drawable = (BitmapDrawable) banner;
+                        imageBitmap = drawable.getBitmap();
+                    } catch (Exception e) {
+                        // Handle the exception
+                    }
+
+                    publicEvent = new PublicEvent(title, description, venue, limitations, date, time, imageBitmap);
+
+                    // Set the event data under the unique key
+                    userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Public_event_entry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
+                                // Clear input fields
                                 binding.pubEventTitle.setText("");
                                 binding.pubEventDescription.setText("");
                                 binding.pubEventVenue.setText("");
                                 binding.pubEventLimitations.setText("");
                                 binding.pubEventDate.setText("");
                                 binding.pubEventTime.setText("");
-
+                            } else {
+                                Toast.makeText(Public_event_entry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                             }
-                        });
-//                                            database.getReference().child("users").child(uid).setValue(user);
-                    }
+                        }
+                    });
 
                     Intent intent = new Intent(Public_event_entry.this, PublicEventShowActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(Public_event_entry.this, "Title, Description, Venue, Date and Time Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Public_event_entry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         binding.pubEventSelectImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,17 +128,14 @@ public class Public_event_entry extends AppCompatActivity {
                 );
             }
         });
-
     }
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if(requestCode == SELECT_IMAGE && null != data){
-                Uri uri = data.getData();
-                binding.imageView2.setImageURI(uri);
 
-
-
-            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            binding.banner.setImageURI(uri);
         }
     }
+}
