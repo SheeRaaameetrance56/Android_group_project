@@ -8,12 +8,12 @@ import java.util.Date;
 
 public class PublicEvent {
     private String eventID, title, description, venue, limitations, date, time;
-    private Bitmap banner;
+    private String banner;
 
     public PublicEvent() {
     }
 
-    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, Bitmap banner) {
+    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String banner) {
         this.title = title;
         this.description = description;
         this.venue = venue;
@@ -23,12 +23,13 @@ public class PublicEvent {
         this.banner = banner;
     }
 
-    public PublicEvent(String title, String description, String venue, String date, String time) {
+    public PublicEvent(String title, String description, String venue, String limitations, String date, String time) {
         this.title = title;
         this.description = description;
         this.venue = venue;
         this.date = date;
         this.time = time;
+        this.limitations = limitations;
     }
 
     public String getEventID() {
@@ -87,11 +88,11 @@ public class PublicEvent {
         this.time = time;
     }
 
-    public Bitmap getBanner() {
+    public String getBanner() {
         return banner;
     }
 
-    public void setBanner(Bitmap banner) {
+    public void setBanner(String banner) {
         this.banner = banner;
     }
 }
