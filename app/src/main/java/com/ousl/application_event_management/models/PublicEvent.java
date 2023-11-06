@@ -7,15 +7,13 @@ import java.sql.Time;
 import java.util.Date;
 
 public class PublicEvent {
-    private String eventID, title, description, venue, limitations;
-    private Date date;
-    private Time time;
-    private Bitmap banner;
+    private String eventID, title, description, venue, limitations, date, time;
+    private String banner;
 
     public PublicEvent() {
     }
 
-    public PublicEvent(String title, String description, String venue, String limitations, Date date, Time time, Bitmap banner) {
+    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String banner) {
         this.title = title;
         this.description = description;
         this.venue = venue;
@@ -25,12 +23,13 @@ public class PublicEvent {
         this.banner = banner;
     }
 
-    public PublicEvent(String title, String description, String venue, Date date, Time time) {
+    public PublicEvent(String title, String description, String venue, String limitations, String date, String time) {
         this.title = title;
         this.description = description;
         this.venue = venue;
         this.date = date;
         this.time = time;
+        this.limitations = limitations;
     }
 
     public String getEventID() {
@@ -73,27 +72,27 @@ public class PublicEvent {
         this.limitations = limitations;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
-    public Bitmap getBanner() {
+    public String getBanner() {
         return banner;
     }
 
-    public void setBanner(Bitmap banner) {
+    public void setBanner(String banner) {
         this.banner = banner;
     }
 }
