@@ -55,12 +55,7 @@ public class Public_event_entry extends AppCompatActivity {
         binding.pubEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title = binding.pubEventTitle.getText().toString();
-                description = binding.pubEventDescription.getText().toString();
-                venue = binding.pubEventVenue.getText().toString();
-                limitations = binding.pubEventLimitations.getText().toString();
-                dateStr = binding.pubEventDate.getText().toString();
-                timeStr = binding.pubEventTime.getText().toString();
+
 
                 // Ensure the user is authenticated
                 FirebaseUser currentUser = auth.getCurrentUser();
@@ -70,16 +65,12 @@ public class Public_event_entry extends AppCompatActivity {
                     // Create a new event with a unique key under the user's node
                     DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
-                    try {
-                        // Convert date and time to the correct format
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-                        date = dateFormat.parse(dateStr);
-                        time = new Time(timeFormat.parse(timeStr).getTime());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    title = binding.pubEventTitle.getText().toString();
+                    description = binding.pubEventDescription.getText().toString();
+                    venue = binding.pubEventVenue.getText().toString();
+                    limitations = binding.pubEventLimitations.getText().toString();
+                    dateStr = binding.pubEventDate.getText().toString();
+                    timeStr = binding.pubEventTime.getText().toString();
                     // Fetch the banner image here as well
                     Bitmap imageBitmap = null;
                     try {
@@ -89,7 +80,7 @@ public class Public_event_entry extends AppCompatActivity {
                         // Handle the exception
                     }
 
-                    publicEvent = new PublicEvent(title, description, venue, limitations, date, time, imageBitmap);
+                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageBitmap);
 
                     // Set the event data under the unique key
                     userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
