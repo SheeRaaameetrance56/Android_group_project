@@ -85,6 +85,7 @@ public class Public_event_entry extends AppCompatActivity {
 
 
                     publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageUri.toString());
+                    publicEvent.setTimestamp(System.currentTimeMillis());
 
                     // Set the event data under the unique key
                     userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -100,6 +101,9 @@ public class Public_event_entry extends AppCompatActivity {
                                 binding.pubEventDate.setText("");
                                 binding.pubEventTime.setText("");
                                 binding.banner.setImageDrawable(null);
+
+                                String newEventKey = userEventsReference.getKey();
+
                             } else {
                                 Toast.makeText(Public_event_entry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                             }

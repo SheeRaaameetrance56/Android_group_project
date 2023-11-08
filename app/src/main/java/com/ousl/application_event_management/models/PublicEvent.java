@@ -9,6 +9,15 @@ import java.util.Date;
 public class PublicEvent {
     private String eventID, title, description, venue, limitations, date, time;
     private String banner;
+    private long timestamp;
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public PublicEvent() {
     }
@@ -21,6 +30,7 @@ public class PublicEvent {
         this.date = date;
         this.time = time;
         this.banner = banner;
+
     }
 
     public PublicEvent(String title, String description, String venue, String limitations, String date, String time) {
