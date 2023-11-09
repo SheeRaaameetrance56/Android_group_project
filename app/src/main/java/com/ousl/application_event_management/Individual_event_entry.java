@@ -3,6 +3,7 @@ package com.ousl.application_event_management;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.databinding.ActivityIndividualEventEntryBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
 
@@ -21,6 +23,7 @@ public class Individual_event_entry extends AppCompatActivity {
     ActivityIndividualEventEntryBinding binding;
     String title, description, venue, date, time, limitations;
     DatabaseReference reference;
+    FirebaseDatabase database;
     FirebaseAuth auth;
 
     @Override
@@ -29,6 +32,9 @@ public class Individual_event_entry extends AppCompatActivity {
         binding = ActivityIndividualEventEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        reference = database.getReference();
 
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +63,10 @@ public class Individual_event_entry extends AppCompatActivity {
                             binding.priEventTime.setText("");
                             binding.priEventLimitations.setText("");
                             Toast.makeText(Individual_event_entry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(Individual_event_entry.this, PrivateEventShowActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                         else{
                             Toast.makeText(Individual_event_entry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();

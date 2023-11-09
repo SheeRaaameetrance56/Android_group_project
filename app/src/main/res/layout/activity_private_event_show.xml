@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
-    tools:context=".PublicEventShowActivity">
+    tools:context=".PrivateEventShowActivity">
 
     <TextView
         android:id="@+id/public_event_name_view"
@@ -20,53 +20,53 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/public_event_description_view"
+        android:id="@+id/private_event_description_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description"
-        app:layout_constraintBottom_toTopOf="@id/public_event_venue_view"
+        app:layout_constraintBottom_toTopOf="@id/private_event_venue_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/public_event_name_view" />
 
     <TextView
-        android:id="@+id/public_event_venue_view"
+        android:id="@+id/private_event_venue_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/venue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/public_event_description_view"
-        app:layout_constraintBottom_toTopOf="@id/public_event_date_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/private_event_description_view"
+        app:layout_constraintBottom_toTopOf="@id/private_event_date_view"/>
 
     <TextView
-        android:id="@+id/public_event_date_view"
+        android:id="@+id/private_event_date_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/public_event_venue_view"
-        app:layout_constraintBottom_toTopOf="@id/public_event_time_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/private_event_venue_view"
+        app:layout_constraintBottom_toTopOf="@id/private_event_time_view"/>
 
     <TextView
-        android:id="@+id/public_event_time_view"
+        android:id="@+id/private_event_time_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/public_event_date_view"
-        app:layout_constraintBottom_toTopOf="@id/public_event_limitation_view"/>
+        app:layout_constraintTop_toBottomOf="@+id/private_event_date_view"
+        app:layout_constraintBottom_toTopOf="@id/private_event_limitation_view"/>
 
     <TextView
-        android:id="@+id/public_event_limitation_view"
+        android:id="@+id/private_event_limitation_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/limitations"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/public_event_time_view"
+        app:layout_constraintTop_toBottomOf="@+id/private_event_time_view"
         app:layout_constraintBottom_toTopOf="@id/chat_button"/>
 
     <ImageButton
@@ -80,7 +80,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dashboardButton"
-        app:layout_constraintTop_toBottomOf="@+id/public_event_limitation_view"
+        app:layout_constraintTop_toBottomOf="@+id/private_event_limitation_view"
         tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <Button
