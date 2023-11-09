@@ -30,6 +30,7 @@
     <string name="discription">Discription</string>
     <string name="venue">Venue</string>
     <string name="date">Date</string>
+    <string name="date_on_longpress">Date (Tap and hold to select the date)</string>
     <string name="time">Time</string>
     <string name="limitations">Limitations</string>
     <string name="invite">Invite</string>

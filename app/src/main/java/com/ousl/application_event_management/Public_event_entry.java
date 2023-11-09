@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,6 +56,20 @@ public class Public_event_entry extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+        binding.pubEventDate.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DatePickerDialog dialog = new DatePickerDialog(Public_event_entry.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        binding.pubEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
+                    }
+                }, 2023, 00, 01);
+                dialog.show();
+                return false;
+            }
+        });
+
         binding.pubEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +101,7 @@ public class Public_event_entry extends AppCompatActivity {
 
 
                     publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageUri.toString());
+                    publicEvent.setTimestamp(System.currentTimeMillis());
 
                     // Set the event data under the unique key
                     userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -100,6 +117,9 @@ public class Public_event_entry extends AppCompatActivity {
                                 binding.pubEventDate.setText("");
                                 binding.pubEventTime.setText("");
                                 binding.banner.setImageDrawable(null);
+
+                                String newEventKey = userEventsReference.getKey();
+
                             } else {
                                 Toast.makeText(Public_event_entry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                             }
