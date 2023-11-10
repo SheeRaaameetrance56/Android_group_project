@@ -103,9 +103,11 @@ public class dashboard extends AppCompatActivity {
                 R.id.nav_dasboard, R.id.nav_my_events, R.id.nav_friend_list)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_dashboard);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
+        navController.setGraph(R.navigation.mobile_navigation); // Replace with your navigation graph ID
+
 
 
     }
@@ -130,6 +132,8 @@ public class dashboard extends AppCompatActivity {
                 auth.signOut();
                 Intent intent = new Intent(dashboard.this, LoginActivity.class);
                 startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 break;
 
@@ -141,7 +145,7 @@ public class dashboard extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_dashboard);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
