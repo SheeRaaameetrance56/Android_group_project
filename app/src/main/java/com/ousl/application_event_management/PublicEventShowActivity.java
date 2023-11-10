@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,12 +15,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.databinding.ActivityPublicEventShowBinding;
 import com.ousl.application_event_management.models.PublicEvent;
+import com.squareup.picasso.Picasso;
 
 public class PublicEventShowActivity extends AppCompatActivity {
     ActivityPublicEventShowBinding binding;
 
     TextView title, description, venue, date, time, limitations;
-
+    String imageUrl;
+    ImageView imageView;
     FirebaseDatabase database;
     FirebaseAuth auth;
 
@@ -35,6 +38,7 @@ public class PublicEventShowActivity extends AppCompatActivity {
         date = binding.publicEventDateView;
         time = binding.publicEventTimeView;
         limitations = binding.publicEventLimitationView;
+        imageView = binding.publicEventBannerView;
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -60,6 +64,17 @@ public class PublicEventShowActivity extends AppCompatActivity {
                             date.setText(event.getDate());
                             time.setText(event.getTime());
                             limitations.setText(event.getLimitations());
+                            imageUrl = event.getImageUrl();
+                            if (imageUrl != null && !imageUrl.isEmpty()) {
+                                Picasso.get()
+                                        .load(imageUrl)
+                                        .error(R.drawable.preview1) // Placeholder in case of error
+                                        .placeholder(R.drawable.preview1) // Placeholder until image loads
+                                        .into(imageView);
+                            } else {
+                                // Load a placeholder if the URL is empty or invalid
+                                imageView.setImageResource(R.drawable.preview1);
+                            }
                         }
                     }
                 }

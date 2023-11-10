@@ -130,6 +130,8 @@ public class dashboard extends AppCompatActivity {
                 auth.signOut();
                 Intent intent = new Intent(dashboard.this, LoginActivity.class);
                 startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 break;
 

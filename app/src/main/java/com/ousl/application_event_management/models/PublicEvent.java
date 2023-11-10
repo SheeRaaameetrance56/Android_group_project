@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class PublicEvent {
     private String eventID, title, description, venue, limitations, date, time;
-    private String banner;
+    private String imageUrl;
     private long timestamp;
 
     public long getTimestamp() {
@@ -29,7 +29,7 @@ public class PublicEvent {
         this.limitations = limitations;
         this.date = date;
         this.time = time;
-        this.banner = banner;
+        this.imageUrl = banner;
 
     }
 
@@ -98,11 +98,11 @@ public class PublicEvent {
         this.time = time;
     }
 
-    public String getBanner() {
-        return banner;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setBanner(String banner) {
-        this.banner = banner;
+    public void setImageUrl(String banner) {
+        this.imageUrl = banner;
     }
 }

@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
+import com.squareup.picasso.Picasso;
 
 public class Public_event_entry extends AppCompatActivity {
 
@@ -88,6 +89,7 @@ public class Public_event_entry extends AppCompatActivity {
                     dateStr = binding.pubEventDate.getText().toString();
                     timeStr = binding.pubEventTime.getText().toString();
 
+
                     // Create a new event with a unique key under the user's node
                     DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
@@ -98,10 +100,11 @@ public class Public_event_entry extends AppCompatActivity {
                         Toast.makeText(Public_event_entry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
                     }
 
-
-
                     publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageUri.toString());
                     publicEvent.setTimestamp(System.currentTimeMillis());
+                    if (imageUri != null) {
+                        publicEvent.setImageUrl(imageUri.toString());
+                    }
 
                     // Set the event data under the unique key
                     userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -117,6 +120,7 @@ public class Public_event_entry extends AppCompatActivity {
                                 binding.pubEventDate.setText("");
                                 binding.pubEventTime.setText("");
                                 binding.banner.setImageDrawable(null);
+
 
                                 String newEventKey = userEventsReference.getKey();
 
@@ -181,10 +185,16 @@ public class Public_event_entry extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        // Store the download URL in the Realtime Database
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
                         Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
+
+                        // Update the PublicEvent's image URL
+                        publicEvent.setImageUrl(downloadUrl);
+
+                        // Load the image into the ImageView using Picasso or Glide
+                        Picasso.get().load(downloadUrl).into(binding.banner); // For Picasso
+                        // Glide.with(Public_event_entry.this).load(downloadUrl).into(binding.banner); // For Glide
                     }
                 });
             }
