@@ -64,12 +64,13 @@ public class PublicEventShowActivity extends AppCompatActivity {
                             date.setText(event.getDate());
                             time.setText(event.getTime());
                             limitations.setText(event.getLimitations());
+                            //TODO Check the URL passing from event PublicEvents
                             imageUrl = event.getImageUrl();
-                            if (imageUrl != null && !imageUrl.isEmpty()) {
+                            if (imageUrl != null) {
                                 Picasso.get()
                                         .load(imageUrl)
                                         .error(R.drawable.preview1) // Placeholder in case of error
-                                        .placeholder(R.drawable.preview1) // Placeholder until image loads
+                                        .placeholder(null) // Placeholder until image loads
                                         .into(imageView);
                             } else {
                                 // Load a placeholder if the URL is empty or invalid
