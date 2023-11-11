@@ -1,5 +1,6 @@
 package com.ousl.application_event_management.dashboard_fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
+import com.ousl.application_event_management.models.EventDisplay;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
 
@@ -131,7 +133,8 @@ public class HomeFragment extends Fragment {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(requireActivity(), EventDisplay.class);
+                startActivity(intent);
             }
         });
 
