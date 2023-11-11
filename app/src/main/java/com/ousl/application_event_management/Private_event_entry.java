@@ -1,15 +1,18 @@
 package com.ousl.application_event_management;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.databinding.ActivityIndividualEventEntryBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
 
-public class Individual_event_entry extends AppCompatActivity {
+import java.time.Year;
+import java.time.YearMonth;
+import java.util.Calendar;
+
+public class Private_event_entry extends AppCompatActivity {
 
     ActivityIndividualEventEntryBinding binding;
     String title, description, venue, date, time, limitations;
@@ -35,6 +42,21 @@ public class Individual_event_entry extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         reference = database.getReference();
+
+        binding.priEventDate.setOnLongClickListener(new View.OnLongClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public boolean onLongClick(View v) {
+                DatePickerDialog dialog = new DatePickerDialog(Private_event_entry.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        binding.priEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
+                    }
+                }, Year.now().getValue(), YearMonth.now().getMonthValue()-1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+                return false;
+            }
+        });
 
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,14 +84,14 @@ public class Individual_event_entry extends AppCompatActivity {
                             binding.priEventDate.setText("");
                             binding.priEventTime.setText("");
                             binding.priEventLimitations.setText("");
-                            Toast.makeText(Individual_event_entry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Private_event_entry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(Individual_event_entry.this, PrivateEventShowActivity.class);
+                            Intent intent = new Intent(Private_event_entry.this, PrivateEventShowActivity.class);
                             startActivity(intent);
                             finish();
                         }
                         else{
-                            Toast.makeText(Individual_event_entry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Private_event_entry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

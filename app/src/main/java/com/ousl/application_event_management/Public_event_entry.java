@@ -2,12 +2,14 @@ package com.ousl.application_event_management;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -27,6 +29,11 @@ import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
+
+import java.time.Month;
+import java.time.Year;
+import java.time.YearMonth;
+import java.util.Calendar;
 
 public class Public_event_entry extends AppCompatActivity {
 
@@ -58,6 +65,7 @@ public class Public_event_entry extends AppCompatActivity {
         storageReference = storage.getReference();
 
         binding.pubEventDate.setOnLongClickListener(new View.OnLongClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public boolean onLongClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(Public_event_entry.this, new DatePickerDialog.OnDateSetListener() {
@@ -65,7 +73,7 @@ public class Public_event_entry extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         binding.pubEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
                     }
-                }, 2023, 00, 01);
+                }, Year.now().getValue(), YearMonth.now().getMonthValue()-1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 dialog.show();
                 return false;
             }
@@ -187,7 +195,7 @@ public class Public_event_entry extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
-                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
 
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);
