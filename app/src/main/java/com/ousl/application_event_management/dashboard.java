@@ -89,7 +89,7 @@ public class dashboard extends AppCompatActivity {
         binding.appBarDashboard.privateEventAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, Individual_event_entry.class);
+                Intent intent = new Intent(dashboard.this, Private_event_entry.class);
                 startActivity(intent);
             }
         });

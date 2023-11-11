@@ -30,7 +30,7 @@
             android:name=".Invite"
             android:exported="true" />
         <activity
-            android:name=".Individual_event_entry"
+            android:name=".Private_event_entry"
             android:exported="true" />
         <activity
             android:name=".Public_event_entry"
