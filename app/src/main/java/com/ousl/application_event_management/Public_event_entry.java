@@ -187,7 +187,7 @@ public class Public_event_entry extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
-                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
 
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);

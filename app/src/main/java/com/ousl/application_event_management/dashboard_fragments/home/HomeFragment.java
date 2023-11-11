@@ -128,6 +128,13 @@ public class HomeFragment extends Fragment {
             //Picasso.get().load(event.getImageUrl()).into(imageView);
         }
 
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return cardView;
     }
 
