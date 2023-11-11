@@ -27,28 +27,42 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        DatabaseReference publicEventsRef = FirebaseDatabase.getInstance().getReference("public_events");
-        publicEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LinearLayout containerLayout = root.findViewById(R.id.container_layout);
+        LinearLayout containerLayout = root.findViewById(R.id.container_layout);
 
-                for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-                    PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
-                    if (event != null) {
-                        CardView cardView = createCardView(event);
-                        containerLayout.addView(cardView);
-                    }
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot usersSnapshot) {
+                for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
+                    DatabaseReference eventsRef = userSnapshot.getRef();
+                    eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
+                            for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
+                                PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
+                                if (event != null) {
+                                    CardView cardView = createCardView(event);
+                                    containerLayout.addView(cardView);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle errors
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 // Handle errors
             }
         });
