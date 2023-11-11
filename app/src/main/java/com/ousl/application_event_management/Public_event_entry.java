@@ -108,7 +108,7 @@ public class Public_event_entry extends AppCompatActivity {
                         Toast.makeText(Public_event_entry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
                     }
 
-                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageUri.toString());
+                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
                     publicEvent.setTimestamp(System.currentTimeMillis());
                     if (imageUri != null) {
                         publicEvent.setImageUrl(imageUri.toString());
