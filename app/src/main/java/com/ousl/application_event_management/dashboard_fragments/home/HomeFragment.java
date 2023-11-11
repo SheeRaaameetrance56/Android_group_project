@@ -12,7 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,13 +30,15 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         LinearLayout containerLayout = root.findViewById(R.id.container_layout);
+        LinearLayout containerLayoutMyEvents = root.findViewById(R.id.container_layout_my_events);
 
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -66,6 +71,35 @@ public class HomeFragment extends Fragment {
                 // Handle errors
             }
         });
+
+        // my events data retrieve
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+// Check if the user is authenticated
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userEventsRef = FirebaseDatabase.getInstance().getReference("public_events").child(userId);
+
+            // Now, instead of fetching all users' events, this will fetch only the events for the current user
+            userEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
+                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
+                        PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
+                        if (event != null) {
+                            CardView cardView = createCardView(event);
+                            containerLayoutMyEvents.addView(cardView);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle errors
+                }
+            });
+        }
 
         return root;
     }
