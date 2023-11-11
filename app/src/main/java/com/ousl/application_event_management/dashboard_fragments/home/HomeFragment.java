@@ -114,7 +114,18 @@ public class HomeFragment extends Fragment {
         titleTextView.setText(event.getTitle());
 
         if (event.getImageUrl() != null && !event.getImageUrl().isEmpty()) {
-            Picasso.get().load(event.getImageUrl()).into(imageView);
+            Picasso.get().load(event.getImageUrl()).into(imageView, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    // Image loaded successfully
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    // Log or handle the error
+                }
+            });
+            //Picasso.get().load(event.getImageUrl()).into(imageView);
         }
 
         return cardView;
