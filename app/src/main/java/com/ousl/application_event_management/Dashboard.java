@@ -42,10 +42,11 @@ public class Dashboard extends AppCompatActivity {
 
         binding.appBarDashboard.mainActionButton.setOnClickListener(new View.OnClickListener() {
             boolean shown = false;
+
             @Override
             public void onClick(View view) {
 
-                if(shown != true){
+                if (!shown) {
                     Animation animation = AnimationUtils.loadAnimation(Dashboard.this, R.anim.rotate_open_anim);
                     binding.appBarDashboard.mainActionButton.startAnimation(animation);
 
@@ -55,14 +56,13 @@ public class Dashboard extends AppCompatActivity {
 //                    Animation animation3 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
 //                    binding.appBarDashboard.privateEventAction.startAnimation(animation3);
 
-                    binding.appBarDashboard.privateEventAction.setVisibility(view.VISIBLE);
-                    binding.appBarDashboard.publicEventAction.setVisibility(view.VISIBLE);
+                    binding.appBarDashboard.privateEventAction.setVisibility(View.VISIBLE);
+                    binding.appBarDashboard.publicEventAction.setVisibility(View.VISIBLE);
 
                     shown = true;
-                }
-                else{
-                    binding.appBarDashboard.privateEventAction.setVisibility(view.GONE);
-                    binding.appBarDashboard.publicEventAction.setVisibility(view.GONE);
+                } else {
+                    binding.appBarDashboard.privateEventAction.setVisibility(View.GONE);
+                    binding.appBarDashboard.publicEventAction.setVisibility(View.GONE);
 
                     Animation animation = AnimationUtils.loadAnimation(Dashboard.this, R.anim.rotate_close_anim);
                     binding.appBarDashboard.mainActionButton.startAnimation(animation);
@@ -109,7 +109,6 @@ public class Dashboard extends AppCompatActivity {
         navController.setGraph(R.navigation.mobile_navigation); // Replace with your navigation graph ID
 
 
-
     }
 
     @Override
@@ -123,7 +122,7 @@ public class Dashboard extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 break;
