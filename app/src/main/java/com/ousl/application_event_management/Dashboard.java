@@ -37,7 +37,9 @@ public class Dashboard extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         setSupportActionBar(binding.appBarDashboard.toolbar);
+
         auth = FirebaseAuth.getInstance();
 
         binding.appBarDashboard.mainActionButton.setOnClickListener(new View.OnClickListener() {

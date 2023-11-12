@@ -48,7 +48,8 @@
             android:name=".Dashboard"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".SplashActivity"
             android:exported="true">
