@@ -30,10 +30,10 @@
             android:name=".Invite"
             android:exported="true" />
         <activity
-            android:name=".Private_event_entry"
+            android:name=".PrivateEventEntry"
             android:exported="true" />
         <activity
-            android:name=".Public_event_entry"
+            android:name=".PublicEventEntry"
             android:exported="true" />
         <activity
             android:name=".CreateAccountOrganizationActivity"
@@ -45,7 +45,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".dashboard"
+            android:name=".Dashboard"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />

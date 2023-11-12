@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.ousl.application_event_management.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressDialog.dismiss();
                             if(task.isSuccessful()){
-                                Intent intent = new Intent(LoginActivity.this, dashboard.class);
+                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         if(loginAuth.getCurrentUser() != null){
-            Intent intent = new Intent(LoginActivity.this, dashboard.class);
+            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
             startActivity(intent);
             finish();
         }

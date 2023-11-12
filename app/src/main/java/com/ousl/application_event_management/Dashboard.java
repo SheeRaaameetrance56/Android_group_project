@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ousl.application_event_management.databinding.ActivityDashboardBinding;
 
-public class dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityDashboardBinding binding;
@@ -46,7 +46,7 @@ public class dashboard extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(shown != true){
-                    Animation animation = AnimationUtils.loadAnimation(dashboard.this, R.anim.rotate_open_anim);
+                    Animation animation = AnimationUtils.loadAnimation(Dashboard.this, R.anim.rotate_open_anim);
                     binding.appBarDashboard.mainActionButton.startAnimation(animation);
 
 //                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
@@ -64,7 +64,7 @@ public class dashboard extends AppCompatActivity {
                     binding.appBarDashboard.privateEventAction.setVisibility(view.GONE);
                     binding.appBarDashboard.publicEventAction.setVisibility(view.GONE);
 
-                    Animation animation = AnimationUtils.loadAnimation(dashboard.this, R.anim.rotate_close_anim);
+                    Animation animation = AnimationUtils.loadAnimation(Dashboard.this, R.anim.rotate_close_anim);
                     binding.appBarDashboard.mainActionButton.startAnimation(animation);
 
 //                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.to_bottom_anim);
@@ -81,7 +81,7 @@ public class dashboard extends AppCompatActivity {
         binding.appBarDashboard.publicEventAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, Public_event_entry.class);
+                Intent intent = new Intent(Dashboard.this, PublicEventEntry.class);
                 startActivity(intent);
             }
         });
@@ -89,7 +89,7 @@ public class dashboard extends AppCompatActivity {
         binding.appBarDashboard.privateEventAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dashboard.this, Private_event_entry.class);
+                Intent intent = new Intent(Dashboard.this, PrivateEventEntry.class);
                 startActivity(intent);
             }
         });
@@ -130,7 +130,7 @@ public class dashboard extends AppCompatActivity {
 
             case R.id.action_logout:
                 auth.signOut();
-                Intent intent = new Intent(dashboard.this, LoginActivity.class);
+                Intent intent = new Intent(Dashboard.this, LoginActivity.class);
                 startActivity(intent);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
