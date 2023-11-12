@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.EventDisplay;
+import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
 
