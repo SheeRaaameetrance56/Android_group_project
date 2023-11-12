@@ -19,7 +19,7 @@
         android:inputType="text"
         android:padding="10dp"
         android:paddingStart="30dp"
-        android:paddingEnd="10dp"
+        android:paddingEnd="30dp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
