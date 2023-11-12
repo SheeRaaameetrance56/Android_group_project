@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/display_event_edit_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:text="@string/edit"
@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/display_event_ok_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@android:string/ok"
         app:cornerRadius="20dp"
