@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.models;
+package com.ousl.application_event_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 

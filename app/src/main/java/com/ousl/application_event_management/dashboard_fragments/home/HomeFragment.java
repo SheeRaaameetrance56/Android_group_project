@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,8 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.R;
-import com.ousl.application_event_management.databinding.FragmentHomeBinding;
-import com.ousl.application_event_management.models.EventDisplay;
+import com.ousl.application_event_management.EventDisplay;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
 
