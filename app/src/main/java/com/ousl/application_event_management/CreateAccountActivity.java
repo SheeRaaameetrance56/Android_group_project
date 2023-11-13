@@ -39,19 +39,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_create_account);
         //Used view binding for screen connectivity and access.
         binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Firebase authentication and realtime database initiate
-        createAccountAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-
-        // Progress dialog shows progress while creating account
-        progressDialog = new ProgressDialog(CreateAccountActivity.this);
-        progressDialog.setTitle("Creating Account");
-        progressDialog.setMessage("Wait a minute....");
 
         // button create account function (Creating an account on database)
         binding.buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
@@ -65,41 +55,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 // validation conditions.
                 if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !phoneNo.isEmpty()) {
-                    progressDialog.show();
-
-                    // creating google authentication and task performing on complete
-                    createAccountAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    // If successful authentication created.
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
-                                        // save authentication details on realtime database.
-                                        FirebaseUser currentUser = createAccountAuth.getCurrentUser();
-                                        if (currentUser != null) {
-                                            String uid = currentUser.getUid();
-                                            Users user = new Users(name, email, password, phoneNo);
-                                            database = FirebaseDatabase.getInstance();
-                                            reference = database.getReference("users");
-                                            reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    binding.inputCreateName.setText("");
-                                                    binding.inputCreateEmail.setText("");
-                                                    binding.inputCreatePassword.setText("");
-                                                    binding.inputCreatePhoneNo.setText("");
-                                                }
-                                            });
-//                                            database.getReference().child("users").child(uid).setValue(user);
-                                        }
-                                    }
-                                    else{
-                                        Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                    }
-                                    progressDialog.dismiss();
-                                }
-                            });
+                    createAccountTask(name, email, password, phoneNo);
                 }
                 else{
                     Toast.makeText(CreateAccountActivity.this, "All Fields must required for create an account", Toast.LENGTH_SHORT).show();
@@ -108,8 +64,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
 
         // navigate to the organization account creating screen
-        navigation_sign_organization = findViewById(R.id.navigation_sign_organization);
-
+        navigation_sign_organization = binding.navigationSignOrganization;
         navigation_sign_organization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +73,49 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void createAccountTask(String name, String email, String password, String phoneNo){
+        progressDialog = new ProgressDialog(CreateAccountActivity.this);
+        progressDialog.setTitle("Creating Account");
+        progressDialog.setMessage("We are creating your account");
+        // creating google authentication and task performing on complete
+        progressDialog.show();
+
+        database = FirebaseDatabase.getInstance();
+        createAccountAuth = FirebaseAuth.getInstance();
+        createAccountAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If successful authentication created.
+                        if (task.isSuccessful()) {
+                            // save authentication details on realtime database.
+                            FirebaseUser currentUser = createAccountAuth.getCurrentUser();
+                            if (currentUser != null) {
+                                String uid = currentUser.getUid();
+                                Users user = new Users(name, email, password, phoneNo);
+                                database = FirebaseDatabase.getInstance();
+                                reference = database.getReference("users");
+                                reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
+                                        binding.inputCreateName.setText("");
+                                        binding.inputCreateEmail.setText("");
+                                        binding.inputCreatePassword.setText("");
+                                        binding.inputCreatePhoneNo.setText("");
+                                    }
+                                });
+                            }
+                        }
+                        else{
+                            Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
     }
 
 }
