@@ -1,6 +1,5 @@
 package com.ousl.application_event_management;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -78,7 +77,7 @@ public class PrivateEventShowActivity extends AppCompatActivity {
         binding.dashboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrivateEventShowActivity.this, dashboard.class);
+                Intent intent = new Intent(PrivateEventShowActivity.this, Dashboard.class);
                 startActivity(intent);
                 finish();
             }

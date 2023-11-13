@@ -3,6 +3,7 @@ package com.ousl.application_event_management;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class PublicEventShowActivity extends AppCompatActivity {
         // Get the current user's UID
         String currentUserId = auth.getCurrentUser().getUid();
 
-        // Assuming you want to retrieve the last entered event dynamically
+        // retrieve the last entered event dynamically
         DatabaseReference eventsRef = database.getReference("public_events").child(currentUserId);
         eventsRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -69,8 +70,17 @@ public class PublicEventShowActivity extends AppCompatActivity {
                                 Picasso.get()
                                         .load(imageUrl)
                                         .error(R.drawable.preview1) // Placeholder in case of error
-                                        .placeholder(R.drawable.preview1) // Placeholder until image loads
-                                        .into(imageView);
+                                        .placeholder(null) // Placeholder until image loads
+                                        .into(imageView, new com.squareup.picasso.Callback(){
+                                            @Override
+                                            public void onSuccess() {
+                                                Log.i("URL: ",imageUrl);
+                                            }
+                                            @Override
+                                            public void onError(Exception e) {
+                                                Log.e("URL: ",imageUrl);
+                                            }
+                                        });
                             } else {
                                 // Load a placeholder if the URL is empty or invalid
                                 imageView.setImageResource(R.drawable.preview1);
@@ -89,7 +99,7 @@ public class PublicEventShowActivity extends AppCompatActivity {
         binding.dashboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PublicEventShowActivity.this, dashboard.class);
+                Intent intent = new Intent(PublicEventShowActivity.this, Dashboard.class);
                 startActivity(intent);
                 finish();
             }

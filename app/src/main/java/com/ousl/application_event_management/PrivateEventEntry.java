@@ -25,7 +25,7 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
 
-public class Private_event_entry extends AppCompatActivity {
+public class PrivateEventEntry extends AppCompatActivity {
 
     ActivityIndividualEventEntryBinding binding;
     String title, description, venue, date, time, limitations;
@@ -47,7 +47,7 @@ public class Private_event_entry extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public boolean onLongClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(Private_event_entry.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(PrivateEventEntry.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         binding.priEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
@@ -84,14 +84,14 @@ public class Private_event_entry extends AppCompatActivity {
                             binding.priEventDate.setText("");
                             binding.priEventTime.setText("");
                             binding.priEventLimitations.setText("");
-                            Toast.makeText(Private_event_entry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(Private_event_entry.this, PrivateEventShowActivity.class);
+                            Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
                             startActivity(intent);
                             finish();
                         }
                         else{
-                            Toast.makeText(Private_event_entry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PrivateEventEntry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

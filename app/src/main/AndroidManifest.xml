@@ -12,29 +12,36 @@
         android:theme="@style/Theme.Application_Event_Management"
         tools:targetApi="31">
         <activity
-            android:name=".models.EventDisplay"
-            android:exported="false" />
+            android:name=".EventDisplay"
+            android:exported="false"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".PrivateEventShowActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".PublicEventShowActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".Frind_list"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".Invite"
             android:exported="true" />
         <activity
-            android:name=".Private_event_entry"
-            android:exported="true" />
+            android:name=".PrivateEventEntry"
+            android:exported="true"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".Public_event_entry"
-            android:exported="true" />
+            android:name=".PublicEventEntry"
+            android:exported="true"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".CreateAccountOrganizationActivity"
             android:exported="false" />
@@ -45,10 +52,11 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".dashboard"
+            android:name=".Dashboard"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".SplashActivity"
             android:exported="true">

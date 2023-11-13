@@ -28,14 +28,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
-import com.squareup.picasso.Picasso;
 
-import java.time.Month;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
 
-public class Public_event_entry extends AppCompatActivity {
+public class PublicEventEntry extends AppCompatActivity {
 
     ActivityPublicEventEntryBinding binding;
     FirebaseDatabase database;
@@ -68,7 +66,7 @@ public class Public_event_entry extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public boolean onLongClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(Public_event_entry.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dialog = new DatePickerDialog(PublicEventEntry.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         binding.pubEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
@@ -88,15 +86,12 @@ public class Public_event_entry extends AppCompatActivity {
                 if (currentUser != null) {
                     String uid = currentUser.getUid();
 
-
-
                     title = binding.pubEventTitle.getText().toString();
                     description = binding.pubEventDescription.getText().toString();
                     venue = binding.pubEventVenue.getText().toString();
                     limitations = binding.pubEventLimitations.getText().toString();
                     dateStr = binding.pubEventDate.getText().toString();
                     timeStr = binding.pubEventTime.getText().toString();
-
 
                     // Create a new event with a unique key under the user's node
                     DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
@@ -105,21 +100,20 @@ public class Public_event_entry extends AppCompatActivity {
                     if(imageUri!=null){
                         uploadToFirebase(userEventsReference.getKey(), imageUri);
                     }else {
-                        Toast.makeText(Public_event_entry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
                     }
 
-                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr, imageUri.toString());
                     publicEvent.setTimestamp(System.currentTimeMillis());
-                    if (imageUri != null) {
-                        publicEvent.setImageUrl(imageUri.toString());
-                    }
-
+//                    if (imageUri != null) {
+//                        publicEvent.setImageUrl(imageUri.toString());
+//                    }
+                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
                     // Set the event data under the unique key
                     userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(Public_event_entry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PublicEventEntry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
                                 // Clear input fields
                                 binding.pubEventTitle.setText("");
                                 binding.pubEventDescription.setText("");
@@ -133,16 +127,16 @@ public class Public_event_entry extends AppCompatActivity {
                                 String newEventKey = userEventsReference.getKey();
 
                             } else {
-                                Toast.makeText(Public_event_entry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PublicEventEntry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-                    Intent intent = new Intent(Public_event_entry.this, PublicEventShowActivity.class);
+                    Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(Public_event_entry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublicEventEntry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -168,7 +162,7 @@ public class Public_event_entry extends AppCompatActivity {
                 binding.pubEventDate.setText("");
                 binding.pubEventTime.setText("");
                 binding.banner.setImageDrawable(null);
-                Intent intent = new Intent(Public_event_entry.this, dashboard.class);
+                Intent intent = new Intent(PublicEventEntry.this, Dashboard.class);
                 startActivity(intent);
                 finish();
             }
@@ -200,9 +194,6 @@ public class Public_event_entry extends AppCompatActivity {
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);
 
-                        // Load the image into the ImageView using Picasso or Glide
-                        Picasso.get().load(downloadUrl).into(binding.banner); // For Picasso
-                        // Glide.with(Public_event_entry.this).load(downloadUrl).into(binding.banner); // For Glide
                     }
                 });
             }
