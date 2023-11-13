@@ -26,11 +26,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth createAccountAuth;
     FirebaseDatabase database;
     DatabaseReference reference;
-
     ProgressDialog progressDialog;
-
     Button navigation_sign_organization;
-
     String name, email, password, phoneNo;
 
     @Override
