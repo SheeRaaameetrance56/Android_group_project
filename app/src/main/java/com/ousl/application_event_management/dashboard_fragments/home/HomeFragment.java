@@ -1,5 +1,6 @@
 package com.ousl.application_event_management.dashboard_fragments.home;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,16 +23,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.Dashboard;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.EventDisplay;
+import com.ousl.application_event_management.adapters.MyEventsAdapter;
+import com.ousl.application_event_management.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-
+    private PublicEventAdapter publicEventAdapter;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
     @Override
@@ -37,9 +46,18 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        LinearLayout containerLayout = root.findViewById(R.id.container_layout);
-        LinearLayout containerLayoutMyEvents = root.findViewById(R.id.container_layout_my_events);
+        publicEventAdapter = new PublicEventAdapter(getActivity());
+        MyEventsAdapter myEventsAdapter = new MyEventsAdapter(getActivity());
+        binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),3));
+        getPublicEvents();
+//        getMyEvents();
+//        binding.publicEventRecycler.setAdapter(publicEventAdapter);
+//        binding.myEventRecycler.setAdapter(myEventsAdapter);
 
+        return root;
+    }
+
+    private void getPublicEvents() {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -51,19 +69,21 @@ public class HomeFragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
                             for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
                                 PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
-                                if (event != null) {
-                                    CardView cardView = createCardView(event);
-                                    containerLayout.addView(cardView);
-                                }
+                                publicEventAdapter.addEvent(event);
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            // Handle errors
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Please Check on the Mobile Connection or WIFI")
+                                    .setTitle("Connection Error");
+                            AlertDialog dialog = builder.create();
                         }
                     });
                 }
+                binding.publicEventRecycler.setAdapter(publicEventAdapter);
+                publicEventAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -71,38 +91,38 @@ public class HomeFragment extends Fragment {
                 // Handle errors
             }
         });
-
-        // my events data retrieve
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-// Check if the user is authenticated
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            DatabaseReference userEventsRef = FirebaseDatabase.getInstance().getReference("public_events").child(userId);
-
-            // Now, instead of fetching all users' events, this will fetch only the events for the current user
-            userEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
-                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
-                        PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
-                        if (event != null) {
-                            CardView cardView = createCardView(event);
-                            containerLayoutMyEvents.addView(cardView);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle errors
-                }
-            });
-        }
-
-        return root;
     }
+
+//    private void getMyEvents() {
+//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//
+//// Check if the user is authenticated
+//        if (currentUser != null) {
+//            String userId = currentUser.getUid();
+//            DatabaseReference userEventsRef = FirebaseDatabase.getInstance().getReference("public_events").child(userId);
+//
+//            // Now, instead of fetching all users' events, this will fetch only the events for the current user
+//            userEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
+//                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
+//                        PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
+//                        publicEventAdapter.addEvent(event);
+////                        if (event != null) {
+////                            CardView cardView = createCardView(event);
+////                            binding.myEventRecycler.addView(cardView);
+////                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//                    // Handle errors
+//                }
+//            });
+//        }
+//    }
 
     private CardView createCardView(PublicEvent event) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
