@@ -18,62 +18,30 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
-
     ActivityLoginBinding binding;
     ProgressDialog progressDialog;
-    FirebaseAuth loginAuth;
-    FirebaseDatabase database;
-
+    FirebaseAuth loginAuth = FirebaseAuth.getInstance();
     String email, password;
-    Button login_button;
-    Button create_account_navigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loginAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-
-        progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setTitle("Login");
-        progressDialog.setMessage("Validation in progress.");
+        if(loginAuth.getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+            startActivity(intent);
+            finish();
+        }
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = binding.inputLoginEmail.getText().toString();
                 password = binding.inputLoginPassword.getText().toString();
-                if(!email.isEmpty() && !password.isEmpty()){
-                    progressDialog.show();
-                    loginAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressDialog.dismiss();
-                            if(task.isSuccessful()){
-                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else {
-                                Toast.makeText(LoginActivity.this, "Enter valid Email or Password", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-                else {
-                    Toast.makeText(LoginActivity.this, "Email and Password must required for Login", Toast.LENGTH_SHORT).show();
-                }
+                loginProcess(email, password);
             }
         });
-
-        if(loginAuth.getCurrentUser() != null){
-            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-            startActivity(intent);
-            finish();
-        }
 
         binding.createAccountNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,5 +50,32 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void loginProcess(String email, String password){
+
+        if(!email.isEmpty() && !password.isEmpty()){
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setTitle("Login");
+            progressDialog.setMessage("Validation in progress.");
+            progressDialog.show();
+            loginAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressDialog.dismiss();
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Enter valid Email or Password", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        else {
+            Toast.makeText(LoginActivity.this, "Email and Password must required for Login", Toast.LENGTH_SHORT).show();
+        }
     }
 }
