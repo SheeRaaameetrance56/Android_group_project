@@ -1,13 +1,19 @@
 package com.ousl.application_event_management;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.ousl.application_event_management.adapters.FragmentsAdapter;
 import com.ousl.application_event_management.databinding.ActivityDashboardBinding;
 
@@ -20,6 +26,9 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Toolbar toolbar = binding.toolbarDashboard;
+        setSupportActionBar(toolbar);
 
         binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
         binding.tabLayout.setupWithViewPager(binding.viewPager);
@@ -41,6 +50,8 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
     public void floatingActionButtonFunction(){
@@ -81,5 +92,26 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.toolbar_menu_profile){
+            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+        }
+        if(id == R.id.dropdown_menu_log_out){
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signOut();
+            startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
+            finish();
+        }
+        return true;
     }
 }

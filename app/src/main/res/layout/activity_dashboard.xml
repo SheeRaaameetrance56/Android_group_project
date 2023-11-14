@@ -10,12 +10,13 @@
   <com.google.android.material.tabs.TabLayout
       android:id="@+id/tab_layout"
       android:layout_width="match_parent"
-      android:layout_height="60dp"
+      android:layout_height="30dp"
+      android:layout_marginTop="-20dp"
       android:background="@color/purple_200"
-      app:layout_constraintBottom_toTopOf="@+id/view_pager"
+      app:layout_constraintBottom_toTopOf="@id/view_pager"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/toolbar_dashboard"
       app:tabGravity="fill"
       app:tabIndicator="@color/white"
       app:tabMaxWidth="0dp"
@@ -23,10 +24,24 @@
       app:tabSelectedTextColor="@color/white"
       app:tabTextColor="@color/white" />
 
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar_dashboard"
+      android:layout_width="match_parent"
+      android:layout_height="60dp"
+      android:background="@color/purple_200"
+      android:backgroundTint="@color/purple_200"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:logo="@drawable/logo_low"
+      app:title="@string/dashboard"
+      app:titleMarginStart="15dp" />
+
   <androidx.viewpager.widget.ViewPager
       android:id="@+id/view_pager"
       android:layout_width="match_parent"
-      android:layout_height="765dp"
+      android:layout_height="700dp"
+      android:layout_margin="5dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
