@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
+    android:layout_marginTop="15dp"
     tools:context=".dashboard_fragments.home.HomeFragment">
 
     <EditText
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="5dp"
+        android:layout_marginTop="60dp"
         android:autofillHints=""
         android:background="@drawable/input_text_field_style"
         android:ems="10"
@@ -22,11 +24,11 @@
         android:paddingEnd="30dp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/textView6"
         tools:ignore="VisualLintTextFieldSize" />
 
     <TextView
@@ -36,9 +38,9 @@
         android:layout_margin="5dp"
         android:text="@string/public_events"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/public_event_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/public_event_recycler"
         app:layout_constraintTop_toBottomOf="@+id/Search" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -7,14 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ousl.application_event_management.Dashboard;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.EventDisplay;
 import com.ousl.application_event_management.adapters.MyEventsAdapter;
@@ -31,8 +28,6 @@ import com.ousl.application_event_management.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 
 public class HomeFragment extends Fragment {

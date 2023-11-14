@@ -58,6 +58,14 @@ public class PrivateEventEntry extends AppCompatActivity {
             }
         });
 
+        binding.priEventCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PrivateEventEntry.this, DashboardActivity.class));
+                finish();
+            }
+        });
+
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if(loginAuth.getCurrentUser() != null){
-            Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
             startActivity(intent);
             finish();
         }
@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     progressDialog.dismiss();
                     if(task.isSuccessful()){
-                        Intent intent = new Intent(LoginActivity.this, Dashboard.class);
+                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
                     }
