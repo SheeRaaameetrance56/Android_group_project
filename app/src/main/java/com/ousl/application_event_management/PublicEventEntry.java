@@ -162,7 +162,7 @@ public class PublicEventEntry extends AppCompatActivity {
                 binding.pubEventDate.setText("");
                 binding.pubEventTime.setText("");
                 binding.banner.setImageDrawable(null);
-                Intent intent = new Intent(PublicEventEntry.this, Dashboard.class);
+                Intent intent = new Intent(PublicEventEntry.this, DashboardActivity.class);
                 startActivity(intent);
                 finish();
             }
