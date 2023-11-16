@@ -168,18 +168,15 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
 
-
-                        String newEventKey = userEventsReference.getKey();
+                        Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
+                        startActivity(intent);
+                        finish();
 
                     } else {
                         Toast.makeText(PublicEventEntry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
-            Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
-            startActivity(intent);
-            finish();
         } else {
             Toast.makeText(PublicEventEntry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
