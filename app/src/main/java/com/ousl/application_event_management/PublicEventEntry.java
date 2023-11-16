@@ -45,8 +45,9 @@ public class PublicEventEntry extends AppCompatActivity {
     Uri imageUri;
 
     private static final int SELECT_IMAGE = 100;
+    PublicEvent publicEvent = new PublicEvent();
 
-    PublicEvent publicEvent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class PublicEventEntry extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
 
         binding.pubEventDate.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -80,64 +82,8 @@ public class PublicEventEntry extends AppCompatActivity {
         binding.pubEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveToDatabase();
 
-                // Ensure the user is authenticated
-                FirebaseUser currentUser = auth.getCurrentUser();
-                if (currentUser != null) {
-                    String uid = currentUser.getUid();
-
-                    title = binding.pubEventTitle.getText().toString();
-                    description = binding.pubEventDescription.getText().toString();
-                    venue = binding.pubEventVenue.getText().toString();
-                    limitations = binding.pubEventLimitations.getText().toString();
-                    dateStr = binding.pubEventDate.getText().toString();
-                    timeStr = binding.pubEventTime.getText().toString();
-
-                    // Create a new event with a unique key under the user's node
-                    DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
-
-                    // Fetch the banner image here as well
-                    if(imageUri!=null){
-                        uploadToFirebase(userEventsReference.getKey(), imageUri);
-                    }else {
-                        Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
-                    }
-                    publicEvent = new PublicEvent();
-                    publicEvent.setTimestamp(System.currentTimeMillis());
-                    if (imageUri != null) {
-                        publicEvent.setImageUrl(imageUri.toString());
-                    }
-                    publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
-                    // Set the event data under the unique key
-                    userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(PublicEventEntry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
-                                // Clear input fields
-                                binding.pubEventTitle.setText("");
-                                binding.pubEventDescription.setText("");
-                                binding.pubEventVenue.setText("");
-                                binding.pubEventLimitations.setText("");
-                                binding.pubEventDate.setText("");
-                                binding.pubEventTime.setText("");
-                                binding.banner.setImageDrawable(null);
-
-
-                                String newEventKey = userEventsReference.getKey();
-
-                            } else {
-                                Toast.makeText(PublicEventEntry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(PublicEventEntry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -176,6 +122,63 @@ public class PublicEventEntry extends AppCompatActivity {
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             binding.banner.setImageURI(imageUri);
+        }
+    }
+
+    public void saveToDatabase(){
+        // Ensure the user is authenticated
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+
+            title = binding.pubEventTitle.getText().toString();
+            description = binding.pubEventDescription.getText().toString();
+            venue = binding.pubEventVenue.getText().toString();
+            limitations = binding.pubEventLimitations.getText().toString();
+            dateStr = binding.pubEventDate.getText().toString();
+            timeStr = binding.pubEventTime.getText().toString();
+
+            // Create a new event with a unique key under the user's node
+            DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
+
+            // Fetch the banner image here as well
+            if(imageUri!=null){
+                uploadToFirebase(userEventsReference.getKey(), imageUri);
+            }else {
+                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
+            }
+
+            publicEvent.setTimestamp(System.currentTimeMillis());
+            if (imageUri != null) {
+                publicEvent.setImageUrl(imageUri.toString());
+            }
+            publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
+            // Set the event data under the unique key
+            userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(PublicEventEntry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
+                        // Clear input fields
+                        binding.pubEventTitle.setText("");
+                        binding.pubEventDescription.setText("");
+                        binding.pubEventVenue.setText("");
+                        binding.pubEventLimitations.setText("");
+                        binding.pubEventDate.setText("");
+                        binding.pubEventTime.setText("");
+                        binding.banner.setImageDrawable(null);
+
+                        Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    } else {
+                        Toast.makeText(PublicEventEntry.this, "Failed to save the event", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(PublicEventEntry.this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
     }
 

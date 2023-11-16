@@ -22,14 +22,14 @@ public class PublicEvent {
     public PublicEvent() {
     }
 
-    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String banner) {
+    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
         this.title = title;
         this.description = description;
         this.venue = venue;
         this.limitations = limitations;
         this.date = date;
         this.time = time;
-        this.imageUrl = banner;
+        this.imageUrl = imageUrl;
 
     }
 
