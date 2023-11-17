@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
@@ -166,11 +167,21 @@ public class PublicEventEntry extends AppCompatActivity {
                         DatabaseReference newEventRef = userEventsReference.getRef();
                         String specificEventId = newEventRef.getKey();
 
+                        publicEvent.setEventID(specificEventId);
+
                         if(imageUri!=null){
                             uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
                         }else {
                             Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
                         }
+
+//                        PublicEvent setEvent = new PublicEvent(userEventsReference.getRef().getKey(),title,description,venue,limitations,dateStr,timeStr);
+//                        setEventKey.setEventID(setEventKey.toString());
+                        // additional
+//                        String eventId = setEventKey.getEventID();
+//                        String idOnRef = userEventsReference.getRef().getKey();
+//                        Log.w("EventId on Referance", idOnRef );
+//                        Log.w("EventId on event Entry", eventId);
 
                         Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                         startActivity(intent);

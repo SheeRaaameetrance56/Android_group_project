@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +26,7 @@ public class EventDisplay extends AppCompatActivity {
     ActivityEventDisplayBinding binding;
     TextView title, description, venue, date, time, limitations;
     ImageView imageView;
+    DatabaseReference eventRef = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,38 +34,38 @@ public class EventDisplay extends AppCompatActivity {
         binding = ActivityEventDisplayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String eventID = getIntent().getStringExtra("EVENT_ID");
+        if (eventID != null) {
+             eventRef= FirebaseDatabase.getInstance().getReference().child("public_events").child(eventID);
+            eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        PublicEvent event = dataSnapshot.getValue(PublicEvent.class);
+                        if (event != null) {
+                            // Populate views with the retrieved data
+                            title.setText(event.getTitle());
+                            description.setText(event.getDescription());
+                            venue.setText(event.getVenue());
+                            date.setText(event.getDate());
+                            time.setText(event.getTime());
+                            limitations.setText(event.getLimitations());
 
-        String eventID = getIntent().getStringExtra("eventID");
-        eventID = "NizzxOqVmf7qTRM4ZgX";
-
-
-        DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("public_events").child(eventID);
-
-        eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    PublicEvent event = dataSnapshot.getValue(PublicEvent.class);
-                    if (event != null) {
-                        // Populate views with the retrieved data
-                        title.setText(event.getTitle());
-                        description.setText(event.getDescription());
-                        venue.setText(event.getVenue());
-                        date.setText(event.getDate());
-                        time.setText(event.getTime());
-                        limitations.setText(event.getLimitations());
-
-                        // For the image load on Picasso
-                        Picasso.get().load(event.getImageUrl()).into(imageView);
+                            // For the image load on Picasso
+                            Picasso.get().load(event.getImageUrl()).into(imageView);
+                        }
                     }
                 }
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        } else {
+            Toast.makeText(this, "The event ID is Null", Toast.LENGTH_SHORT).show();
+        }
 
-            }
-        });
+
 
     }
 }

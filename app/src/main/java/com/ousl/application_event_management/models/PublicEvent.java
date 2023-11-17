@@ -7,30 +7,34 @@ import java.sql.Time;
 import java.util.Date;
 
 public class PublicEvent {
-    private String eventID, title, description, venue, limitations, date, time;
+    private String eventId, title, description, venue, limitations, date, time;
     private String imageUrl;
     private long timestamp;
 
-    public long getTimestamp() {
-        return timestamp;
-    }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public PublicEvent() {
     }
 
-    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
+//    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
+//        this.title = title;
+//        this.description = description;
+//        this.venue = venue;
+//        this.limitations = limitations;
+//        this.date = date;
+//        this.time = time;
+//        this.imageUrl = imageUrl;
+
+//    }
+
+    public PublicEvent(String eventId, String title, String description, String venue, String limitations, String date, String time) {
+        this.eventId = eventId;
         this.title = title;
         this.description = description;
         this.venue = venue;
-        this.limitations = limitations;
         this.date = date;
         this.time = time;
-        this.imageUrl = imageUrl;
-
+        this.limitations = limitations;
     }
 
     public PublicEvent(String title, String description, String venue, String limitations, String date, String time) {
@@ -43,11 +47,19 @@ public class PublicEvent {
     }
 
     public String getEventID() {
-        return eventID;
+        return eventId;
     }
 
     public void setEventID(String eventID) {
-        this.eventID = eventID;
+        this.eventId = eventID;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getTitle() {
@@ -105,4 +117,5 @@ public class PublicEvent {
     public void setImageUrl(String banner) {
         this.imageUrl = banner;
     }
+
 }
