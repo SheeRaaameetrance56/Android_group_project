@@ -163,13 +163,9 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
 
-//                        DatabaseReference userEventsReference = FirebaseDatabase.getInstance().getReference("public_events").child(uid);
-
                         DatabaseReference newEventRef = userEventsReference.getRef();
                         String specificEventId = newEventRef.getKey();
 
-
-                        // Fetch the banner image here as well
                         if(imageUri!=null){
                             uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
                         }else {
