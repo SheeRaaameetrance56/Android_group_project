@@ -49,6 +49,16 @@ public class HomeFragment extends Fragment {
 //        binding.publicEventRecycler.setAdapter(publicEventAdapter);
 //        binding.myEventRecycler.setAdapter(myEventsAdapter);
 
+        publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PublicEvent event) {
+                // Handle click, start the EventDisplay activity
+                Intent intent = new Intent(requireActivity(), EventDisplay.class);
+                // Pass necessary data to the intent if needed
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 

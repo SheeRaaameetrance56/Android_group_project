@@ -21,6 +21,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
 
     private Context context;
     private List<PublicEvent> publicEventList;
+    private OnItemClickListener onItemClickListener;
 
 
     public PublicEventAdapter(Context context){
@@ -33,6 +34,15 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         notifyDataSetChanged();
     }
 
+    // Interface for item click handling
+    public interface OnItemClickListener {
+        void onItemClick(PublicEvent event);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView title;
         private ImageView image;
@@ -40,6 +50,13 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
             super(itemView);
             title = itemView.findViewById(R.id.card_view_title);
             image = itemView.findViewById(R.id.card_view_image);
+
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    onItemClickListener.onItemClick(publicEventList.get(position));
+                }
+            });
         }
     }
 
