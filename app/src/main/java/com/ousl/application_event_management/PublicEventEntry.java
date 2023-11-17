@@ -21,8 +21,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -140,13 +143,28 @@ public class PublicEventEntry extends AppCompatActivity {
 
             // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
+            userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+               @Override
+               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                   for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                       String eventId = eventSnapshot.getKey(); // Get the event ID
 
-            // Fetch the banner image here as well
-            if(imageUri!=null){
-                uploadToFirebase(userEventsReference.getKey(), imageUri);
-            }else {
-                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
-            }
+                       // Assuming imageUri is the Uri of the image to upload
+                       uploadToFirebase(userEventsReference.getKey(), eventId, imageUri);
+                   }
+               }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+//            // Fetch the banner image here as well
+//            if(imageUri!=null){
+//                uploadToFirebase(userEventsReference.getKey(),userEventsReference.child().getKey() ,imageUri);
+//            }else {
+//                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
+//            }
 
             publicEvent.setTimestamp(System.currentTimeMillis());
             if (imageUri != null) {
@@ -182,8 +200,12 @@ public class PublicEventEntry extends AppCompatActivity {
         }
     }
 
-    private void uploadToFirebase(final String eventKey, Uri uri){
-        StorageReference fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+    private void uploadToFirebase(final String userId, final String eventKey, Uri uri) {
+        final StorageReference userRef = storageReference.child(userId); // Reference to the user's folder
+        final StorageReference eventRef = userRef.child(eventKey); // Reference to the event's folder
+
+        final StorageReference fileRef = eventRef.child(System.currentTimeMillis() + "." + getFileExtension(uri)); // Reference to the image file
+
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -192,11 +214,11 @@ public class PublicEventEntry extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
-//                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
 
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);
 
+                        // Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
