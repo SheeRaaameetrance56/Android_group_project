@@ -52,9 +52,7 @@ public class HomeFragment extends Fragment {
         publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PublicEvent event) {
-                // Handle click, start the EventDisplay activity
                 Intent intent = new Intent(requireActivity(), EventDisplay.class);
-                // Pass necessary data to the intent if needed
                 startActivity(intent);
             }
         });
@@ -128,41 +126,6 @@ public class HomeFragment extends Fragment {
 //            });
 //        }
 //    }
-
-    private CardView createCardView(PublicEvent event) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        CardView cardView = (CardView) inflater.inflate(R.layout.item_card_view, null);
-
-        TextView titleTextView = cardView.findViewById(R.id.card_view_title);
-        ImageView imageView = cardView.findViewById(R.id.card_view_image);
-
-        titleTextView.setText(event.getTitle());
-
-        if (event.getImageUrl() != null && !event.getImageUrl().isEmpty()) {
-            Picasso.get().load(event.getImageUrl()).into(imageView, new com.squareup.picasso.Callback() {
-                @Override
-                public void onSuccess() {
-                    // Image loaded successfully
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    // Log or handle the error
-                }
-            });
-            //Picasso.get().load(event.getImageUrl()).into(imageView);
-        }
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), EventDisplay.class);
-                startActivity(intent);
-            }
-        });
-
-        return cardView;
-    }
 
     @Override
     public void onDestroyView() {
