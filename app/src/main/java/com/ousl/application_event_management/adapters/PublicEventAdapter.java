@@ -21,6 +21,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
 
     private Context context;
     private List<PublicEvent> publicEventList;
+    private OnItemClickListener onItemClickListener;
 
 
     public PublicEventAdapter(Context context){
@@ -33,13 +34,32 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         notifyDataSetChanged();
     }
 
+    // Interface for item click handling
+    public interface OnItemClickListener {
+        void onItemClick(PublicEvent event, String eventId);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title;
+        private TextView title, id;
         private ImageView image;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.card_view_title);
+            id = itemView.findViewById(R.id.card_view_id);
             image = itemView.findViewById(R.id.card_view_image);
+
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    PublicEvent clickedEvent = publicEventList.get(position);
+                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID()); // Pass eventId and PublicEvent
+                }
+            });
         }
     }
 
@@ -54,6 +74,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PublicEvent publicEvent = publicEventList.get(position);
         holder.title.setText(publicEvent.getTitle());
+        holder.id.setText(publicEvent.getEventID());
         Picasso.get().load(publicEvent.getImageUrl()).into(holder.image);
     }
 

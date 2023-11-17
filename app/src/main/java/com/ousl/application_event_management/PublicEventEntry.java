@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
@@ -141,12 +142,7 @@ public class PublicEventEntry extends AppCompatActivity {
             // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
-            // Fetch the banner image here as well
-            if(imageUri!=null){
-                uploadToFirebase(userEventsReference.getKey(), imageUri);
-            }else {
-                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
-            }
+
 
             publicEvent.setTimestamp(System.currentTimeMillis());
             if (imageUri != null) {
@@ -168,6 +164,25 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
 
+                        DatabaseReference newEventRef = userEventsReference.getRef();
+                        String specificEventId = newEventRef.getKey();
+
+                        publicEvent.setEventID(specificEventId);
+
+                        if(imageUri!=null){
+                            uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
+                        }else {
+                            Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
+                        }
+
+//                        PublicEvent setEvent = new PublicEvent(userEventsReference.getRef().getKey(),title,description,venue,limitations,dateStr,timeStr);
+//                        setEventKey.setEventID(setEventKey.toString());
+                        // additional
+//                        String eventId = setEventKey.getEventID();
+//                        String idOnRef = userEventsReference.getRef().getKey();
+//                        Log.w("EventId on Referance", idOnRef );
+//                        Log.w("EventId on event Entry", eventId);
+
                         Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                         startActivity(intent);
                         finish();
@@ -182,8 +197,12 @@ public class PublicEventEntry extends AppCompatActivity {
         }
     }
 
-    private void uploadToFirebase(final String eventKey, Uri uri){
-        StorageReference fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+    private void uploadToFirebase(final String userId, final String eventKey, Uri uri) {
+        final StorageReference userRef = storageReference.child(userId); // Reference to the user's folder
+        final StorageReference eventRef = userRef.child(eventKey); // Reference to the event's folder
+
+        final StorageReference fileRef = eventRef.child(System.currentTimeMillis() + "." + getFileExtension(uri)); // Reference to the image file
+
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -192,11 +211,11 @@ public class PublicEventEntry extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
-//                        Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
 
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);
 
+                        // Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
