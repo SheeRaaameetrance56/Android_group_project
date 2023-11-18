@@ -33,9 +33,12 @@ import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.StringJoiner;
 
 public class PublicEventEntry extends AppCompatActivity {
@@ -90,8 +93,20 @@ public class PublicEventEntry extends AppCompatActivity {
                 TimePickerDialog dialog = new TimePickerDialog(PublicEventEntry.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String timeString = hourOfDay + ":" + minute;
-                        binding.pubEventTime.setText(timeString);
+                        String timeFormat = String.format("%02d:%02d", hourOfDay, minute);
+
+                        try {
+                            // Convert the 24-hour format to AM/PM format
+                            SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm");
+                            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
+                            Date date = inputFormat.parse(timeFormat);
+                            String formattedTime = outputFormat.format(date);
+
+                            // Set the formatted time to the TextView
+                            binding.pubEventTime.setText(formattedTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, (int) mHour, (int) mMinute,false);
                 dialog.show();
