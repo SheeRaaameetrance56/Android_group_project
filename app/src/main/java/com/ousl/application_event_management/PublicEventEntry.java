@@ -44,11 +44,8 @@ public class PublicEventEntry extends AppCompatActivity {
     FirebaseStorage storage;
     String title, description, venue, limitations, dateStr, timeStr;
     Uri imageUri;
-
     private static final int SELECT_IMAGE = 100;
     PublicEvent publicEvent = new PublicEvent();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,6 @@ public class PublicEventEntry extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -142,20 +138,19 @@ public class PublicEventEntry extends AppCompatActivity {
             // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
-
-
             publicEvent.setTimestamp(System.currentTimeMillis());
             if (imageUri != null) {
                 publicEvent.setImageUrl(imageUri.toString());
             }
-            publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
+
+            publicEvent = new PublicEvent(userEventsReference.getKey(),title, description, venue, limitations, dateStr, timeStr);
             // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(PublicEventEntry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
-                        // Clear input fields
+
                         binding.pubEventTitle.setText("");
                         binding.pubEventDescription.setText("");
                         binding.pubEventVenue.setText("");
@@ -175,14 +170,6 @@ public class PublicEventEntry extends AppCompatActivity {
                             Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
                         }
 
-//                        PublicEvent setEvent = new PublicEvent(userEventsReference.getRef().getKey(),title,description,venue,limitations,dateStr,timeStr);
-//                        setEventKey.setEventID(setEventKey.toString());
-                        // additional
-//                        String eventId = setEventKey.getEventID();
-//                        String idOnRef = userEventsReference.getRef().getKey();
-//                        Log.w("EventId on Referance", idOnRef );
-//                        Log.w("EventId on event Entry", eventId);
-
                         Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                         startActivity(intent);
                         finish();
@@ -198,8 +185,8 @@ public class PublicEventEntry extends AppCompatActivity {
     }
 
     private void uploadToFirebase(final String userId, final String eventKey, Uri uri) {
-        final StorageReference userRef = storageReference.child(userId); // Reference to the user's folder
-        final StorageReference eventRef = userRef.child(eventKey); // Reference to the event's folder
+        final StorageReference userRef = storageReference.child(userId);
+        final StorageReference eventRef = userRef.child(eventKey);
 
         final StorageReference fileRef = eventRef.child(System.currentTimeMillis() + "." + getFileExtension(uri)); // Reference to the image file
 
@@ -214,8 +201,6 @@ public class PublicEventEntry extends AppCompatActivity {
 
                         // Update the PublicEvent's image URL
                         publicEvent.setImageUrl(downloadUrl);
-
-                        // Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -231,8 +216,6 @@ public class PublicEventEntry extends AppCompatActivity {
     private void storeDownloadUrlInDatabase(String eventKey, String downloadUrl) {
         FirebaseUser currentUser = auth.getCurrentUser();
         String uid = currentUser.getUid();
-        // Here, you can store the downloadUrl in your Realtime Database under the appropriate location.
-        // Replace the following line with the correct location in your database.
         DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
         urlReference.setValue(downloadUrl);
     }

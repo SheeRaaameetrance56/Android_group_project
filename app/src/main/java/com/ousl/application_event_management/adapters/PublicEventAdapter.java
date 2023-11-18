@@ -1,6 +1,7 @@
 package com.ousl.application_event_management.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
                     PublicEvent clickedEvent = publicEventList.get(position);
-                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID()); // Pass eventId and PublicEvent
+                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID());
                 }
             });
         }
