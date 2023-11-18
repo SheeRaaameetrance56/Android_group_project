@@ -143,7 +143,7 @@ public class PublicEventEntry extends AppCompatActivity {
                 publicEvent.setImageUrl(imageUri.toString());
             }
 
-            publicEvent = new PublicEvent(userEventsReference.getKey(),title, description, venue, limitations, dateStr, timeStr);
+            publicEvent = new PublicEvent(currentUser.getUid(),userEventsReference.getKey(),title, description, venue, limitations, dateStr, timeStr);
             // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

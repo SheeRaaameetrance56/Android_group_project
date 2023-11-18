@@ -37,7 +37,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
 
     // Interface for item click handling
     public interface OnItemClickListener {
-        void onItemClick(PublicEvent event, String eventId);
+        void onItemClick(PublicEvent event, String eventId, String userId);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -58,7 +58,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
                     PublicEvent clickedEvent = publicEventList.get(position);
-                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID());
+                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID(), clickedEvent.getUserId());
                 }
             });
         }

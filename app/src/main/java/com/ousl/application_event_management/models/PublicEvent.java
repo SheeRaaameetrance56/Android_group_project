@@ -7,27 +7,15 @@ import java.sql.Time;
 import java.util.Date;
 
 public class PublicEvent {
-    private String eventId, title, description, venue, limitations, date, time;
+    private String userId, eventId, title, description, venue, limitations, date, time;
     private String imageUrl;
     private long timestamp;
-
-
 
     public PublicEvent() {
     }
 
-//    public PublicEvent(String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
-//        this.title = title;
-//        this.description = description;
-//        this.venue = venue;
-//        this.limitations = limitations;
-//        this.date = date;
-//        this.time = time;
-//        this.imageUrl = imageUrl;
-
-//    }
-
-    public PublicEvent(String eventId, String title, String description, String venue, String limitations, String date, String time) {
+    public PublicEvent(String userId, String eventId, String title, String description, String venue, String limitations, String date, String time) {
+        this.userId = userId;
         this.eventId = eventId;
         this.title = title;
         this.description = description;
@@ -45,6 +33,15 @@ public class PublicEvent {
         this.time = time;
         this.limitations = limitations;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 
     public String getEventID() {
         return eventId;

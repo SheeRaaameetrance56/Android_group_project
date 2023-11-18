@@ -26,7 +26,6 @@ public class EventDisplay extends AppCompatActivity {
     ActivityEventDisplayBinding binding;
     TextView title, description, venue, date, time, limitations;
     ImageView imageView;
-    DatabaseReference eventRef = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,18 @@ public class EventDisplay extends AppCompatActivity {
         binding = ActivityEventDisplayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        title = binding.eventDisplayTitle;
+        description = binding.eventDisplayDescription;
+        venue = binding.eventDisplayVenue;
+        date = binding.eventDisplayDate;
+        time = binding.eventDisplayTime;
+        limitations = binding.eventDisplayLimitations;
+
         String eventID = getIntent().getStringExtra("EVENT_ID");
+        String userId = getIntent().getStringExtra("USER_ID");
         if (eventID != null) {
-             eventRef= FirebaseDatabase.getInstance().getReference().child("public_events").child(eventID);
+
+            DatabaseReference eventRef= FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventID);
             eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -52,7 +60,12 @@ public class EventDisplay extends AppCompatActivity {
                             limitations.setText(event.getLimitations());
 
                             // For the image load on Picasso
-                            Picasso.get().load(event.getImageUrl()).into(imageView);
+                            if(imageView!= null){
+                                Picasso.get().load(event.getImageUrl()).into(imageView);
+                            }
+                            else{
+                                Toast.makeText(EventDisplay.this, "No Banner set to the event", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 }

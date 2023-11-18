@@ -54,9 +54,10 @@ public class HomeFragment extends Fragment {
         publicEventAdapter = new PublicEventAdapter(getActivity());
         publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(PublicEvent event, String eventId) {
+            public void onItemClick(PublicEvent event, String eventId, String userId) {
                 Intent intent = new Intent(requireActivity(), EventDisplay.class);
                 intent.putExtra("EVENT_ID", eventId);
+                intent.putExtra("USER_ID", userId);
                 intent.putExtra("PUBLIC_EVENT", String.valueOf(event));
                 startActivity(intent);
             }
