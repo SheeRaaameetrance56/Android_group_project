@@ -6,15 +6,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,9 +32,12 @@ import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.Date;
 
 public class PublicEventEntry extends AppCompatActivity {
 
@@ -42,13 +47,10 @@ public class PublicEventEntry extends AppCompatActivity {
     DatabaseReference reference;
     StorageReference storageReference;
     FirebaseStorage storage;
-    String title, description, venue, limitations, dateStr, timeStr;
+    private String userId, eventId, title, description, venue, limitations, dateStr, timeStr, imageUrl;
     Uri imageUri;
-
     private static final int SELECT_IMAGE = 100;
     PublicEvent publicEvent = new PublicEvent();
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,6 @@ public class PublicEventEntry extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
 
         binding.pubEventDate.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -80,11 +81,41 @@ public class PublicEventEntry extends AppCompatActivity {
             }
         });
 
+        binding.pubEventTime.setOnLongClickListener(new View.OnLongClickListener() {
+            final Calendar c = Calendar.getInstance();
+            int mHour = c.get(Calendar.HOUR_OF_DAY);
+            int mMinute = c.get(Calendar.MINUTE);
+            @Override
+            public boolean onLongClick(View v) {
+
+                TimePickerDialog dialog = new TimePickerDialog(PublicEventEntry.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String timeFormat = String.format("%02d:%02d", hourOfDay, minute);
+
+                        try {
+                            // Convert the 24-hour format to AM/PM format
+                            SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm");
+                            SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
+                            Date date = inputFormat.parse(timeFormat);
+                            String formattedTime = outputFormat.format(date);
+
+                            // Set the formatted time to the TextView
+                            binding.pubEventTime.setText(formattedTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, mHour, mMinute,false);
+                dialog.show();
+                return false;
+            }
+        });
+
         binding.pubEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveToDatabase();
-
             }
         });
 
@@ -116,7 +147,6 @@ public class PublicEventEntry extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -142,20 +172,32 @@ public class PublicEventEntry extends AppCompatActivity {
             // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
-
-
             publicEvent.setTimestamp(System.currentTimeMillis());
-            if (imageUri != null) {
-                publicEvent.setImageUrl(imageUri.toString());
+//            if (imageUri != null) {
+//                publicEvent.setImageUrl(imageUri.toString());
+//            }
+
+            DatabaseReference newEventRef = userEventsReference.getRef();
+            String specificEventId = newEventRef.getKey();
+
+            publicEvent.setEventID(specificEventId);
+            if(imageUri!=null){
+                uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
+            }else {
+                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
             }
-            publicEvent = new PublicEvent(title, description, venue, limitations, dateStr, timeStr);
+
+            userId = currentUser.getUid();
+            eventId = userEventsReference.getKey();
+
+            publicEvent = new PublicEvent(userId, eventId,title, description, venue, limitations, dateStr, timeStr, imageUrl);
             // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(PublicEventEntry.this, "Event saved successfully", Toast.LENGTH_SHORT).show();
-                        // Clear input fields
+
                         binding.pubEventTitle.setText("");
                         binding.pubEventDescription.setText("");
                         binding.pubEventVenue.setText("");
@@ -163,25 +205,6 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventDate.setText("");
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
-
-                        DatabaseReference newEventRef = userEventsReference.getRef();
-                        String specificEventId = newEventRef.getKey();
-
-                        publicEvent.setEventID(specificEventId);
-
-                        if(imageUri!=null){
-                            uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
-                        }else {
-                            Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
-                        }
-
-//                        PublicEvent setEvent = new PublicEvent(userEventsReference.getRef().getKey(),title,description,venue,limitations,dateStr,timeStr);
-//                        setEventKey.setEventID(setEventKey.toString());
-                        // additional
-//                        String eventId = setEventKey.getEventID();
-//                        String idOnRef = userEventsReference.getRef().getKey();
-//                        Log.w("EventId on Referance", idOnRef );
-//                        Log.w("EventId on event Entry", eventId);
 
                         Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                         startActivity(intent);
@@ -198,8 +221,8 @@ public class PublicEventEntry extends AppCompatActivity {
     }
 
     private void uploadToFirebase(final String userId, final String eventKey, Uri uri) {
-        final StorageReference userRef = storageReference.child(userId); // Reference to the user's folder
-        final StorageReference eventRef = userRef.child(eventKey); // Reference to the event's folder
+        final StorageReference userRef = storageReference.child(userId);
+        final StorageReference eventRef = userRef.child(eventKey);
 
         final StorageReference fileRef = eventRef.child(System.currentTimeMillis() + "." + getFileExtension(uri)); // Reference to the image file
 
@@ -212,10 +235,7 @@ public class PublicEventEntry extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
 
-                        // Update the PublicEvent's image URL
-                        publicEvent.setImageUrl(downloadUrl);
-
-                        // Toast.makeText(Public_event_entry.this, "Uploaded image", Toast.LENGTH_SHORT).show();
+                        imageUrl = downloadUrl;
                     }
                 });
             }
@@ -231,9 +251,8 @@ public class PublicEventEntry extends AppCompatActivity {
     private void storeDownloadUrlInDatabase(String eventKey, String downloadUrl) {
         FirebaseUser currentUser = auth.getCurrentUser();
         String uid = currentUser.getUid();
-        // Here, you can store the downloadUrl in your Realtime Database under the appropriate location.
-        // Replace the following line with the correct location in your database.
-        DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
-        urlReference.setValue(downloadUrl);
+//        DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
+//        urlReference.setValue(downloadUrl);
     }
+
 }

@@ -151,7 +151,7 @@
         android:layout_marginEnd="20dp"
         android:background="@drawable/input_text_field_style"
         android:ems="10"
-        android:hint="@string/time"
+        android:hint="@string/time_on_long_press"
         android:inputType="text"
         android:padding="10dp"
         android:textColor="@color/black"
