@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +36,7 @@ import com.ousl.application_event_management.models.PublicEvent;
 import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.StringJoiner;
 
 public class PublicEventEntry extends AppCompatActivity {
 
@@ -72,6 +76,25 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventDate.setText(String.valueOf(year)+"."+String.valueOf(month+1)+"."+String.valueOf(dayOfMonth));
                     }
                 }, Year.now().getValue(), YearMonth.now().getMonthValue()-1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                dialog.show();
+                return false;
+            }
+        });
+
+        binding.pubEventTime.setOnLongClickListener(new View.OnLongClickListener() {
+            final Calendar c = Calendar.getInstance();
+            float mHour = c.get(Calendar.HOUR_OF_DAY);
+            float mMinute = c.get(Calendar.MINUTE);
+            @Override
+            public boolean onLongClick(View v) {
+
+                TimePickerDialog dialog = new TimePickerDialog(PublicEventEntry.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String timeString = hourOfDay + ":" + minute;
+                        binding.pubEventTime.setText(timeString);
+                    }
+                }, (int) mHour, (int) mMinute,false);
                 dialog.show();
                 return false;
             }
