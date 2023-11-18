@@ -65,7 +65,6 @@ public class PublicEventEntry extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-
         binding.pubEventDate.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
