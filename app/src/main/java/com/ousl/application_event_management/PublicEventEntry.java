@@ -12,11 +12,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -25,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,7 +38,6 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.StringJoiner;
 
 public class PublicEventEntry extends AppCompatActivity {
 
@@ -49,7 +47,7 @@ public class PublicEventEntry extends AppCompatActivity {
     DatabaseReference reference;
     StorageReference storageReference;
     FirebaseStorage storage;
-    String title, description, venue, limitations, dateStr, timeStr;
+    private String userId, eventId, title, description, venue, limitations, dateStr, timeStr, imageUrl;
     Uri imageUri;
     private static final int SELECT_IMAGE = 100;
     PublicEvent publicEvent = new PublicEvent();
@@ -118,7 +116,6 @@ public class PublicEventEntry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveToDatabase();
-
             }
         });
 
@@ -176,11 +173,24 @@ public class PublicEventEntry extends AppCompatActivity {
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
 
             publicEvent.setTimestamp(System.currentTimeMillis());
-            if (imageUri != null) {
-                publicEvent.setImageUrl(imageUri.toString());
+//            if (imageUri != null) {
+//                publicEvent.setImageUrl(imageUri.toString());
+//            }
+
+            DatabaseReference newEventRef = userEventsReference.getRef();
+            String specificEventId = newEventRef.getKey();
+
+            publicEvent.setEventID(specificEventId);
+            if(imageUri!=null){
+                uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
+            }else {
+                Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
             }
 
-            publicEvent = new PublicEvent(currentUser.getUid(),userEventsReference.getKey(),title, description, venue, limitations, dateStr, timeStr);
+            userId = currentUser.getUid();
+            eventId = userEventsReference.getKey();
+
+            publicEvent = new PublicEvent(userId, eventId,title, description, venue, limitations, dateStr, timeStr, imageUrl);
             // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -195,17 +205,6 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventDate.setText("");
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
-
-                        DatabaseReference newEventRef = userEventsReference.getRef();
-                        String specificEventId = newEventRef.getKey();
-
-                        publicEvent.setEventID(specificEventId);
-
-                        if(imageUri!=null){
-                            uploadToFirebase(currentUser.getUid(),specificEventId ,imageUri);
-                        }else {
-                            Toast.makeText(PublicEventEntry.this, "Making banner to the event might get more attention", Toast.LENGTH_SHORT).show();
-                        }
 
                         Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
                         startActivity(intent);
@@ -236,8 +235,7 @@ public class PublicEventEntry extends AppCompatActivity {
                         String downloadUrl = uri.toString();
                         storeDownloadUrlInDatabase(eventKey, downloadUrl);
 
-                        // Update the PublicEvent's image URL
-                        publicEvent.setImageUrl(downloadUrl);
+                        imageUrl = downloadUrl;
                     }
                 });
             }
@@ -253,7 +251,8 @@ public class PublicEventEntry extends AppCompatActivity {
     private void storeDownloadUrlInDatabase(String eventKey, String downloadUrl) {
         FirebaseUser currentUser = auth.getCurrentUser();
         String uid = currentUser.getUid();
-        DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
-        urlReference.setValue(downloadUrl);
+//        DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
+//        urlReference.setValue(downloadUrl);
     }
+
 }

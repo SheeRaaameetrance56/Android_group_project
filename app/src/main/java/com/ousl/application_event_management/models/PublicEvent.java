@@ -14,7 +14,7 @@ public class PublicEvent {
     public PublicEvent() {
     }
 
-    public PublicEvent(String userId, String eventId, String title, String description, String venue, String limitations, String date, String time) {
+    public PublicEvent(String userId, String eventId, String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
         this.userId = userId;
         this.eventId = eventId;
         this.title = title;
@@ -23,15 +23,7 @@ public class PublicEvent {
         this.date = date;
         this.time = time;
         this.limitations = limitations;
-    }
-
-    public PublicEvent(String title, String description, String venue, String limitations, String date, String time) {
-        this.title = title;
-        this.description = description;
-        this.venue = venue;
-        this.date = date;
-        this.time = time;
-        this.limitations = limitations;
+        this.imageUrl = imageUrl;
     }
 
     public String getUserId() {
