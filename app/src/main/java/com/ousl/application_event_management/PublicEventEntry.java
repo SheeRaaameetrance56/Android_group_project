@@ -85,8 +85,8 @@ public class PublicEventEntry extends AppCompatActivity {
 
         binding.pubEventTime.setOnLongClickListener(new View.OnLongClickListener() {
             final Calendar c = Calendar.getInstance();
-            float mHour = c.get(Calendar.HOUR_OF_DAY);
-            float mMinute = c.get(Calendar.MINUTE);
+            int mHour = c.get(Calendar.HOUR_OF_DAY);
+            int mMinute = c.get(Calendar.MINUTE);
             @Override
             public boolean onLongClick(View v) {
 
@@ -108,7 +108,7 @@ public class PublicEventEntry extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                }, (int) mHour, (int) mMinute,false);
+                }, mHour, mMinute,false);
                 dialog.show();
                 return false;
             }
