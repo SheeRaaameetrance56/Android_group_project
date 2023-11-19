@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Application_Event_Management"
         tools:targetApi="31">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileViewActivity"
             android:exported="false" />
         <activity
@@ -70,8 +73,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

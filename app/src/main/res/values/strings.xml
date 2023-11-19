@@ -52,4 +52,6 @@
     <string name="edit">Edit</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="time_on_long_press">Time (Tap and hold to set time)</string>
+    <string name="change_password">Change Your Password</string>
+    <string name="change_settings">Edit Profile</string>
 </resources>
