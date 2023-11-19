@@ -50,7 +50,7 @@ public class ProfileViewActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileViewActivity.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

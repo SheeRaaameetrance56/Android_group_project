@@ -54,4 +54,7 @@
     <string name="time_on_long_press">Time (Tap and hold to set time)</string>
     <string name="change_password">Change Your Password</string>
     <string name="change_settings">Edit Profile</string>
+    <string name="edit_profile">Edit Profile Details</string>
+    <string name="enter_current_password">Enter current password</string>
+    <string name="enter_new_password">Enter new password</string>
 </resources>
