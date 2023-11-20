@@ -4,17 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.databinding.ActivityEventDisplayBinding;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
@@ -39,6 +44,7 @@ public class EventDisplay extends AppCompatActivity {
         date = binding.eventDisplayDate;
         time = binding.eventDisplayTime;
         limitations = binding.eventDisplayLimitations;
+        imageView = binding.eventDisplayImage;
 
         String eventID = getIntent().getStringExtra("EVENT_ID");
         String userId = getIntent().getStringExtra("USER_ID");
@@ -60,12 +66,26 @@ public class EventDisplay extends AppCompatActivity {
                             limitations.setText(event.getLimitations());
 
                             // For the image load on Picasso
-                            if(imageView!= null){
-                                Picasso.get().load(event.getImageUrl()).into(imageView);
-                            }
-                            else{
-                                Toast.makeText(EventDisplay.this, "No Banner set to the event", Toast.LENGTH_SHORT).show();
-                            }
+
+                            String path = "/"+event.getUserId()+ "/" + event.getEventID() +"/"+event.getImageName();
+                            Log.w("imagePath", path );
+
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Picasso.get()
+                                            .load(uri)
+                                            .into(imageView);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@android.support.annotation.NonNull Exception e) {
+                                    // Handle any errors that may occur while getting the download URL
+                                    Log.e("FirebaseStorage", "Error getting download URL: " + e.getMessage());
+                                }
+                            });
+
                         }
                     }
                 }
