@@ -8,13 +8,13 @@ import java.util.Date;
 
 public class PublicEvent {
     private String userId, eventId, title, description, venue, limitations, date, time;
-    private String imageUrl;
+    private String imageUrl, imageName;
     private long timestamp;
 
     public PublicEvent() {
     }
 
-    public PublicEvent(String userId, String eventId, String title, String description, String venue, String limitations, String date, String time, String imageUrl) {
+    public PublicEvent(String userId, String eventId, String title, String description, String venue, String limitations, String date, String time, String imageName) {
         this.userId = userId;
         this.eventId = eventId;
         this.title = title;
@@ -23,7 +23,7 @@ public class PublicEvent {
         this.date = date;
         this.time = time;
         this.limitations = limitations;
-        this.imageUrl = imageUrl;
+        this.imageName = imageName;
     }
 
     public String getUserId() {
@@ -107,4 +107,11 @@ public class PublicEvent {
         this.imageUrl = banner;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 }

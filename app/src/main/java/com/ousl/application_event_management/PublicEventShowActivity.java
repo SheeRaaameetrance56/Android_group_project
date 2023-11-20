@@ -2,18 +2,25 @@ package com.ousl.application_event_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ousl.application_event_management.databinding.ActivityPublicEventShowBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
@@ -22,7 +29,7 @@ public class PublicEventShowActivity extends AppCompatActivity {
     ActivityPublicEventShowBinding binding;
 
     TextView title, description, venue, date, time, limitations;
-    String imageUrl;
+    String userId, eventId, imageName;
     ImageView imageView;
     FirebaseDatabase database;
     FirebaseAuth auth;
@@ -65,26 +72,29 @@ public class PublicEventShowActivity extends AppCompatActivity {
                             date.setText(event.getDate());
                             time.setText(event.getTime());
                             limitations.setText(event.getLimitations());
-                            imageUrl = event.getImageUrl();
-                            if (imageUrl != null && !imageUrl.isEmpty()) {
-                                Picasso.get()
-                                        .load(imageUrl)
-                                        .error(R.drawable.preview1) // Placeholder in case of error
-                                        .placeholder(null) // Placeholder until image loads
-                                        .into(imageView, new com.squareup.picasso.Callback(){
-                                            @Override
-                                            public void onSuccess() {
-                                                Log.i("URL: ",imageUrl);
-                                            }
-                                            @Override
-                                            public void onError(Exception e) {
-                                                Log.e("URL: ",imageUrl);
-                                            }
-                                        });
-                            } else {
-                                // Load a placeholder if the URL is empty or invalid
-                                imageView.setImageResource(R.drawable.preview1);
-                            }
+
+                            userId = event.getUserId();
+                            eventId = event.getEventID();
+                            imageName = event.getImageName();
+                            String path = "/"+userId+ "/" + eventId +"/"+imageName;
+                            Log.w("imagePath", path );
+
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Picasso.get()
+                                            .load(uri)
+                                            .into(imageView);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle any errors that may occur while getting the download URL
+                                    Log.e("FirebaseStorage", "Error getting download URL: " + e.getMessage());
+                                }
+                            });
+
                         }
                     }
                 }
