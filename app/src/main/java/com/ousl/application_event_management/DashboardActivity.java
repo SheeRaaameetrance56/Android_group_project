@@ -104,7 +104,7 @@ public class DashboardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.toolbar_menu_profile){
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(DashboardActivity.this, ProfileViewActivity.class));
         }
         if(id == R.id.dropdown_menu_log_out){
             FirebaseAuth auth = FirebaseAuth.getInstance();

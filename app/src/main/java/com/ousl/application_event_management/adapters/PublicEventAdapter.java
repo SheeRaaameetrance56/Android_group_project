@@ -1,6 +1,7 @@
 package com.ousl.application_event_management.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
@@ -76,7 +81,24 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         PublicEvent publicEvent = publicEventList.get(position);
         holder.title.setText(publicEvent.getTitle());
         holder.id.setText(publicEvent.getEventID());
-        Picasso.get().load(publicEvent.getImageUrl()).into(holder.image);
+        String path = "/"+publicEvent.getUserId()+ "/" + publicEvent.getEventID() +"/"+publicEvent.getImageName();
+        Log.w("imagePath", path );
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get()
+                        .load(uri)
+                        .into(holder.image);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@android.support.annotation.NonNull Exception e) {
+                // Handle any errors that may occur while getting the download URL
+                Log.e("FirebaseStorage", "Error getting download URL: " + e.getMessage());
+            }
+        });
     }
 
     @Override

@@ -47,7 +47,7 @@ public class PublicEventEntry extends AppCompatActivity {
     DatabaseReference reference;
     StorageReference storageReference;
     FirebaseStorage storage;
-    private String userId, eventId, title, description, venue, limitations, dateStr, timeStr, imageUrl;
+    private String userId, eventId, title, description, venue, limitations, dateStr, timeStr, imageUrl, imageName;
     Uri imageUri;
     private static final int SELECT_IMAGE = 100;
     PublicEvent publicEvent = new PublicEvent();
@@ -177,6 +177,8 @@ public class PublicEventEntry extends AppCompatActivity {
 //                publicEvent.setImageUrl(imageUri.toString());
 //            }
 
+            imageName = System.currentTimeMillis() + "." + getFileExtension(imageUri);
+
             DatabaseReference newEventRef = userEventsReference.getRef();
             String specificEventId = newEventRef.getKey();
 
@@ -190,7 +192,7 @@ public class PublicEventEntry extends AppCompatActivity {
             userId = currentUser.getUid();
             eventId = userEventsReference.getKey();
 
-            publicEvent = new PublicEvent(userId, eventId,title, description, venue, limitations, dateStr, timeStr, imageUrl);
+            publicEvent = new PublicEvent(userId, eventId,title, description, venue, limitations, dateStr, timeStr, imageName);
             // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -224,7 +226,8 @@ public class PublicEventEntry extends AppCompatActivity {
         final StorageReference userRef = storageReference.child(userId);
         final StorageReference eventRef = userRef.child(eventKey);
 
-        final StorageReference fileRef = eventRef.child(System.currentTimeMillis() + "." + getFileExtension(uri)); // Reference to the image file
+        final StorageReference fileRef = eventRef.child(imageName); // Reference to the image file
+        publicEvent.setImageName(imageName);
 
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
