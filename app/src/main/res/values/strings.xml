@@ -57,4 +57,5 @@
     <string name="edit_profile">Edit Profile Details</string>
     <string name="enter_current_password">Enter current password</string>
     <string name="enter_new_password">Enter new password</string>
+    <string name="on">On</string>
 </resources>
