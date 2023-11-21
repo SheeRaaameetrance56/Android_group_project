@@ -34,11 +34,12 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title;
+        private TextView title, date;
         private ImageView image;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.card_view_title);
+            date = itemView.findViewById(R.id.card_view_date);
             image = itemView.findViewById(R.id.card_view_image);
         }
     }

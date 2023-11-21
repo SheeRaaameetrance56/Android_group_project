@@ -51,12 +51,12 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, id;
+        private TextView title, date;
         private ImageView image;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.card_view_title);
-            id = itemView.findViewById(R.id.card_view_id);
+            date = itemView.findViewById(R.id.card_view_date);
             image = itemView.findViewById(R.id.card_view_image);
 
             itemView.setOnClickListener(view -> {
@@ -80,7 +80,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PublicEvent publicEvent = publicEventList.get(position);
         holder.title.setText(publicEvent.getTitle());
-        holder.id.setText(publicEvent.getEventID());
+        holder.date.setText(publicEvent.getDate());
         String path = "/"+publicEvent.getUserId()+ "/" + publicEvent.getEventID() +"/"+publicEvent.getImageName();
         Log.w("imagePath", path );
 
