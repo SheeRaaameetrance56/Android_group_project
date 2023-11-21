@@ -40,6 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DashboardActivity.this, PublicEventEntry.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -48,6 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DashboardActivity.this, PrivateEventEntry.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -65,12 +67,6 @@ public class DashboardActivity extends AppCompatActivity {
                     Animation animation = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.rotate_open_anim);
                     binding.mainActionButton.startAnimation(animation);
 
-//                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
-//                    binding.appBarDashboard.publicEventAction.startAnimation(animation2);
-//
-//                    Animation animation3 = AnimationUtils.loadAnimation(dashboard.this, R.anim.from_bottom_anim);
-//                    binding.appBarDashboard.privateEventAction.startAnimation(animation3);
-
                     binding.privateEventAction.setVisibility(View.VISIBLE);
                     binding.publicEventAction.setVisibility(View.VISIBLE);
 
@@ -81,12 +77,6 @@ public class DashboardActivity extends AppCompatActivity {
 
                     Animation animation = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.rotate_close_anim);
                     binding.mainActionButton.startAnimation(animation);
-
-//                    Animation animation2 = AnimationUtils.loadAnimation(dashboard.this, R.anim.to_bottom_anim);
-//                    binding.appBarDashboard.publicEventAction.startAnimation(animation2);
-//
-//                    Animation animation3 = AnimationUtils.loadAnimation(dashboard.this, R.anim.to_bottom_anim);
-//                    binding.appBarDashboard.privateEventAction.startAnimation(animation3);
 
                     shown = false;
                 }

@@ -7,6 +7,19 @@
     android:layout_margin="15dp"
     tools:context=".EditProfileActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/purple_200"
+        android:backgroundTint="@color/purple_200"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:logo="@drawable/logo_low"
+        app:title="@string/edit_profile"
+        app:titleMarginStart="15dp" />
+
     <Button
         android:id="@+id/edit_profile_edit_btn"
         android:layout_width="150dp"
@@ -16,7 +29,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edit_profile_cancel_btn"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_new_password" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_new_password"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/edit_profile_cancel_btn"
@@ -27,7 +41,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/edit_profile_edit_btn"
         app:layout_constraintEnd_toStartOf="@+id/edit_profile_edit_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_profile_edit_btn" />
+        app:layout_constraintTop_toTopOf="@+id/edit_profile_edit_btn"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/edit_profile_phone"
@@ -42,7 +57,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_cuurent_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_email" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_email"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/edit_profile_cuurent_password"
@@ -59,7 +75,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_new_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone"
+        tools:ignore="Autofill,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/edit_profile_new_password"
@@ -79,7 +96,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_edit_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_cuurent_password" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_cuurent_password"
+        tools:ignore="Autofill,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/edit_profile_name"
@@ -97,7 +115,8 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_dashboard"
+        tools:ignore="Autofill,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     <EditText
         android:id="@+id/edit_profile_email"
@@ -112,18 +131,7 @@
         app:layout_constraintBottom_toTopOf="@+id/edit_profile_phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_name"
+        tools:ignore="Autofill,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/edit_profile"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_profile_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
