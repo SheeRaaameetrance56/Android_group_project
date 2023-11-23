@@ -51,6 +51,14 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
             super(itemView);
             title = itemView.findViewById(R.id.card_view_title);
 
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
+                    PrivateEvents clickedEvent = privateEventList.get(position);
+                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventId(), clickedEvent.getUserId());
+                }
+            });
+
         }
     }
 

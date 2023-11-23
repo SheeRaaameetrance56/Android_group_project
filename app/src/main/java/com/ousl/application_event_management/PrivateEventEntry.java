@@ -119,7 +119,10 @@ public class PrivateEventEntry extends AppCompatActivity {
                 time = binding.priEventTime.getText().toString();
                 limitations = binding.priEventLimitations.getText().toString();
 
-                PrivateEvents privateEvent = new PrivateEvents(title,description,venue,date,time,limitations);
+                String userId = auth.getCurrentUser().getUid();
+                String eventId = reference.child("private_event").child(userId).getKey();
+
+                PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
 
                 FirebaseUser currentUser = auth.getCurrentUser();
                 String uID = currentUser.getUid();
