@@ -61,4 +61,10 @@ public class Users {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }
+
+
