@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -67,6 +68,9 @@ public class HomeFragment extends Fragment {
     }
 
     public void getPublicEvents() {
+
+        RecyclerView recyclerView = binding.publicEventRecycler;
+
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,8 +95,13 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 }
-                binding.publicEventRecycler.setAdapter(publicEventAdapter);
+                recyclerView.setAdapter(publicEventAdapter);
                 publicEventAdapter.notifyDataSetChanged();
+
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemViewCacheSize(10);
+                recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             }
 
             @Override

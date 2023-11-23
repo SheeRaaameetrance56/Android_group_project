@@ -82,7 +82,6 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         holder.title.setText(publicEvent.getTitle());
         holder.date.setText(publicEvent.getDate());
         String path = "/"+publicEvent.getUserId()+ "/" + publicEvent.getEventID() +"/"+publicEvent.getImageName();
-        Log.w("imagePath", path );
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -90,6 +89,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
             public void onSuccess(Uri uri) {
                 Picasso.get()
                         .load(uri)
+                        .fit()
                         .into(holder.image);
             }
         }).addOnFailureListener(new OnFailureListener() {
