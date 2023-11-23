@@ -21,7 +21,7 @@ import com.ousl.application_event_management.databinding.ActivityProfileViewBind
 public class ProfileViewActivity extends AppCompatActivity {
 
     TextView profile_name, profile_email, profile_phone;
-    Button profileEditBtn, profileLogoutBtn;
+    Button profileEditBtn, profileLogoutBtn, listedEventsBtn;
     ActivityProfileViewBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public class ProfileViewActivity extends AppCompatActivity {
         profile_phone = binding.profilePhone;
         profileEditBtn = binding.profileEditBtn;
         profileLogoutBtn = binding.profileLogoutBtn;
+        listedEventsBtn = binding.profileListedEventButton;
 
         FirebaseAuth authProfile = FirebaseAuth.getInstance();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(authProfile.getCurrentUser().getUid());
@@ -67,6 +68,13 @@ public class ProfileViewActivity extends AppCompatActivity {
                 authProfile.signOut();
                 startActivity(new Intent(ProfileViewActivity.this, LoginActivity.class));
                 finish();
+            }
+        });
+
+        listedEventsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileViewActivity.this, ListedEventsActivity.class));
             }
         });
 

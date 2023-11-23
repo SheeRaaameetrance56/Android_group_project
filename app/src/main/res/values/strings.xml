@@ -58,4 +58,6 @@
     <string name="enter_current_password">Enter current password</string>
     <string name="enter_new_password">Enter new password</string>
     <string name="on">On</string>
+    <string name="listed_events">Listed Events</string>
+    <string name="private_events">Private Events</string>
 </resources>

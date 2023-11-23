@@ -35,8 +35,8 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private PublicEventAdapter publicEventAdapter;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser currentUser = mAuth.getCurrentUser();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser currentUser = mAuth.getCurrentUser();
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void getPublicEvents() {
+    public void getPublicEvents() {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
