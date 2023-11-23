@@ -1,7 +1,7 @@
 package com.ousl.application_event_management.models;
 
 public class PrivateEvents {
-    String title, description, venue, date, time, limitations, eventId, userId;
+    private String title, description, venue, date, time, limitations, eventId, userId;
 
     public PrivateEvents() {
         //empty constructor
@@ -14,7 +14,7 @@ public class PrivateEvents {
         this.date = date;
         this.time = time;
         this.limitations = limitations;
-        this.eventId = limitations;
+        this.eventId = eventId;
         this.userId = userId;
     }
 

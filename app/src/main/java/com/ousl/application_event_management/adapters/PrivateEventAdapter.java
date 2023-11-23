@@ -46,10 +46,11 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView title;
+        private TextView title, date;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.card_view_title);
+            title = itemView.findViewById(R.id.private_card_view_title);
+            date = itemView.findViewById(R.id.private_card_view_date);
 
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
@@ -65,7 +66,7 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
     @NonNull
     @Override
     public PrivateEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_private_card_view, parent, false);
         return new PrivateEventAdapter.MyViewHolder(view);
     }
 
@@ -73,6 +74,7 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PrivateEvents privateEvent = privateEventList.get(position);
         holder.title.setText(privateEvent.getTitle());
+        holder.date.setText(privateEvent.getDate());
     }
 
 

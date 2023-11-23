@@ -32,11 +32,11 @@ import java.util.Date;
 
 public class PrivateEventEntry extends AppCompatActivity {
 
-    ActivityIndividualEventEntryBinding binding;
-    String title, description, venue, date, time, limitations;
-    DatabaseReference reference;
-    FirebaseDatabase database;
-    FirebaseAuth auth;
+    private ActivityIndividualEventEntryBinding binding;
+    private String title, description, venue, date, time, limitations;
+    private DatabaseReference reference;
+    private FirebaseDatabase database;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,14 +119,14 @@ public class PrivateEventEntry extends AppCompatActivity {
                 time = binding.priEventTime.getText().toString();
                 limitations = binding.priEventLimitations.getText().toString();
 
+                FirebaseUser currentUser = auth.getCurrentUser();
+                String uID = currentUser.getUid();
+                DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
+
                 String userId = auth.getCurrentUser().getUid();
                 String eventId = reference.child("private_event").child(userId).getKey();
 
                 PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
-
-                FirebaseUser currentUser = auth.getCurrentUser();
-                String uID = currentUser.getUid();
-                DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
 
                 userEventReference.setValue(privateEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
