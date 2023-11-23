@@ -22,6 +22,8 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
     private Context context;
     private List<PrivateEvents> privateEventList;
 
+    private PrivateEventAdapter.OnItemClickListener onItemClickListener;
+
 
     public PrivateEventAdapter(Context context){
         this.context = context;
@@ -31,6 +33,16 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
     public void addEvent(PrivateEvents privateEvent){
         privateEventList.add(privateEvent);
         notifyDataSetChanged();
+    }
+
+    // Interface for item click handling
+    public interface OnItemClickListener {
+        void onItemClick(PrivateEvents event, String eventId, String userId);
+    }
+
+    public void setOnItemClickListener(PrivateEventAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
