@@ -4,51 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
-    tools:context=".PublicEventEntry">
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/make_public_event"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/banner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".EditEventActivity">
 
     <ImageView
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toTopOf="@+id/pub_event_select_image_btn"
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/preview1" />
 
     <Button
-        android:id="@+id/pub_event_select_image_btn"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
         android:text="@string/set_banner"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/scrollView5"
         android:layout_width="match_parent"
         android:layout_height="380dp"
-        app:layout_constraintBottom_toTopOf="@+id/pub_event_cancel_btn"
+        app:layout_constraintBottom_toTopOf="@id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pub_event_select_image_btn">
+        app:layout_constraintTop_toBottomOf="@+id/button">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +44,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/pub_event_title"
+                android:id="@+id/pub_event_title2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -76,7 +64,7 @@
                 tools:ignore="LabelFor,VisualLintTextFieldSize" />
 
             <EditText
-                android:id="@+id/pub_event_description"
+                android:id="@+id/pub_event_description2"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="20dp"
@@ -94,7 +82,7 @@
                 android:textColorHint="@color/grey" />
 
             <EditText
-                android:id="@+id/pub_event_venue"
+                android:id="@+id/pub_event_venue2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -114,7 +102,7 @@
                 tools:ignore="LabelFor,VisualLintTextFieldSize,DuplicateClickableBoundsCheck" />
 
             <EditText
-                android:id="@+id/pub_event_date"
+                android:id="@+id/pub_event_date2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -132,7 +120,7 @@
                 tools:ignore="TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
 
             <EditText
-                android:id="@+id/pub_event_time"
+                android:id="@+id/pub_event_time2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -150,7 +138,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
-                android:id="@+id/pub_event_limitations"
+                android:id="@+id/pub_event_limitations2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -172,29 +160,25 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/pub_event_cancel_btn"
+        android:id="@+id/button2"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="50dp"
         android:text="@android:string/cancel"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/pub_event_publish_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        app:layout_constraintTop_toTopOf="@+id/button3" />
 
     <Button
-        android:id="@+id/pub_event_publish_btn"
+        android:id="@+id/button3"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="@string/publish"
+        android:layout_marginBottom="25dp"
+        android:text="@string/edit"
         app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pub_event_cancel_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/pub_event_cancel_btn"
-        app:layout_constraintTop_toTopOf="@+id/pub_event_cancel_btn" />
-
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

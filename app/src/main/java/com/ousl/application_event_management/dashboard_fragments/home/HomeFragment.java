@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -67,6 +68,9 @@ public class HomeFragment extends Fragment {
     }
 
     public void getPublicEvents() {
+
+        RecyclerView recyclerView = binding.publicEventRecycler;
+
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,8 +95,13 @@ public class HomeFragment extends Fragment {
                         }
                     });
                 }
-                binding.publicEventRecycler.setAdapter(publicEventAdapter);
+                recyclerView.setAdapter(publicEventAdapter);
                 publicEventAdapter.notifyDataSetChanged();
+
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setItemViewCacheSize(10);
+                recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             }
 
             @Override
@@ -101,37 +110,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-//    private void getMyEvents() {
-//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//
-//// Check if the user is authenticated
-//        if (currentUser != null) {
-//            String userId = currentUser.getUid();
-//            DatabaseReference userEventsRef = FirebaseDatabase.getInstance().getReference("public_events").child(userId);
-//
-//            // Now, instead of fetching all users' events, this will fetch only the events for the current user
-//            userEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
-//                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
-//                        PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
-//                        publicEventAdapter.addEvent(event);
-////                        if (event != null) {
-////                            CardView cardView = createCardView(event);
-////                            binding.myEventRecycler.addView(cardView);
-////                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//                    // Handle errors
-//                }
-//            });
-//        }
-//    }
 
     @Override
     public void onDestroyView() {

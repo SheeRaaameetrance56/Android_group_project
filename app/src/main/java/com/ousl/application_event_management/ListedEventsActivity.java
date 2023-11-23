@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -43,6 +44,20 @@ public class ListedEventsActivity extends AppCompatActivity {
 
         getPublicEvents();
         getPrivateEvents();
+
+        publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PublicEvent event, String eventId, String userId) {
+                startActivity(new Intent(ListedEventsActivity.this, EditEventActivity.class));
+            }
+        });
+
+        privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PrivateEvents event, String eventId, String userId) {
+                startActivity(new Intent(ListedEventsActivity.this, EditEventActivity.class));
+            }
+        });
 
     }
 
@@ -114,7 +129,7 @@ public class ListedEventsActivity extends AppCompatActivity {
             // User is not authenticated, handle accordingly
         }
 
-        binding.publicEvents.setAdapter(privateEventAdapter);
+        binding.privateEvents.setAdapter(privateEventAdapter);
     }
 
 }

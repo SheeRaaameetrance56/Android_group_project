@@ -1,19 +1,37 @@
 package com.ousl.application_event_management.models;
 
 public class PrivateEvents {
-    String title, description, venue, date, time, limitations;
+    private String title, description, venue, date, time, limitations, eventId, userId;
 
     public PrivateEvents() {
         //empty constructor
     }
 
-    public PrivateEvents(String title, String description, String venue, String date, String time, String limitations) {
+    public PrivateEvents(String title, String description, String venue, String date, String time, String limitations, String eventId, String userId) {
         this.title = title;
         this.description = description;
         this.venue = venue;
         this.date = date;
         this.time = time;
         this.limitations = limitations;
+        this.eventId = eventId;
+        this.userId = userId;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {

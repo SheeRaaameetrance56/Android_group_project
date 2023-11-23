@@ -80,7 +80,7 @@ public class EventDisplay extends AppCompatActivity {
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
-                                public void onFailure(@android.support.annotation.NonNull Exception e) {
+                                public void onFailure(@androidx.annotation.NonNull Exception e) {
                                     // Handle any errors that may occur while getting the download URL
                                     Log.e("FirebaseStorage", "Error getting download URL: " + e.getMessage());
                                 }
