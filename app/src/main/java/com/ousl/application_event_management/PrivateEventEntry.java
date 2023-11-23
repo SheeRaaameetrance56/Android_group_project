@@ -66,6 +66,14 @@ public class PrivateEventEntry extends AppCompatActivity {
             }
         });
 
+        binding.priInviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PrivateEventEntry.this, Invite.class));
+                finish();
+            }
+        });
+
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
