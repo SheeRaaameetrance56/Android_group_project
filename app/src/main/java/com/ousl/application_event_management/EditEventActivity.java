@@ -89,8 +89,8 @@ public class EditEventActivity extends AppCompatActivity {
                         editPublicEvent(userId, eventId, imageUri);
                     }
                     else{
-                        String existImg = reference.child("public_events").child(userId).child(eventId).child("imageUri").get().toString();
-                        editPublicEvent(userId, eventId, Uri.parse(existImg));
+                        Uri existImg = null;
+                        editPublicEvent(userId, eventId, existImg);
                     }
                 }
                 else {
@@ -202,25 +202,27 @@ public class EditEventActivity extends AppCompatActivity {
         reference.child("time").setValue(time.getText().toString());
         reference.child("limitations").setValue(limitations.getText().toString());
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
-                String path = "/"+userId+ "/" + eventId +"/"+publicEvent.getImageName();
-                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
-                storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        if(uri!=null) {
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
+                    String path = "/" + userId + "/" + eventId + "/" + publicEvent.getImageName();
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+                    storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    }
-                });
-            }
+                        }
+                    });
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
 
     }
 
