@@ -1,6 +1,7 @@
 package com.ousl.application_event_management;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ousl.application_event_management.databinding.ActivityEditEventBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
@@ -33,6 +35,10 @@ public class EditEventActivity extends AppCompatActivity {
     private EditText title, description, venue, date, time, limitations;
     private ImageView imageView;
     private Button setImage, edit, cancel;
+    private Uri imageUri;
+    private static final int SELECT_IMAGE = 100;
+
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,9 @@ public class EditEventActivity extends AppCompatActivity {
 
         String eventId = getIntent().getStringExtra("EVENT_ID");
         String userId = getIntent().getStringExtra("USER_ID");
+        boolean isPublicEvent = getIntent().getBooleanExtra("IS_PUBLIC_EVENT", true);
 
-        if(getIntent().getBooleanExtra("IS_PUBLIC_EVENT", true)){
+        if(isPublicEvent){
             loadPublicEventDetails(userId, eventId);
         }
         else{
@@ -66,14 +73,30 @@ public class EditEventActivity extends AppCompatActivity {
         setImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(
+                        Intent.createChooser(intent, "Select Image"), SELECT_IMAGE
+                );
             }
         });
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(isPublicEvent){
+                    if (imageUri != null) {
+                        editPublicEvent(userId, eventId, imageUri);
+                    }
+                    else{
+                        String existImg = reference.child("public_events").child(userId).child(eventId).child("imageUri").get().toString();
+                        editPublicEvent(userId, eventId, Uri.parse(existImg));
+                    }
+                }
+                else {
+                    editPrivateEvent(userId, eventId);
+                }
+                startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
             }
         });
 
@@ -86,8 +109,17 @@ public class EditEventActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            binding.editEventImageView.setImageURI(imageUri);
+        }
+    }
+
     public void loadPublicEventDetails(String userId, String eventId){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+        reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -132,8 +164,7 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void loadPrivateEventDetails(String userId, String eventId){
-        Log.w("User and Event IDs", userId+eventId );
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -158,5 +189,49 @@ public class EditEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void editPublicEvent(String userId, String eventId, Uri uri){
+
+        reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+
+        reference.child("title").setValue(title.getText().toString());
+        reference.child("description").setValue(description.getText().toString());
+        reference.child("venue").setValue(venue.getText().toString());
+        reference.child("date").setValue(date.getText().toString());
+        reference.child("time").setValue(time.getText().toString());
+        reference.child("limitations").setValue(limitations.getText().toString());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
+                String path = "/"+userId+ "/" + eventId +"/"+publicEvent.getImageName();
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(path);
+                storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void editPrivateEvent(String userId, String eventId){
+        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+
+        reference.child("title").setValue(title.getText().toString());
+        reference.child("description").setValue(description.getText().toString());
+        reference.child("venue").setValue(venue.getText().toString());
+        reference.child("date").setValue(date.getText().toString());
+        reference.child("time").setValue(time.getText().toString());
+        reference.child("limitations").setValue(limitations.getText().toString());
     }
 }
