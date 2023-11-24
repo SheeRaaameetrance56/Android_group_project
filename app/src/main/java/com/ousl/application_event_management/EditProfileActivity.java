@@ -20,9 +20,9 @@ import com.ousl.application_event_management.databinding.ActivityEditProfileBind
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    ActivityEditProfileBinding binding;
-    EditText name, email, phoneNo, currentPassword, newPassword;
-    Button editButton, cancelButton;
+    private ActivityEditProfileBinding binding;
+    private EditText name, email, phoneNo, currentPassword, newPassword;
+    private Button editButton, cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
