@@ -97,6 +97,7 @@ public class EditEventActivity extends AppCompatActivity {
                     editPrivateEvent(userId, eventId);
                 }
                 startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
+                finish();
             }
         });
 
