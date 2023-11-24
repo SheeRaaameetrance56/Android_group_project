@@ -123,8 +123,8 @@ public class PrivateEventEntry extends AppCompatActivity {
                 String uID = currentUser.getUid();
                 DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
 
-                String userId = auth.getCurrentUser().getUid();
-                String eventId = reference.child("private_event").child(userId).getKey();
+                String userId = currentUser.getUid();
+                String eventId = userEventReference.getKey();
 
                 PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
 
