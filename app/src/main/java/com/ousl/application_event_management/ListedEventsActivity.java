@@ -48,14 +48,24 @@ public class ListedEventsActivity extends AppCompatActivity {
         publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PublicEvent event, String eventId, String userId) {
-                startActivity(new Intent(ListedEventsActivity.this, EditEventActivity.class));
+                Intent intent = new Intent(ListedEventsActivity.this, EditEventActivity.class);
+                intent.putExtra("EVENT_ID", eventId);
+                intent.putExtra("USER_ID", userId);
+                intent.putExtra("PUBLIC_EVENT", String.valueOf(event));
+                intent.putExtra("IS_PUBLIC_EVENT", true);
+                startActivity(intent);
+
             }
         });
 
         privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PrivateEvents event, String eventId, String userId) {
-                startActivity(new Intent(ListedEventsActivity.this, EditEventActivity.class));
+                Intent intent = new Intent(ListedEventsActivity.this, EditEventActivity.class);
+                intent.putExtra("EVENT_ID", eventId);
+                intent.putExtra("USER_ID", userId);
+                intent.putExtra("IS_PUBLIC_EVENT", false);
+                startActivity(intent);
             }
         });
 
