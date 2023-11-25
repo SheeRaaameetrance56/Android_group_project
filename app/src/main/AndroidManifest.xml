@@ -13,72 +13,72 @@
         android:hardwareAccelerated="true"
         tools:targetApi="31">
         <activity
-            android:name=".EditEventActivity"
+            android:name=".views.EditEventActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar"/>
         <activity
-            android:name=".ListedEventsActivity"
+            android:name=".views.ListedEventsActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".EditProfileActivity"
+            android:name=".views.EditProfileActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".ProfileViewActivity"
+            android:name=".views.ProfileViewActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".DashboardActivity"
+            android:name=".views.DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".EventDisplay"
+            android:name=".views.EventDisplay"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".views.ChatActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".PrivateEventShowActivity"
+            android:name=".views.PrivateEventShowActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".PublicEventShowActivity"
+            android:name=".views.PublicEventShowActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".Frind_list"
+            android:name=".views.Frind_list"
             android:exported="true"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".Invite"
+            android:name=".views.Invite"
             android:exported="true" />
         <activity
-            android:name=".PrivateEventEntry"
+            android:name=".views.PrivateEventEntry"
             android:exported="true"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".PublicEventEntry"
+            android:name=".views.PublicEventEntry"
             android:exported="true"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".CreateAccountOrganizationActivity"
+            android:name=".views.CreateAccountOrganizationActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name=".views.CreateAccountActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".views.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".views.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

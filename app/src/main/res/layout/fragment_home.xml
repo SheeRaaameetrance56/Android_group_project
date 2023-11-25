@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="15dp"
     android:layout_marginTop="15dp"
-    tools:context=".dashboard_fragments.home.HomeFragment">
+    tools:context=".views.fragments.HomeFragment">
 
     <EditText
         android:id="@+id/Search"

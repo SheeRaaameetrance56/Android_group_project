@@ -7,7 +7,7 @@
     android:background="@color/purple_200"
     android:backgroundTint="@color/purple_200"
     android:orientation="vertical"
-    tools:context=".SplashActivity">
+    tools:context=".views.SplashActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

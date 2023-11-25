@@ -1,4 +1,4 @@
-package com.ousl.application_event_management;
+package com.ousl.application_event_management.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,16 +11,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -34,7 +37,9 @@ public class EditEventActivity extends AppCompatActivity {
     private ActivityEditEventBinding binding;
     private EditText title, description, venue, date, time, limitations;
     private ImageView imageView;
-    private Button setImage, edit, cancel;
+    private Button setImage;
+    private Button edit, cancel;
+    private ImageButton delete;
     private Uri imageUri;
     private static final int SELECT_IMAGE = 100;
 
@@ -58,6 +63,7 @@ public class EditEventActivity extends AppCompatActivity {
         setImage = binding.setImageBtn;
         edit = binding.editBtn;
         cancel = binding.cancelBtn;
+        delete = binding.deleteEventBtn;
 
         String eventId = getIntent().getStringExtra("EVENT_ID");
         String userId = getIntent().getStringExtra("USER_ID");
@@ -96,6 +102,15 @@ public class EditEventActivity extends AppCompatActivity {
                 else {
                     editPrivateEvent(userId, eventId);
                 }
+                startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
+                finish();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteEvent(userId, eventId, isPublicEvent);
                 startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
                 finish();
             }
@@ -237,4 +252,108 @@ public class EditEventActivity extends AppCompatActivity {
         reference.child("time").setValue(time.getText().toString());
         reference.child("limitations").setValue(limitations.getText().toString());
     }
+
+    public void deleteEvent(String userId, String eventId, boolean isPublicEvent){
+        if(isPublicEvent){
+            reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
+
+                        // Delete the event first
+                        reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    // Event deleted successfully, now delete the associated image
+                                    String imageName = publicEvent.getImageName();
+                                    String imagePath = userId + "/" + eventId + "/" + imageName;
+                                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imagePath);
+
+                                    storageRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> imageTask) {
+                                            if (imageTask.isSuccessful()) {
+                                                // Image deleted successfully
+                                                Log.i("Image_delete", "Deleted");
+                                            } else {
+                                                // Handle image deletion failure
+                                                Log.e("Image_delete", "Failed to delete image");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    // Handle event deletion failure
+                                    Log.e("Event_delete", "Failed to delete event");
+                                }
+                            }
+                        });
+                    } else {
+                        // Handle case where event does not exist
+                        Log.e("Event_delete", "Event does not exist");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle database error
+                    Log.e("Error", "Database error: " + error.getMessage());
+                }
+            });
+        }
+        else{
+            deletePrivateEvent(userId, eventId);
+        }
+
+    }
+
+    private void deletePrivateEvent(String userId, String eventId) {
+        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
+
+                    // Delete the event first
+                    reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                            } else {
+                                // Handle event deletion failure
+                                Log.e("Event_delete", "Failed to delete event");
+                            }
+                        }
+                    });
+                } else {
+                    // Handle case where event does not exist
+                    Log.e("Event_delete", "Event does not exist");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database error
+                Log.e("Error", "Database error: " + error.getMessage());
+            }
+        });
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="15dp"
-    tools:context=".PrivateEventShowActivity">
+    tools:context=".views.PrivateEventShowActivity">
 
     <TextView
         android:id="@+id/public_event_name_view"

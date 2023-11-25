@@ -1,8 +1,8 @@
-package com.ousl.application_event_management;
+package com.ousl.application_event_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,27 +10,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.models.Users;
 import java.util.ArrayList;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import java.util.List;
-
-import android.os.Bundle;
 
 public class Invite extends AppCompatActivity {
 

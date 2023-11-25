@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.adapters;
+package com.ousl.application_event_management.views.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.ousl.application_event_management.dashboard_fragments.home.HomeFragment;
-import com.ousl.application_event_management.dashboard_fragments.home.MyEventsFragment;
+import com.ousl.application_event_management.views.fragments.HomeFragment;
+import com.ousl.application_event_management.views.fragments.MyEventsFragment;
 
 public class FragmentsAdapter extends FragmentPagerAdapter {
     public FragmentsAdapter(@NonNull FragmentManager fm) {
