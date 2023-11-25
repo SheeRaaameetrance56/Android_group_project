@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.ousl.application_event_management.dashboard_fragments.home.HomeFragment"
+        android:name="com.ousl.application_event_management.views.fragments.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 

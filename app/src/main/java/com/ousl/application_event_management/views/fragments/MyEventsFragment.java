@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.dashboard_fragments.home;
+package com.ousl.application_event_management.views.fragments;
 
 import android.os.Bundle;
 
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.databinding.FragmentMyEventsBinding;
 
 public class MyEventsFragment extends Fragment {

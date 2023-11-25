@@ -1,4 +1,4 @@
-package com.ousl.application_event_management.adapters;
+package com.ousl.application_event_management.views.adapters;
 
 import android.content.Context;
 import android.net.Uri;

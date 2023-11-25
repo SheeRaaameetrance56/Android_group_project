@@ -1,4 +1,4 @@
-package com.ousl.application_event_management;
+package com.ousl.application_event_management.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

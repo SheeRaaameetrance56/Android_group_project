@@ -1,17 +1,13 @@
-package com.ousl.application_event_management.dashboard_fragments.home;
+package com.ousl.application_event_management.views.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,13 +19,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ousl.application_event_management.R;
-import com.ousl.application_event_management.EventDisplay;
-import com.ousl.application_event_management.adapters.MyEventsAdapter;
-import com.ousl.application_event_management.adapters.PublicEventAdapter;
+import com.ousl.application_event_management.views.EventDisplay;
+import com.ousl.application_event_management.views.adapters.MyEventsAdapter;
+import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
-import com.squareup.picasso.Picasso;
 
 
 public class HomeFragment extends Fragment {

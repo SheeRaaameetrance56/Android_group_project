@@ -1,8 +1,10 @@
-package com.ousl.application_event_management;
+package com.ousl.application_event_management.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.ousl.application_event_management.R;
 
 public class Frind_list extends AppCompatActivity {
 

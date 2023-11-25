@@ -1,4 +1,4 @@
-package com.ousl.application_event_management;
+package com.ousl.application_event_management.views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.ousl.application_event_management.adapters.FragmentsAdapter;
+import com.ousl.application_event_management.R;
+import com.ousl.application_event_management.views.adapters.FragmentsAdapter;
 import com.ousl.application_event_management.databinding.ActivityDashboardBinding;
 
 public class DashboardActivity extends AppCompatActivity {

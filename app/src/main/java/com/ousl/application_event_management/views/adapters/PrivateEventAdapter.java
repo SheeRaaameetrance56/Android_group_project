@@ -1,10 +1,9 @@
-package com.ousl.application_event_management.adapters;
+package com.ousl.application_event_management.views.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.models.PrivateEvents;
-import com.ousl.application_event_management.models.PublicEvent;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
