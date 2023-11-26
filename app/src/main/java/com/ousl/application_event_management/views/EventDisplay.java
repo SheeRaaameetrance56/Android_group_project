@@ -79,7 +79,6 @@ public class EventDisplay extends AppCompatActivity {
                             limitations.setText(event.getLimitations());
 
                             // For the image load on Picasso
-
                             String path = "/"+event.getUserId()+ "/" + event.getEventID() +"/"+event.getImageName();
                             Log.w("imagePath", path );
 
