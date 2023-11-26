@@ -20,6 +20,7 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/invitations"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_margin="5dp">
@@ -35,6 +36,7 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listed_private_events"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="5dp" />
