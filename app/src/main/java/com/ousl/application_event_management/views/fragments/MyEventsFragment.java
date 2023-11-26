@@ -1,6 +1,7 @@
 package com.ousl.application_event_management.views.fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.databinding.FragmentMyEventsBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
+import com.ousl.application_event_management.views.EventDisplay;
 import com.ousl.application_event_management.views.ListedEventsActivity;
 import com.ousl.application_event_management.views.adapters.PrivateEventAdapter;
 
@@ -36,6 +38,18 @@ public class MyEventsFragment extends Fragment {
         privateEventAdapter = new PrivateEventAdapter(requireContext());
         binding.listedPrivateEvents.setLayoutManager(new GridLayoutManager(requireContext(),3));
         getPrivateEvents();
+
+        privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PrivateEvents event, String eventId, String userId) {
+                Intent intent = new Intent(requireContext(), EventDisplay.class);
+                intent.putExtra("USER_ID", userId);
+                intent.putExtra("EVENT_ID", eventId);
+                intent.putExtra("IS_PUBLIC_EVENT", false);
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.databinding.ActivityEventDisplayBinding;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
+import com.ousl.application_event_management.models.PrivateEvents;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
 
@@ -48,8 +50,19 @@ public class EventDisplay extends AppCompatActivity {
 
         String eventID = getIntent().getStringExtra("EVENT_ID");
         String userId = getIntent().getStringExtra("USER_ID");
-        if (eventID != null) {
+        boolean isPublicEvent = getIntent().getBooleanExtra("IS_PUBLIC_EVENT", true);
 
+        if(isPublicEvent){
+            publicEventDisplay(userId, eventID);
+        }
+        else{
+            privateEventDisplay(userId, eventID);
+        }
+
+    }
+
+    public void publicEventDisplay(String userId, String eventID){
+        if (eventID != null) {
             DatabaseReference eventRef= FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventID);
             eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -97,8 +110,39 @@ public class EventDisplay extends AppCompatActivity {
         } else {
             Toast.makeText(this, "The event ID is Null", Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
+
+    public void privateEventDisplay(String userId, String eventID){
+        binding.eventDisplayImage.setVisibility(View.INVISIBLE);
+        if (eventID != null) {
+            DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventID);
+            eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        PrivateEvents event = dataSnapshot.getValue(PrivateEvents.class);
+                        if (event != null) {
+                            title.setText(event.getTitle());
+                            description.setText(event.getDescription());
+                            venue.setText(event.getVenue());
+                            date.setText(event.getDate());
+                            time.setText(event.getTime());
+                            limitations.setText(event.getLimitations());
+                        }
+                    } else {
+                        Toast.makeText(EventDisplay.this, "Private event data does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e("FirebaseDatabase", "Private event retrieval failed: " + error.getMessage());
+                    Toast.makeText(EventDisplay.this, "Error retrieving private event data", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "The event ID is Null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

@@ -60,4 +60,6 @@
     <string name="on">On</string>
     <string name="listed_events">Listed Events</string>
     <string name="private_events">Private Events</string>
+    <string name="invitations">Invitations</string>
+    <string name="listed_private_events">Listed Private Events</string>
 </resources>
