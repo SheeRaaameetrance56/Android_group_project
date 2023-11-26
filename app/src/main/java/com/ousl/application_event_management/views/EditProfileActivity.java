@@ -23,7 +23,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private ActivityEditProfileBinding binding;
     private EditText name, email, phoneNo, currentPassword, newPassword;
     private Button editButton, cancelButton;
-
+    private DatabaseReference reference;
+    private FirebaseAuth authProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,8 @@ public class EditProfileActivity extends AppCompatActivity {
         editButton = binding.editProfileEditBtn;
         cancelButton = binding.editProfileCancelBtn;
 
-        FirebaseAuth authProfile = FirebaseAuth.getInstance();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(authProfile.getCurrentUser().getUid());
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        authProfile = FirebaseAuth.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference().child("users").child(authProfile.getCurrentUser().getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,31 +59,8 @@ public class EditProfileActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newName = binding.editProfileName.getText().toString().trim();
-                String newEmail = binding.editProfileEmail.getText().toString().trim();
-                String newPhone = binding.editProfilePhone.getText().toString().trim();
+                editDatabaseDetails();
 
-                reference.child("email").setValue(newEmail);
-                reference.child("name").setValue(newName);
-                reference.child("phoneNo").setValue(newPhone);
-
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String currentPass = snapshot.child("password").toString();
-                        if(currentPass.equals(currentPassword.getText().toString())){
-                            reference.child("password").setValue(newPassword.getText().toString());
-                        }
-                        else{
-                            Toast.makeText(EditProfileActivity.this, "Please enter current password on current password field.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
             }
         });
 
@@ -95,4 +72,37 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void editDatabaseDetails(){
+        String newName = binding.editProfileName.getText().toString().trim();
+        String newEmail = binding.editProfileEmail.getText().toString().trim();
+        String newPhone = binding.editProfilePhone.getText().toString().trim();
+
+        reference.child("email").setValue(newEmail);
+        reference.child("name").setValue(newName);
+        reference.child("phoneNo").setValue(newPhone);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String currentPass = snapshot.child("password").toString();
+                if(currentPass.equals(currentPassword.getText().toString())){
+                    reference.child("password").setValue(newPassword.getText().toString());
+                }
+                else{
+                    Toast.makeText(EditProfileActivity.this, "Please enter current password on current password field.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void editAuthenticationDetails(){
+
+    }
+
 }

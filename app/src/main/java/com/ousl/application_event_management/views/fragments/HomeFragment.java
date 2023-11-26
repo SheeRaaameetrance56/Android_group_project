@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(requireActivity(), EventDisplay.class);
                 intent.putExtra("EVENT_ID", eventId);
                 intent.putExtra("USER_ID", userId);
+                intent.putExtra("IS_PUBLIC_EVENT", true);
                 intent.putExtra("PUBLIC_EVENT", String.valueOf(event));
                 startActivity(intent);
             }

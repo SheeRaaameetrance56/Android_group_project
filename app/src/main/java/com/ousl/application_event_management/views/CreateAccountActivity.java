@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,13 +24,14 @@ import com.ousl.application_event_management.models.Users;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    ActivityCreateAccountBinding binding;
+    private ActivityCreateAccountBinding binding;
     private FirebaseAuth createAccountAuth;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-    ProgressDialog progressDialog;
-    Button navigation_sign_organization;
-    String name, email, password, phoneNo;
+    private FirebaseUser firebaseUser;
+    private FirebaseDatabase database;
+    private DatabaseReference reference;
+    private ProgressDialog progressDialog;
+    private Button navigation_sign_organization;
+    private String name, email, password, phoneNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,22 @@ public class CreateAccountActivity extends AppCompatActivity {
                 password = binding.inputCreatePassword.getText().toString();
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
 
+                createAccountAuth = FirebaseAuth.getInstance();
+                firebaseUser = createAccountAuth.getCurrentUser();
+
                 // validation conditions.
                 if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !phoneNo.isEmpty()) {
-                    createAccountTask(name, email, password, phoneNo);
+                    firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            createAccountTask(name, email, password, phoneNo);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CreateAccountActivity.this, "Cannot send verification code. Please enter a valid email.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 else{
                     Toast.makeText(CreateAccountActivity.this, "All Fields must required for create an account", Toast.LENGTH_SHORT).show();
