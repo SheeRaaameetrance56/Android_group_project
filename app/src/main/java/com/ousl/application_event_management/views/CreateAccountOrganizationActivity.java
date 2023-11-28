@@ -73,7 +73,7 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
                                         FirebaseUser currentUser = createAccountAuth.getCurrentUser();
                                         if (currentUser != null) {
                                             String uid = currentUser.getUid();
-                                            UsersOrganization userOrg = new UsersOrganization(nameOrg, emailOrg, phoneNumberOrg, addressOrg, passwordOrg);
+                                            UsersOrganization userOrg = new UsersOrganization(nameOrg, emailOrg, phoneNumberOrg, addressOrg);
                                             database = FirebaseDatabase.getInstance();
                                             reference = database.getReference("organization_users");
                                             reference.child(uid).setValue(userOrg).addOnCompleteListener(new OnCompleteListener<Void>() {

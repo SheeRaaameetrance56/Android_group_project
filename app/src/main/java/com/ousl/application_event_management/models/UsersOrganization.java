@@ -7,12 +7,11 @@ public class UsersOrganization {
     public UsersOrganization() {
     }
 
-    public UsersOrganization(String nameOrg, String emailOrg, String phoneNumberOrg, String addressOrg, String passwordOrg) {
+    public UsersOrganization(String nameOrg, String emailOrg, String phoneNumberOrg, String addressOrg) {
         this.nameOrg = nameOrg;
         this.emailOrg = emailOrg;
         this.phoneNumberOrg = phoneNumberOrg;
         this.addressOrg = addressOrg;
-        this.passwordOrg = passwordOrg;
     }
 
     public UsersOrganization(String emailOrg, String passwordOrg) {
@@ -50,13 +49,5 @@ public class UsersOrganization {
 
     public void setAddressOrg(String addressOrg) {
         this.addressOrg = addressOrg;
-    }
-
-    public String getPasswordOrg() {
-        return passwordOrg;
-    }
-
-    public void setPasswordOrg(String passwordOrg) {
-        this.passwordOrg = passwordOrg;
     }
 }
