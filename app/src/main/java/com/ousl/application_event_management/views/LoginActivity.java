@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this, "Failed to send password reset email: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Failed to send password reset email: " + email, Toast.LENGTH_SHORT).show();
                             }
                         });
             }
