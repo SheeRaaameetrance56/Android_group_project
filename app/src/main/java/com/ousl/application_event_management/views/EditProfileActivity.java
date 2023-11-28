@@ -10,13 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.databinding.ActivityEditProfileBinding;
+
+import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -25,6 +33,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private Button editButton, cancelButton;
     private DatabaseReference reference;
     private FirebaseAuth authProfile;
+    private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,12 @@ public class EditProfileActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editDatabaseDetails();
+                try {
+                    editDatabaseDetails();
+                    editAuthenticationDetails();
+                }catch (Exception e){
+                    Toast.makeText(EditProfileActivity.this, "Error. Suggest re-authenticate.", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -102,6 +116,15 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void editAuthenticationDetails(){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        user.updateEmail(email.getText().toString());
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(user.getEmail()), currentPassword.getText().toString());
+        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                user.updatePassword(newPassword.getText().toString());
+            }
+        });
 
     }
 
