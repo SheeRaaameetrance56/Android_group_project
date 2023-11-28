@@ -6,18 +6,16 @@ public class Users {
     public Users(){
     }
 
-    public Users(String name, String profilePicture, String email, String phoneNo, String password) {
+    public Users(String name, String profilePicture, String email, String phoneNo) {
         this.name = name;
         this.profilePicture = profilePicture;
         this.email = email;
         this.phoneNo = phoneNo;
-        this.password = password;
     }
 
-    public Users(String name ,String email, String password, String phoneNo) {
+    public Users(String name ,String email, String phoneNo) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.phoneNo = phoneNo;
     }
 
@@ -51,14 +49,6 @@ public class Users {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override

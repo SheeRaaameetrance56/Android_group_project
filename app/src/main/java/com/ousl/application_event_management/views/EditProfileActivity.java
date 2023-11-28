@@ -96,23 +96,6 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.child("name").setValue(newName);
         reference.child("phoneNo").setValue(newPhone);
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String currentPass = snapshot.child("password").toString();
-                if(currentPass.equals(currentPassword.getText().toString())){
-                    reference.child("password").setValue(newPassword.getText().toString());
-                }
-                else{
-                    Toast.makeText(EditProfileActivity.this, "Please enter current password on current password field.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     public void editAuthenticationDetails(){

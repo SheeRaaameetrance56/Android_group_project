@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +32,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private ProgressDialog progressDialog;
     private Button navigation_sign_organization;
-    private String name, email, password, phoneNo;
+    private String name, email,  phoneNo;
+    private EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +49,17 @@ public class CreateAccountActivity extends AppCompatActivity {
                 // get text on text inputs input by the user
                 name = binding.inputCreateName.getText().toString();
                 email = binding.inputCreateEmail.getText().toString();
-                password = binding.inputCreatePassword.getText().toString();
+                password = binding.inputCreatePassword;
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
 
                 createAccountAuth = FirebaseAuth.getInstance();
                 firebaseUser = createAccountAuth.getCurrentUser();
 
                 // validation conditions.
-                if(!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !phoneNo.isEmpty()) {
-                    firebaseUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            createAccountTask(name, email, password, phoneNo);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CreateAccountActivity.this, "Cannot send verification code. Please enter a valid email.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
+
+                    createAccountTask(name, email, password.toString(), phoneNo);
+
                 }
                 else{
                     Toast.makeText(CreateAccountActivity.this, "All Fields must required for create an account", Toast.LENGTH_SHORT).show();
@@ -94,17 +88,18 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         createAccountAuth = FirebaseAuth.getInstance();
+        firebaseUser = createAccountAuth.getCurrentUser();
         createAccountAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         // If successful authentication created.
                         if (task.isSuccessful()) {
-                            // save authentication details on realtime database.
+                        // save authentication details on realtime database.
                             FirebaseUser currentUser = createAccountAuth.getCurrentUser();
                             if (currentUser != null) {
                                 String uid = currentUser.getUid();
-                                Users user = new Users(name, email, password, phoneNo);
+                                Users user = new Users(name, email, phoneNo);
                                 database = FirebaseDatabase.getInstance();
                                 reference = database.getReference("users");
                                 reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -114,8 +109,21 @@ public class CreateAccountActivity extends AppCompatActivity {
                                         Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
                                         binding.inputCreateName.setText("");
                                         binding.inputCreateEmail.setText("");
-                                        binding.inputCreatePassword.setText("");
                                         binding.inputCreatePhoneNo.setText("");
+
+                                        if(firebaseUser != null){
+                                            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Toast.makeText(CreateAccountActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }
                                     }
                                 });
                             }
@@ -126,6 +134,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                     }
                 });
+
     }
 
 }
