@@ -3,9 +3,13 @@ package com.ousl.application_event_management.views.fragments;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -20,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.views.EventDisplay;
-import com.ousl.application_event_management.views.adapters.MyEventsAdapter;
 import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
@@ -32,19 +35,21 @@ public class HomeFragment extends Fragment {
     private PublicEventAdapter publicEventAdapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
+    RecyclerView recyclerView ;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         publicEventAdapter = new PublicEventAdapter(getActivity());
-        MyEventsAdapter myEventsAdapter = new MyEventsAdapter(getActivity());
 
         binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),3));
+
+        recyclerView =binding.publicEventRecycler;
+
+        EditText searchText = binding.Search;
+
         getPublicEvents();
-//        getMyEvents();
-//        binding.publicEventRecycler.setAdapter(publicEventAdapter);
-//        binding.myEventRecycler.setAdapter(myEventsAdapter);
 
         publicEventAdapter = new PublicEventAdapter(getActivity());
         publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
@@ -59,12 +64,27 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                publicEventAdapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return root;
     }
 
     public void getPublicEvents() {
-
-        RecyclerView recyclerView = binding.publicEventRecycler;
 
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,7 +111,6 @@ public class HomeFragment extends Fragment {
                     });
                 }
                 recyclerView.setAdapter(publicEventAdapter);
-                publicEventAdapter.notifyDataSetChanged();
 
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setItemViewCacheSize(10);
