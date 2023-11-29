@@ -8,7 +8,7 @@
     android:backgroundTint="@color/white"
     android:padding="5dp"
     app:cardCornerRadius="10dp"
-    app:cardElevation="4dp">
+    app:cardElevation="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/card_view_image"
             android:layout_width="match_parent"
-            android:layout_height="101dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
