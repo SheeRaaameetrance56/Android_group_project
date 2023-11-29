@@ -89,6 +89,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         createAccountAuth = FirebaseAuth.getInstance();
         firebaseUser = createAccountAuth.getCurrentUser();
+
         createAccountAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

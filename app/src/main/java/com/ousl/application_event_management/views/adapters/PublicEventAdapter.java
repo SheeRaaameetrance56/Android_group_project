@@ -27,12 +27,14 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
 
     private Context context;
     private List<PublicEvent> publicEventList;
+    private List<PublicEvent> filteredList;
     private OnItemClickListener onItemClickListener;
 
 
     public PublicEventAdapter(Context context){
         this.context = context;
-        publicEventList = new ArrayList<>();
+        this.publicEventList = new ArrayList<>();
+        this.filteredList = new ArrayList<>();
     }
 
     public void addEvent(PublicEvent publicEvent){
@@ -106,5 +108,30 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         return publicEventList.size();
     }
 
+    public List<PublicEvent> getPublicEventList() {
+        return publicEventList;
+    }
+
+    public void filter(String query) {
+        query = query.toLowerCase().trim();
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            filteredList.addAll(publicEventList);
+        } else {
+            for (PublicEvent event : publicEventList) {
+                if (event.getTitle().toLowerCase().contains(query)) {
+                    filteredList.add(event);
+                }
+            }
+        }
+        notifyDataSetChanged();
+        filteredList.clear();
+        filteredList.addAll(publicEventList);
+        filteredList.removeAll(publicEventList); // Remove matched items from the main list
+        filteredList.addAll(filteredList); // Add matched items at the bottom
+
+        notifyDataSetChanged();
+    }
 
 }
