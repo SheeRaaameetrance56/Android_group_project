@@ -112,46 +112,49 @@ public class PrivateEventEntry extends AppCompatActivity {
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title = binding.priEventTitle.getText().toString();
-                description = binding.priEventDescription.getText().toString();
-                venue = binding.priEventVenue.getText().toString();
-                date = binding.priEventDate.getText().toString();
-                time = binding.priEventTime.getText().toString();
-                limitations = binding.priEventLimitations.getText().toString();
-
-                FirebaseUser currentUser = auth.getCurrentUser();
-                String uID = currentUser.getUid();
-                DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
-
-                String userId = currentUser.getUid();
-                String eventId = userEventReference.getKey();
-
-                PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
-
-                userEventReference.setValue(privateEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            binding.priEventTitle.setText("");
-                            binding.priEventDescription.setText("");
-                            binding.priEventVenue.setText("");
-                            binding.priEventDate.setText("");
-                            binding.priEventTime.setText("");
-                            binding.priEventLimitations.setText("");
-                            Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else{
-                            Toast.makeText(PrivateEventEntry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
+                privateEventPublish();
             }
         });
-
     }
+
+    public void privateEventPublish(){
+        title = binding.priEventTitle.getText().toString();
+        description = binding.priEventDescription.getText().toString();
+        venue = binding.priEventVenue.getText().toString();
+        date = binding.priEventDate.getText().toString();
+        time = binding.priEventTime.getText().toString();
+        limitations = binding.priEventLimitations.getText().toString();
+
+        FirebaseUser currentUser = auth.getCurrentUser();
+        String uID = currentUser.getUid();
+        DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
+
+        String userId = currentUser.getUid();
+        String eventId = userEventReference.getKey();
+
+        PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
+
+        userEventReference.setValue(privateEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    binding.priEventTitle.setText("");
+                    binding.priEventDescription.setText("");
+                    binding.priEventVenue.setText("");
+                    binding.priEventDate.setText("");
+                    binding.priEventTime.setText("");
+                    binding.priEventLimitations.setText("");
+                    Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else{
+                    Toast.makeText(PrivateEventEntry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 }
