@@ -47,8 +47,6 @@ public class HomeFragment extends Fragment {
 
         recyclerView =binding.publicEventRecycler;
 
-        EditText searchText = binding.Search;
-
         getPublicEvents();
 
         publicEventAdapter = new PublicEventAdapter(getActivity());
@@ -61,23 +59,6 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("IS_PUBLIC_EVENT", true);
                 intent.putExtra("PUBLIC_EVENT", String.valueOf(event));
                 startActivity(intent);
-            }
-        });
-
-        searchText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                publicEventAdapter.filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 

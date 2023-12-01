@@ -23,16 +23,17 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.MyViewHolder>{
-
+public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.MyViewHolder>{
     private Context context;
     private List<PublicEvent> publicEventList;
-    private OnItemClickListener onItemClickListener;
+    private List<PublicEvent> filteredList;
+    private PublicEventAdapter.OnItemClickListener onItemClickListener;
 
 
-    public PublicEventAdapter(Context context){
+    public SearchViewAdapter(Context context){
         this.context = context;
         this.publicEventList = new ArrayList<>();
+        this.filteredList = new ArrayList<>();
     }
 
     public void addEvent(PublicEvent publicEvent){
@@ -45,7 +46,7 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         void onItemClick(PublicEvent event, String eventId, String userId);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(PublicEventAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
 
     }
@@ -71,13 +72,13 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_view, parent, false);
-        return new MyViewHolder(view);
+        return new SearchViewAdapter.MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchViewAdapter.MyViewHolder holder, int position) {
         PublicEvent publicEvent = publicEventList.get(position);
         holder.title.setText(publicEvent.getTitle());
         holder.date.setText(publicEvent.getDate());
@@ -106,4 +107,23 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         return publicEventList.size();
     }
 
+    public List<PublicEvent> getPublicEventList() {
+        return publicEventList;
+    }
+
+    public void filter(String query) {
+        query = query.toLowerCase().trim();
+        filteredList.clear();
+
+        if (query.isEmpty()) {
+            filteredList.addAll(publicEventList);
+        } else {
+            for (PublicEvent event : publicEventList) {
+                if (event.getTitle().toLowerCase().trim().contains(query)) {
+                    filteredList.add(event);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 }

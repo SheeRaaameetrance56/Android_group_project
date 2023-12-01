@@ -96,12 +96,16 @@ public class DashboardActivity extends AppCompatActivity {
         if(id == R.id.toolbar_menu_profile){
             startActivity(new Intent(DashboardActivity.this, ProfileViewActivity.class));
         }
+        if(id == R.id.toolbar_menu_search){
+            startActivity(new Intent(DashboardActivity.this, SearchViewActivity.class));
+        }
         if(id == R.id.dropdown_menu_log_out){
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signOut();
             startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
             finish();
         }
+
         return true;
     }
 }
