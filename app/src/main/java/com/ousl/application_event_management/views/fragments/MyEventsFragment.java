@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ public class MyEventsFragment extends Fragment {
         View root = binding.getRoot();
 
         privateEventAdapter = new PrivateEventAdapter(requireContext());
-        binding.listedPrivateEvents.setLayoutManager(new GridLayoutManager(requireContext(),3));
+        binding.listedPrivateEvents.setLayoutManager(new LinearLayoutManager(requireContext()));
         getPrivateEvents();
 
         privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
