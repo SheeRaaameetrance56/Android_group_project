@@ -8,11 +8,6 @@
         android:title="Profile"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/toolbar_menu_search"
-        android:icon="@drawable/baseline_search_24"
-        android:title="Search"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/dropdown_menu_log_out"
         android:title="Log in as a new user"
         app:actionViewClass="android.widget.SearchView" />

@@ -8,14 +8,37 @@
     android:layout_marginTop="15dp"
     tools:context=".views.fragments.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/public_event_recycler"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/Search"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:autofillHints=""
+            android:background="@drawable/input_text_field_style"
+            android:elevation="10dp"
+            android:ems="10"
+            android:hint="@android:string/search_go"
+            android:inputType="text"
+            android:padding="10dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="VisualLintTextFieldSize" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/public_event_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
