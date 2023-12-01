@@ -106,4 +106,10 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         return publicEventList.size();
     }
 
+    public void searchedDataList(ArrayList<PublicEvent> searchList){
+        publicEventList = searchList;
+        notifyDataSetChanged();
+        
+    }
+
 }
