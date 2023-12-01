@@ -3,6 +3,7 @@ package com.ousl.application_event_management.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -37,7 +38,7 @@ public class ListedEventsActivity extends AppCompatActivity {
         privateEventAdapter = new PrivateEventAdapter(this);
 
         binding.publicEvents.setLayoutManager(new GridLayoutManager(this,3));
-        binding.privateEvents.setLayoutManager(new GridLayoutManager(this,3));
+        binding.privateEvents.setLayoutManager(new LinearLayoutManager(this));
 
         getPublicEvents();
         getPrivateEvents();

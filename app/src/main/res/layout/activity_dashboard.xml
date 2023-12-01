@@ -7,27 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".views.DashboardActivity">
 
-  <com.google.android.material.tabs.TabLayout
-      android:id="@+id/tab_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="-20dp"
-      android:background="@color/purple_200"
-      app:tabGravity="fill"
-      app:tabIndicator="@color/white"
-      app:tabMaxWidth="0dp"
-      app:tabMode="fixed"
-      app:tabSelectedTextColor="@color/white"
-      app:tabTextColor="@color/white"
-      app:layout_constraintBottom_toTopOf="@id/view_pager"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/toolbar_dashboard"
-       >
-
-
-  </com.google.android.material.tabs.TabLayout>
-
   <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar_dashboard"
       android:layout_width="match_parent"
@@ -41,15 +20,37 @@
       app:title="@string/dashboard"
       app:titleMarginStart="15dp" />
 
-  <androidx.viewpager.widget.ViewPager
-      android:id="@+id/view_pager"
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="700dp"
-      android:layout_margin="5dp"
+      android:layout_height="0dp"
+      android:orientation="vertical"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+      app:layout_constraintTop_toBottomOf="@id/toolbar_dashboard">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_200"
+        app:tabGravity="fill"
+        app:tabIndicator="@color/white"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white">
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp" />
+
+  </LinearLayout>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/main_action_button"

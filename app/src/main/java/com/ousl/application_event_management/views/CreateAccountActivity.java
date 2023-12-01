@@ -58,7 +58,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 // validation conditions.
                 if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
 
-                    createAccountTask(name, email, password.toString(), phoneNo);
+                    createAccountTask(name, email, password.getText().toString(), phoneNo);
 
                 }
                 else{

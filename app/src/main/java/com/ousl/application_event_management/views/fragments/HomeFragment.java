@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,9 @@ import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeFragment extends Fragment {
 
@@ -35,23 +39,23 @@ public class HomeFragment extends Fragment {
     private PublicEventAdapter publicEventAdapter;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
-    RecyclerView recyclerView ;
+    private RecyclerView recyclerView ;
+    private androidx.appcompat.widget.SearchView searchView;
+    private List<PublicEvent> publicEventList;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         publicEventAdapter = new PublicEventAdapter(getActivity());
+        searchView = binding.searchView;
+        searchView.clearFocus();
+        publicEventList = new ArrayList<>();
 
         binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),3));
-
         recyclerView =binding.publicEventRecycler;
-
-        EditText searchText = binding.Search;
-
         getPublicEvents();
 
-        publicEventAdapter = new PublicEventAdapter(getActivity());
         publicEventAdapter.setOnItemClickListener(new PublicEventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PublicEvent event, String eventId, String userId) {
@@ -64,20 +68,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        searchText.addTextChangedListener(new TextWatcher() {
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                publicEventAdapter.filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return true;
             }
         });
 
@@ -85,11 +85,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void getPublicEvents() {
-
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot usersSnapshot) {
+                publicEventList.clear();
                 for (DataSnapshot userSnapshot : usersSnapshot.getChildren()) {
                     DatabaseReference eventsRef = userSnapshot.getRef();
                     eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -98,31 +98,38 @@ public class HomeFragment extends Fragment {
                             for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
                                 PublicEvent event = eventSnapshot.getValue(PublicEvent.class);
                                 publicEventAdapter.addEvent(event);
+                                publicEventList.add(event);
                             }
+                            recyclerView.setAdapter(publicEventAdapter);
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setMessage("Please Check on the Mobile Connection or WIFI")
-                                    .setTitle("Connection Error");
-                            AlertDialog dialog = builder.create();
+                            // Handle onCancelled
                         }
                     });
                 }
-                recyclerView.setAdapter(publicEventAdapter);
-
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setItemViewCacheSize(10);
-                recyclerView.setDrawingCacheEnabled(true);
-                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle errors
+                // Handle onCancelled
             }
         });
+    }
+
+    public void searchList(String text){
+        ArrayList<PublicEvent> searchList = new ArrayList<>();
+        if (!text.isEmpty()) {
+            for (PublicEvent publicEvent : publicEventList) {
+                if (publicEvent.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                    searchList.add(publicEvent);
+                }
+            }
+        } else {
+            searchList.addAll(publicEventList);
+        }
+        publicEventAdapter.searchedDataList(searchList);
     }
 
     @Override

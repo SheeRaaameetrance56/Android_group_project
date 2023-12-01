@@ -8,40 +8,31 @@
     android:layout_marginTop="15dp"
     tools:context=".views.fragments.HomeFragment">
 
-    <EditText
-        android:id="@+id/Search"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:layout_marginTop="100dp"
-        android:autofillHints=""
-        android:background="@drawable/input_text_field_style"
-        android:elevation="10dp"
-        android:ems="10"
-        android:hint="@android:string/search_go"
-        android:inputType="text"
-        android:padding="10dp"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toTopOf="@+id/public_event_recycler"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="VisualLintTextFieldSize" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/public_event_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:layout_marginTop="-5dp"
-        android:layout_marginBottom="-5dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Search" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:elevation="5dp"
+            android:focusable="false"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/public_event_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
