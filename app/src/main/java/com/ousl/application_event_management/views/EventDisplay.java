@@ -114,7 +114,7 @@ public class EventDisplay extends AppCompatActivity {
     public void privateEventDisplay(String userId, String eventID){
         binding.eventDisplayImage.setVisibility(View.INVISIBLE);
         if (eventID != null) {
-            DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventID);
+            DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventID);
             eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
