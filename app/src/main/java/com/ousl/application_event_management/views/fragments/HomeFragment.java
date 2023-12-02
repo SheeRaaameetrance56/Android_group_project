@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getPublicEvents() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_event");
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot usersSnapshot) {
