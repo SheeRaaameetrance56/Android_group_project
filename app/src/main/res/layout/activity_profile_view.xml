@@ -24,10 +24,9 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="194dp"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/profile_edit_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_dashboard">
@@ -88,40 +87,59 @@
             android:text="@string/phone_number"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/joined"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/profile_joined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="50dp"
+            android:text="@string/joined"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/profile_listed_event_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/listed_events"
+            android:textAlignment="textStart"
+            android:textColor="@color/grey" />
+
+        <Button
+            android:id="@+id/profile_edit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/change_settings"
+            android:textAlignment="textStart"
+            android:textColor="@color/grey"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/profile_logout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/log_out"
+            android:textAlignment="textStart"
+            android:textColor="@color/grey" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/profile_listed_event_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/listed_events"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_edit_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profile_edit_btn"
-        app:layout_constraintTop_toTopOf="@+id/profile_edit_btn" />
-
-    <Button
-        android:id="@+id/profile_edit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/change_settings"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile_listed_event_button"
-        app:layout_constraintStart_toEndOf="@+id/profile_logout_btn"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:ignore="TextContrastCheck" />
-
-    <Button
-        android:id="@+id/profile_logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/log_out"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_edit_btn"
-        app:layout_constraintEnd_toStartOf="@+id/profile_edit_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profile_edit_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
