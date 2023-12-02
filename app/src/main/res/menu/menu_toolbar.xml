@@ -11,5 +11,9 @@
         android:id="@+id/dropdown_menu_log_out"
         android:title="Log in as a new user"
         app:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/dropdown_menu_about"
+        android:title="About"
+        app:actionViewClass="android.widget.SearchView" />
 
 </menu>

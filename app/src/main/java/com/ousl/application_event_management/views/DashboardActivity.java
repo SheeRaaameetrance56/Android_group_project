@@ -102,7 +102,9 @@ public class DashboardActivity extends AppCompatActivity {
             startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
             finish();
         }
-
+        if(id == R.id.dropdown_menu_about){
+            startActivity(new Intent(DashboardActivity.this, AboutUsActivity.class));
+        }
         return true;
     }
 }
