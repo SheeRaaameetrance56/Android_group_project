@@ -180,7 +180,7 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void loadPrivateEventDetails(String userId, String eventId){
-        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -243,7 +243,7 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void editPrivateEvent(String userId, String eventId){
-        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
 
         reference.child("title").setValue(title.getText().toString());
         reference.child("description").setValue(description.getText().toString());
@@ -310,7 +310,7 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     private void deletePrivateEvent(String userId, String eventId) {
-        reference = FirebaseDatabase.getInstance().getReference().child("private_events").child(userId).child(eventId);
+        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

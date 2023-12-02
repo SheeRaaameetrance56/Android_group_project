@@ -45,7 +45,7 @@ public class PrivateEventShowActivity extends AppCompatActivity {
         String currentUserId = auth.getCurrentUser().getUid();
 
         // Assuming you want to retrieve the last entered event dynamically
-        DatabaseReference eventsRef = database.getReference("private_events").child(currentUserId);
+        DatabaseReference eventsRef = database.getReference("private_event").child(currentUserId);
         eventsRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

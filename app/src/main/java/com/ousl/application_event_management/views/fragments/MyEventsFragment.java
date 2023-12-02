@@ -64,7 +64,7 @@ public class MyEventsFragment extends Fragment {
 
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("private_events").child(currentUserId);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("private_event").child(currentUserId);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

@@ -127,7 +127,7 @@ public class PrivateEventEntry extends AppCompatActivity {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         String uID = currentUser.getUid();
-        DatabaseReference userEventReference = reference.child("private_events").child(uID).push();
+        DatabaseReference userEventReference = reference.child("private_event").child(uID).push();
 
         String userId = currentUser.getUid();
         String eventId = userEventReference.getKey();
