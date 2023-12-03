@@ -36,6 +36,7 @@ public class PrivateEventEntry extends AppCompatActivity {
     private ActivityIndividualEventEntryBinding binding;
     private String title, description, venue, date, time, limitations;
     private DatabaseReference reference;
+    DataBaseManager firebaseDBManager;
     private FirebaseAuth auth;
 
     @Override
@@ -44,7 +45,7 @@ public class PrivateEventEntry extends AppCompatActivity {
         binding = ActivityIndividualEventEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        DataBaseManager firebaseDBManager = DataBaseManager.getInstance();
+        firebaseDBManager = DataBaseManager.getInstance();
         reference = firebaseDBManager.getReference();
         auth = FirebaseAuth.getInstance();
 
@@ -127,7 +128,7 @@ public class PrivateEventEntry extends AppCompatActivity {
 
         FirebaseUser currentUser = auth.getCurrentUser();
         String uID = currentUser.getUid();
-        DatabaseReference userEventReference = reference.child("private_event").child(uID).push();
+        DatabaseReference userEventReference = firebaseDBManager.getReferencePrivateEvent().child(uID).push();
 
         String userId = currentUser.getUid();
         String eventId = userEventReference.getKey();
