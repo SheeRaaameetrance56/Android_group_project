@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityPrivateEventShowBinding;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.databinding.ActivityPublicEventShowBinding;
@@ -45,7 +46,8 @@ public class PrivateEventShowActivity extends AppCompatActivity {
         String currentUserId = auth.getCurrentUser().getUid();
 
         // Assuming you want to retrieve the last entered event dynamically
-        DatabaseReference eventsRef = database.getReference("private_event").child(currentUserId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        DatabaseReference eventsRef = dataBaseManager.getReferencePrivateEvent().child(currentUserId);
         eventsRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
