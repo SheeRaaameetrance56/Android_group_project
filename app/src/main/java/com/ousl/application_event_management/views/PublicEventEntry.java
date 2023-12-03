@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 
@@ -40,14 +41,13 @@ import java.util.Date;
 
 public class PublicEventEntry extends AppCompatActivity {
 
-    ActivityPublicEventEntryBinding binding;
-    FirebaseDatabase database;
-    FirebaseAuth auth;
-    DatabaseReference reference;
-    StorageReference storageReference;
-    FirebaseStorage storage;
+    private ActivityPublicEventEntryBinding binding;
+    private DataBaseManager dataBaseManager;
+    private FirebaseAuth auth;
+    private StorageReference storageReference;
+    private FirebaseStorage storage;
     private String userId, eventId, title, description, venue, limitations, dateStr, timeStr, imageUrl, imageName;
-    Uri imageUri;
+    private Uri imageUri;
     private static final int SELECT_IMAGE = 100;
     PublicEvent publicEvent = new PublicEvent();
 
@@ -58,9 +58,8 @@ public class PublicEventEntry extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Initialize Firebase
-        database = FirebaseDatabase.getInstance();
+        dataBaseManager = DataBaseManager.getInstance();
         auth = FirebaseAuth.getInstance();
-        reference = database.getReference(); // Get the root reference
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -169,7 +168,7 @@ public class PublicEventEntry extends AppCompatActivity {
             timeStr = binding.pubEventTime.getText().toString();
 
             // Create a new event with a unique key under the user's node
-            DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();
+            DatabaseReference userEventsReference = dataBaseManager.getReferencePublicEvent().child(uid).push();
 
             publicEvent.setTimestamp(System.currentTimeMillis());
 //            if (imageUri != null) {
