@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityIndividualEventEntryBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
 
@@ -44,9 +45,9 @@ public class PrivateEventEntry extends AppCompatActivity {
         binding = ActivityIndividualEventEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        database = FirebaseDatabase.getInstance();
+        DataBaseManager firebaseDBManager = DataBaseManager.getInstance();
+        reference = firebaseDBManager.getReference();
         auth = FirebaseAuth.getInstance();
-        reference = database.getReference();
 
         binding.priEventDate.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
