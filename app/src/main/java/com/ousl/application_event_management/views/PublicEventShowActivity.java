@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityPublicEventShowBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
@@ -31,7 +32,6 @@ public class PublicEventShowActivity extends AppCompatActivity {
     TextView title, description, venue, date, time, limitations;
     String userId, eventId, imageName;
     ImageView imageView;
-    FirebaseDatabase database;
     FirebaseAuth auth;
 
     @Override
@@ -48,14 +48,13 @@ public class PublicEventShowActivity extends AppCompatActivity {
         limitations = binding.publicEventLimitationView;
         imageView = binding.publicEventBannerView;
 
-        database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
         // Get the current user's UID
         String currentUserId = auth.getCurrentUser().getUid();
 
-        // retrieve the last entered event dynamically
-        DatabaseReference eventsRef = database.getReference("public_events").child(currentUserId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        DatabaseReference eventsRef = dataBaseManager.getReferencePublicEvent().child(currentUserId);
         eventsRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
