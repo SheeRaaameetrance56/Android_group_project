@@ -36,7 +36,6 @@ public class PrivateEventEntry extends AppCompatActivity {
     private ActivityIndividualEventEntryBinding binding;
     private String title, description, venue, date, time, limitations;
     private DatabaseReference reference;
-    private FirebaseDatabase database;
     private FirebaseAuth auth;
 
     @Override
