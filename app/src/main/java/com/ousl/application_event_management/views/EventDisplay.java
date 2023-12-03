@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ousl.application_event_management.R;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityEventDisplayBinding;
 import com.ousl.application_event_management.databinding.ActivityPublicEventEntryBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
@@ -63,7 +64,8 @@ public class EventDisplay extends AppCompatActivity {
 
     public void publicEventDisplay(String userId, String eventID){
         if (eventID != null) {
-            DatabaseReference eventRef= FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventID);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference eventRef= dataBaseManager.getReferencePublicEvent().child(userId).child(eventID);
             eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -114,7 +116,8 @@ public class EventDisplay extends AppCompatActivity {
     public void privateEventDisplay(String userId, String eventID){
         binding.eventDisplayImage.setVisibility(View.INVISIBLE);
         if (eventID != null) {
-            DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventID);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference eventRef = dataBaseManager.getReferencePrivateEvent().child(userId).child(eventID);
             eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
