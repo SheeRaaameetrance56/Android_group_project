@@ -23,4 +23,20 @@ public class DataBaseManager {
     public DatabaseReference getReference() {
         return reference;
     }
+
+    public DatabaseReference getReferenceUser(){
+        return database.getReference("users");
+    }
+
+    public DatabaseReference getReferenceOrgUser(){
+        return database.getReference("organization_users");
+    }
+
+    public DatabaseReference getReferencePublicEvent(){
+        return database.getReference("public_events");
+    }
+
+    public DatabaseReference getReferencePrivateEvent(){
+        return database.getReference("private_event");
+    }
 }
