@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.FragmentMyEventsBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
 import com.ousl.application_event_management.views.EventDisplay;
@@ -64,7 +65,8 @@ public class MyEventsFragment extends Fragment {
 
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("private_event").child(currentUserId);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference reference = dataBaseManager.getReferencePrivateEvent().child(currentUserId);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
