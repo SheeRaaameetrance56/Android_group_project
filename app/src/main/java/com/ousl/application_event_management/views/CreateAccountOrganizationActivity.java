@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityCreateAccountBinding;
 import com.ousl.application_event_management.databinding.ActivityCreateAccountOrganizationBinding;
 import com.ousl.application_event_management.models.UsersOrganization;
@@ -23,7 +25,6 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
 
     ActivityCreateAccountOrganizationBinding binding;
     private FirebaseAuth createAccountAuth;
-    FirebaseDatabase database;
     DatabaseReference reference;
 
     ProgressDialog progressDialog;
@@ -39,7 +40,6 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
 
         // Firebase authentication and realtime database initiate
         createAccountAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         // Progress dialog shows progress while creating account
         progressDialog = new ProgressDialog(CreateAccountOrganizationActivity.this);
@@ -60,7 +60,6 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
                 // validation conditions.
                 if(!nameOrg.isEmpty() && !emailOrg.isEmpty() && !addressOrg.isEmpty() &&!passwordOrg.isEmpty() && !phoneNumberOrg.isEmpty()) {
                     progressDialog.show();
-
                     // creating google authentication and task performing on complete
                     createAccountAuth.createUserWithEmailAndPassword(emailOrg, passwordOrg)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -74,8 +73,8 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
                                         if (currentUser != null) {
                                             String uid = currentUser.getUid();
                                             UsersOrganization userOrg = new UsersOrganization(nameOrg, emailOrg, phoneNumberOrg, addressOrg);
-                                            database = FirebaseDatabase.getInstance();
-                                            reference = database.getReference("organization_users");
+                                            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+                                            reference = dataBaseManager.getReferenceOrgUser();
                                             reference.child(uid).setValue(userOrg).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
