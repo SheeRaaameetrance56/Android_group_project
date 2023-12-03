@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityCreateAccountBinding;
 import com.ousl.application_event_management.models.Users;
 
@@ -28,7 +29,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private ActivityCreateAccountBinding binding;
     private FirebaseAuth createAccountAuth;
     private FirebaseUser firebaseUser;
-    private FirebaseDatabase database;
     private DatabaseReference reference;
     private ProgressDialog progressDialog;
     private Button navigation_sign_organization;
@@ -86,7 +86,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         // creating google authentication and task performing on complete
         progressDialog.show();
 
-        database = FirebaseDatabase.getInstance();
         createAccountAuth = FirebaseAuth.getInstance();
         firebaseUser = createAccountAuth.getCurrentUser();
 
@@ -101,8 +100,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                             if (currentUser != null) {
                                 String uid = currentUser.getUid();
                                 Users user = new Users(name, email, phoneNo);
-                                database = FirebaseDatabase.getInstance();
-                                reference = database.getReference("users");
+                                DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+                                reference = dataBaseManager.getReferenceUser();
                                 reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {

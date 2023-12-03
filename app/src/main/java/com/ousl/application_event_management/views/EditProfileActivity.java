@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityEditProfileBinding;
 
 import java.util.Objects;
@@ -49,7 +50,8 @@ public class EditProfileActivity extends AppCompatActivity {
         cancelButton = binding.editProfileCancelBtn;
 
         authProfile = FirebaseAuth.getInstance();
-        reference = FirebaseDatabase.getInstance().getReference().child("users").child(authProfile.getCurrentUser().getUid());
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferenceUser().child(authProfile.getCurrentUser().getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

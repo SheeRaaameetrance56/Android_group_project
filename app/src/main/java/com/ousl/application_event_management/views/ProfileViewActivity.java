@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityProfileViewBinding;
 
 import java.text.SimpleDateFormat;
@@ -42,7 +43,8 @@ public class ProfileViewActivity extends AppCompatActivity {
 
         FirebaseAuth authProfile = FirebaseAuth.getInstance();
         FirebaseUser currentUser = authProfile.getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(authProfile.getCurrentUser().getUid());
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        DatabaseReference reference = dataBaseManager.getReferenceUser().child(authProfile.getCurrentUser().getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

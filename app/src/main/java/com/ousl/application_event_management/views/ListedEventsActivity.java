@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.views.adapters.PrivateEventAdapter;
 import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.ActivityListedEventsBinding;
@@ -75,7 +76,8 @@ public class ListedEventsActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("public_events").child(currentUserId);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference reference = dataBaseManager.getReferencePublicEvent().child(currentUserId);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -111,7 +113,8 @@ public class ListedEventsActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("private_event").child(currentUserId);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference reference = dataBaseManager.getReferencePrivateEvent().child(currentUserId);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

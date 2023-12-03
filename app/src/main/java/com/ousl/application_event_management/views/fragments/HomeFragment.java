@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.views.EventDisplay;
 import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
@@ -85,7 +86,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void getPublicEvents() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("public_events");
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        DatabaseReference usersRef = dataBaseManager.getReferencePublicEvent();
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot usersSnapshot) {

@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityEditEventBinding;
 import com.ousl.application_event_management.models.PublicEvent;
 import com.squareup.picasso.Picasso;
@@ -135,7 +136,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void loadPublicEventDetails(String userId, String eventId){
-        reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferencePublicEvent().child(userId).child(eventId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -180,7 +182,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void loadPrivateEventDetails(String userId, String eventId){
-        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferencePrivateEvent().child(userId).child(eventId);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -208,8 +211,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void editPublicEvent(String userId, String eventId, Uri uri){
-
-        reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferencePublicEvent().child(userId).child(eventId);
 
         reference.child("title").setValue(title.getText().toString());
         reference.child("description").setValue(description.getText().toString());
@@ -243,7 +246,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     public void editPrivateEvent(String userId, String eventId){
-        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferencePrivateEvent().child(userId).child(eventId);
 
         reference.child("title").setValue(title.getText().toString());
         reference.child("description").setValue(description.getText().toString());
@@ -255,7 +259,8 @@ public class EditEventActivity extends AppCompatActivity {
 
     public void deleteEvent(String userId, String eventId, boolean isPublicEvent){
         if(isPublicEvent){
-            reference = FirebaseDatabase.getInstance().getReference().child("public_events").child(userId).child(eventId);
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            reference = dataBaseManager.getReferencePublicEvent().child(userId).child(eventId);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -310,7 +315,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     private void deletePrivateEvent(String userId, String eventId) {
-        reference = FirebaseDatabase.getInstance().getReference().child("private_event").child(userId).child(eventId);
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        reference = dataBaseManager.getReferencePrivateEvent().child(userId).child(eventId);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
