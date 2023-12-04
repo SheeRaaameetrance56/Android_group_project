@@ -106,12 +106,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
             }
-
-            @Override
-            public void onEmailVerificationFailed() {
-                progressDialog.dismiss();
-                Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
-            }
         });
 
 //        createAccountAuth = FirebaseAuth.getInstance();
