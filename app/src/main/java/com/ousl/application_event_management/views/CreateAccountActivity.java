@@ -20,16 +20,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.ousl.application_event_management.controllers.AuthenticationManager;
 import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityCreateAccountBinding;
 import com.ousl.application_event_management.models.Users;
 
+import org.checkerframework.checker.units.qual.A;
+
 public class CreateAccountActivity extends AppCompatActivity {
 
     private ActivityCreateAccountBinding binding;
-    private FirebaseAuth createAccountAuth;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference reference;
+//    private FirebaseAuth createAccountAuth;
+//    private FirebaseUser firebaseUser;
+//    private DatabaseReference reference;
     private ProgressDialog progressDialog;
     private Button navigation_sign_organization;
     private String name, email,  phoneNo;
@@ -38,24 +41,20 @@ public class CreateAccountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Used view binding for screen connectivity and access.
         binding = ActivityCreateAccountBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // button create account function (Creating an account on database)
         binding.buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get text on text inputs input by the user
                 name = binding.inputCreateName.getText().toString();
                 email = binding.inputCreateEmail.getText().toString();
                 password = binding.inputCreatePassword;
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
 
-                createAccountAuth = FirebaseAuth.getInstance();
-                firebaseUser = createAccountAuth.getCurrentUser();
+//                createAccountAuth = FirebaseAuth.getInstance();
+//                firebaseUser = createAccountAuth.getCurrentUser();
 
-                // validation conditions.
                 if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
 
                     createAccountTask(name, email, password.getText().toString(), phoneNo);
@@ -67,7 +66,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
 
-        // navigate to the organization account creating screen
         navigation_sign_organization = binding.navigationSignOrganization;
         navigation_sign_organization.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,57 +81,86 @@ public class CreateAccountActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(CreateAccountActivity.this);
         progressDialog.setTitle("Creating Account");
         progressDialog.setMessage("We are creating your account");
-        // creating google authentication and task performing on complete
         progressDialog.show();
 
-        createAccountAuth = FirebaseAuth.getInstance();
-        firebaseUser = createAccountAuth.getCurrentUser();
+        AuthenticationManager authManager = AuthenticationManager.getInstance();
+        authManager.createUserWithEmailAndPassword(email, password, name, phoneNo, new AuthenticationManager.AuthenticationListener() {
+            @Override
+            public void onAccountCreated() {
+                progressDialog.dismiss();
+                Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
+                binding.inputCreateName.setText("");
+                binding.inputCreateEmail.setText("");
+                binding.inputCreatePhoneNo.setText("");
+                binding.inputCreatePassword.setText("");
+            }
 
-        createAccountAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If successful authentication created.
-                        if (task.isSuccessful()) {
-                        // save authentication details on realtime database.
-                            FirebaseUser currentUser = createAccountAuth.getCurrentUser();
-                            if (currentUser != null) {
-                                String uid = currentUser.getUid();
-                                Users user = new Users(name, email, phoneNo);
-                                DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-                                reference = dataBaseManager.getReferenceUser();
-                                reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
-                                        binding.inputCreateName.setText("");
-                                        binding.inputCreateEmail.setText("");
-                                        binding.inputCreatePhoneNo.setText("");
+            @Override
+            public void onAccountCreationFailed() {
+                progressDialog.dismiss();
+                Toast.makeText(CreateAccountActivity.this, "Failed to create account.", Toast.LENGTH_SHORT).show();
+            }
 
-                                        if(firebaseUser != null){
-                                            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(CreateAccountActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                        else{
-                            Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+            @Override
+            public void onAuthenticationFailed() {
+                progressDialog.dismiss();
+                Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEmailVerificationFailed() {
+                progressDialog.dismiss();
+                Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//        createAccountAuth = FirebaseAuth.getInstance();
+//        firebaseUser = createAccountAuth.getCurrentUser();
+//
+//        createAccountAuth.createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            FirebaseUser currentUser = createAccountAuth.getCurrentUser();
+//                            if (currentUser != null) {
+//                                String uid = currentUser.getUid();
+//                                Users user = new Users(name, email, phoneNo);
+//
+//                                DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+//                                reference = dataBaseManager.getReferenceUser();
+//                                reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        progressDialog.dismiss();
+//                                        Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
+//                                        binding.inputCreateName.setText("");
+//                                        binding.inputCreateEmail.setText("");
+//                                        binding.inputCreatePhoneNo.setText("");
+//
+//                                        if(firebaseUser != null){
+//                                            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                    Toast.makeText(CreateAccountActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            }).addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//                                                    Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }
+//                        else{
+//                            Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                        }
+//                        progressDialog.dismiss();
+//                    }
+//                });
 
     }
 
