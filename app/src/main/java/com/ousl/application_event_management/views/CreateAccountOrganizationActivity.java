@@ -24,21 +24,17 @@ import com.ousl.application_event_management.models.UsersOrganization;
 
 public class CreateAccountOrganizationActivity extends AppCompatActivity {
 
-    ActivityCreateAccountOrganizationBinding binding;
-    private FirebaseAuth createAccountAuth;
-    DatabaseReference reference;
+    private ActivityCreateAccountOrganizationBinding binding;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
-    String nameOrg, emailOrg, phoneNumberOrg, addressOrg, passwordOrg;
+    private String nameOrg, emailOrg, phoneNumberOrg, addressOrg, passwordOrg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateAccountOrganizationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        createAccountAuth = FirebaseAuth.getInstance();
 
         binding.buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,37 +47,6 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
 
                 if(!nameOrg.isEmpty() && !emailOrg.isEmpty() && !addressOrg.isEmpty() &&!passwordOrg.isEmpty() && !phoneNumberOrg.isEmpty()) {
                     createAccount();
-//                    progressDialog.show();
-//                    // creating google authentication and task performing on complete
-//                    createAccountAuth.createUserWithEmailAndPassword(emailOrg, passwordOrg)
-//                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<AuthResult> task) {
-//                                    // If successful authentication created.
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(CreateAccountOrganizationActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
-//                                        // save authentication details on realtime database.
-//                                        FirebaseUser currentUser = createAccountAuth.getCurrentUser();
-//                                        if (currentUser != null) {
-//                                            String uid = currentUser.getUid();
-//                                            UsersOrganization userOrg = new UsersOrganization(nameOrg, emailOrg, phoneNumberOrg, addressOrg);
-//                                            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-//                                            reference = dataBaseManager.getReferenceOrgUser();
-//                                            reference.child(uid).setValue(userOrg).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<Void> task) {
-//
-//                                                }
-//                                            });
-////                                            database.getReference().child("users").child(uid).setValue(user);
-//                                        }
-//                                    }
-//                                    else{
-//                                        Toast.makeText(CreateAccountOrganizationActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                    progressDialog.dismiss();
-//                                }
-//                            });
                 }
                 else{
                     Toast.makeText(CreateAccountOrganizationActivity.this, "All Fields must required for create an account", Toast.LENGTH_SHORT).show();

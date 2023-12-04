@@ -30,9 +30,7 @@ import org.checkerframework.checker.units.qual.A;
 public class CreateAccountActivity extends AppCompatActivity {
 
     private ActivityCreateAccountBinding binding;
-//    private FirebaseAuth createAccountAuth;
-//    private FirebaseUser firebaseUser;
-//    private DatabaseReference reference;
+
     private ProgressDialog progressDialog;
     private Button navigation_sign_organization;
     private String name, email,  phoneNo;
@@ -51,9 +49,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 email = binding.inputCreateEmail.getText().toString();
                 password = binding.inputCreatePassword;
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
-
-//                createAccountAuth = FirebaseAuth.getInstance();
-//                firebaseUser = createAccountAuth.getCurrentUser();
 
                 if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
 
@@ -88,73 +83,29 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onAccountCreated() {
                 progressDialog.dismiss();
-                Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
                 binding.inputCreateName.setText("");
                 binding.inputCreateEmail.setText("");
                 binding.inputCreatePhoneNo.setText("");
                 binding.inputCreatePassword.setText("");
+                Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAccountCreationFailed() {
                 progressDialog.dismiss();
+                binding.inputCreateName.setText("");
+                binding.inputCreatePhoneNo.setText("");
                 Toast.makeText(CreateAccountActivity.this, "Failed to create account.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAuthenticationFailed() {
                 progressDialog.dismiss();
+                binding.inputCreateName.setText("");
+                binding.inputCreatePhoneNo.setText("");
                 Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
             }
         });
-
-//        createAccountAuth = FirebaseAuth.getInstance();
-//        firebaseUser = createAccountAuth.getCurrentUser();
-//
-//        createAccountAuth.createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            FirebaseUser currentUser = createAccountAuth.getCurrentUser();
-//                            if (currentUser != null) {
-//                                String uid = currentUser.getUid();
-//                                Users user = new Users(name, email, phoneNo);
-//
-//                                DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-//                                reference = dataBaseManager.getReferenceUser();
-//                                reference.child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        progressDialog.dismiss();
-//                                        Toast.makeText(CreateAccountActivity.this, "Account created successfully.", Toast.LENGTH_SHORT).show();
-//                                        binding.inputCreateName.setText("");
-//                                        binding.inputCreateEmail.setText("");
-//                                        binding.inputCreatePhoneNo.setText("");
-//
-//                                        if(firebaseUser != null){
-//                                            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<Void> task) {
-//                                                    Toast.makeText(CreateAccountActivity.this, "Email verification sent", Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            }).addOnFailureListener(new OnFailureListener() {
-//                                                @Override
-//                                                public void onFailure(@NonNull Exception e) {
-//                                                    Toast.makeText(CreateAccountActivity.this, "Failed to send Email verification", Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            });
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        }
-//                        else{
-//                            Toast.makeText(CreateAccountActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                        }
-//                        progressDialog.dismiss();
-//                    }
-//                });
 
     }
 
