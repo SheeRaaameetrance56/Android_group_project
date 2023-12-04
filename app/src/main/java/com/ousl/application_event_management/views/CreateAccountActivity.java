@@ -52,7 +52,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                 if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
 
-                    createAccountTask(name, email, password.getText().toString(), phoneNo);
+                    createAccountTask();
 
                 }
                 else{
@@ -72,14 +72,14 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    public void createAccountTask(String name, String email, String password, String phoneNo){
+    public void createAccountTask(){
         progressDialog = new ProgressDialog(CreateAccountActivity.this);
         progressDialog.setTitle("Creating Account");
         progressDialog.setMessage("We are creating your account");
         progressDialog.show();
 
         AuthenticationManager authManager = AuthenticationManager.getInstance();
-        authManager.createUserWithEmailAndPassword(email, password, name, phoneNo, new AuthenticationManager.AuthenticationListener() {
+        authManager.createUserWithEmailAndPassword(email, password.getText().toString(), name, phoneNo, new AuthenticationManager.AuthenticationListener() {
             @Override
             public void onAccountCreated() {
                 progressDialog.dismiss();
