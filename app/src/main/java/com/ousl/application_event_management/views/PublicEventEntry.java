@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.DatePicker;
@@ -167,6 +168,12 @@ public class PublicEventEntry extends AppCompatActivity {
             limitations = binding.pubEventLimitations.getText().toString();
             dateStr = binding.pubEventDate.getText().toString();
             timeStr = binding.pubEventTime.getText().toString();
+
+            if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || TextUtils.isEmpty(venue) ||
+                    TextUtils.isEmpty(limitations) || TextUtils.isEmpty(dateStr) || TextUtils.isEmpty(timeStr)) {
+                Toast.makeText(PublicEventEntry.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = reference.child("public_events").child(uid).push();

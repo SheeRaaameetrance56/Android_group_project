@@ -38,6 +38,9 @@ public class PrivateEventShowActivity extends AppCompatActivity {
         time = binding.privateEventTimeView;
         limitations = binding.privateEventLimitationView;
 
+        Intent intent = getIntent();
+        String eventId = intent.getStringExtra("eventId");
+
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -74,10 +77,11 @@ public class PrivateEventShowActivity extends AppCompatActivity {
             }
         });
 
-        binding.dashboardButton.setOnClickListener(new View.OnClickListener() {
+        binding.inviteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PrivateEventShowActivity.this, DashboardActivity.class);
+                Intent intent = new Intent(PrivateEventShowActivity.this, Invite.class);
+                intent.putExtra("eventId", eventId);
                 startActivity(intent);
                 finish();
             }

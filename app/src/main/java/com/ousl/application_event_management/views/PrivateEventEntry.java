@@ -9,6 +9,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -101,13 +102,13 @@ public class PrivateEventEntry extends AppCompatActivity {
             }
         });
 
-        binding.priInviteBtn.setOnClickListener(new View.OnClickListener() {
+        /*binding.priInviteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PrivateEventEntry.this, Invite.class));
                 finish();
             }
-        });
+        });*/
 
         binding.priEventPublishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +125,12 @@ public class PrivateEventEntry extends AppCompatActivity {
         date = binding.priEventDate.getText().toString();
         time = binding.priEventTime.getText().toString();
         limitations = binding.priEventLimitations.getText().toString();
+
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(description) || TextUtils.isEmpty(venue) ||
+                TextUtils.isEmpty(date) || TextUtils.isEmpty(time) || TextUtils.isEmpty(limitations)) {
+            Toast.makeText(PrivateEventEntry.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         FirebaseUser currentUser = auth.getCurrentUser();
         String uID = currentUser.getUid();
@@ -147,6 +154,7 @@ public class PrivateEventEntry extends AppCompatActivity {
                     Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
+                    intent.putExtra("eventId", eventId);
                     startActivity(intent);
                     finish();
                 }

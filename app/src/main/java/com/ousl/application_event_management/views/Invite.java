@@ -3,6 +3,7 @@ package com.ousl.application_event_management.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,9 @@ import java.util.List;
 public class Invite extends AppCompatActivity {
 
     ListView usersListView;
+
+    ArrayList<String> invitedUserEmails = new ArrayList<>();
+
     Button sendInvitationButton;
 
     FirebaseAuth auth;
@@ -39,11 +43,16 @@ public class Invite extends AppCompatActivity {
 
     ArrayList<Users> userList;
     ArrayAdapter<Users> adapter;
+    String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+
+        Intent intent = getIntent();
+        eventId = intent.getStringExtra("eventId");
+
 
         usersListView = findViewById(R.id.userlistview);
         sendInvitationButton = findViewById(R.id.sendinvitationbtn);
@@ -89,9 +98,8 @@ public class Invite extends AppCompatActivity {
         });
     }
 
-
-
-    private void sendInvitations() {
+/*
+ private void sendInvitations() {
         // Get selected users
         SparseBooleanArray checked = usersListView.getCheckedItemPositions();
         for (int i = 0; i < userList.size(); i++) {
@@ -102,6 +110,33 @@ public class Invite extends AppCompatActivity {
         }
         Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
     }
+*/
+
+    private void sendInvitations() {
+        SparseBooleanArray checked = usersListView.getCheckedItemPositions();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        invitedUserEmails.clear();
+
+        for (int i = 0; i < userList.size(); i++) {
+            if (checked.get(i)) {
+                Users selectedUser = userList.get(i);
+                // Add the selected user ID to the invited list of the private event
+                invitedUserEmails.add(selectedUser.getEmail());
+            }
+        }
+
+        DatabaseReference eventRef = database.getReference("private_event").child(currentUserId).child(eventId);
+        eventRef.child("invitedUserEmails").setValue(invitedUserEmails);
+
+        Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(Invite.this, DashboardActivity.class));
+        finish();
+    }
+
+
+
 
 
     private static class UserListAdapter extends ArrayAdapter<Users> {

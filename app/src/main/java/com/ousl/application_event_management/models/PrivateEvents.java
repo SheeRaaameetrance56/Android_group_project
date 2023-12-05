@@ -1,7 +1,10 @@
 package com.ousl.application_event_management.models;
 
+import java.util.List;
+
 public class PrivateEvents {
     private String title, description, venue, date, time, limitations, eventId, userId;
+    private List<String> invitedUserEmails; // Add this line
 
     public PrivateEvents() {
         //empty constructor
@@ -80,5 +83,13 @@ public class PrivateEvents {
 
     public void setLimitations(String limitations) {
         this.limitations = limitations;
+    }
+
+    public List<String> getInvitedUserEmails() {
+        return invitedUserEmails;
+    }
+
+    public void setInvitedUserEmails(List<String> invitedUserEmails) {
+        this.invitedUserEmails = invitedUserEmails;
     }
 }

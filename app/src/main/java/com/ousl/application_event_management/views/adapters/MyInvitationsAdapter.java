@@ -15,35 +15,40 @@ import com.ousl.application_event_management.models.PrivateEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapter.MyViewHolder>{
+public class MyInvitationsAdapter extends RecyclerView.Adapter<MyInvitationsAdapter.MyViewHolder> {
     private Context context;
-    private List<PrivateEvents> privateEventList;
+    private List<PrivateEvents> invitationsList;
 
-    private PrivateEventAdapter.OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
-
-    public PrivateEventAdapter(Context context){
+    public MyInvitationsAdapter(Context context) {
         this.context = context;
-        privateEventList = new ArrayList<>();
+        invitationsList = new ArrayList<>();
     }
 
-    public void addEvent(PrivateEvents privateEvent){
-        privateEventList.add(privateEvent);
+    public void addInvitation(PrivateEvents invitation) {
+        invitationsList.add(invitation);
+        notifyDataSetChanged();
+    }
+
+    // Add a new method to clear the existing invitations
+    public void clearInvitations() {
+        invitationsList.clear();
         notifyDataSetChanged();
     }
 
     // Interface for item click handling
     public interface OnItemClickListener {
-        void onItemClick(PrivateEvents event, String eventId, String userId);
+        void onItemClick(PrivateEvents invitation, String eventId, String userId);
     }
 
-    public void setOnItemClickListener(PrivateEventAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
-
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView title, date;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.private_card_view_title);
@@ -52,30 +57,29 @@ public class PrivateEventAdapter extends RecyclerView.Adapter<PrivateEventAdapte
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && onItemClickListener != null) {
-                    PrivateEvents clickedEvent = privateEventList.get(position);
-                    onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventId(), clickedEvent.getUserId());
+                    PrivateEvents clickedInvitation = invitationsList.get(position);
+                    onItemClickListener.onItemClick(clickedInvitation, clickedInvitation.getEventId(), clickedInvitation.getUserId());
                 }
             });
-
         }
     }
 
     @NonNull
     @Override
-    public PrivateEventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_private_card_view, parent, false);
-        return new PrivateEventAdapter.MyViewHolder(view);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        PrivateEvents privateEvent = privateEventList.get(position);
-        holder.title.setText(privateEvent.getTitle());
-        holder.date.setText(privateEvent.getDate());
+        PrivateEvents invitation = invitationsList.get(position);
+        holder.title.setText(invitation.getTitle());
+        holder.date.setText(invitation.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return privateEventList.size();
+        return invitationsList.size();
     }
 }
