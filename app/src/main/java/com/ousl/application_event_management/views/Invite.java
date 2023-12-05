@@ -104,30 +104,4 @@ public class Invite extends AppCompatActivity {
     }
 
 
-    private static class UserListAdapter extends ArrayAdapter<Users> {
-        private final int resource;
-
-        public UserListAdapter(@NonNull Context context, int resource, @NonNull List<Users> objects) {
-            super(context, resource, objects);
-            this.resource = resource;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(resource, parent, false);
-            }
-
-            Users user = getItem(position);
-            if (user != null) {
-                TextView userNameTextView = convertView.findViewById(R.id.input_create_name);
-                userNameTextView.setText(user.getName());
-            }
-
-            return convertView;
-        }
-    }}
-
-
-
+    }
