@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.AuthenticationManager;
 import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityProfileViewBinding;
 
@@ -29,6 +30,7 @@ public class ProfileViewActivity extends AppCompatActivity {
     private ActivityProfileViewBinding binding;
     private DatabaseReference reference;
     private DatabaseReference referenceOrg;
+    private AuthenticationManager authManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +46,13 @@ public class ProfileViewActivity extends AppCompatActivity {
         profileLogoutBtn = binding.profileLogoutBtn;
         listedEventsBtn = binding.profileListedEventButton;
 
-        FirebaseAuth authProfile = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = authProfile.getCurrentUser();
+//        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+//        FirebaseUser currentUser = authProfile.getCurrentUser();
+        FirebaseUser currentUser= authManager.getCurrentUser();
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-        reference = dataBaseManager.getReferenceUser().child(authProfile.getCurrentUser().getUid());
-        referenceOrg = dataBaseManager.getReferenceOrgUser().child(authProfile.getCurrentUser().getUid());
+
+        reference = dataBaseManager.getReferenceUser().child(currentUser.getUid());
+        referenceOrg = dataBaseManager.getReferenceOrgUser().child(currentUser.getUid());
 
         userProfile();
         userOrgProfile();
@@ -71,7 +75,7 @@ public class ProfileViewActivity extends AppCompatActivity {
         profileLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authProfile.signOut();
+                authManager.authInstance().signOut();
                 startActivity(new Intent(ProfileViewActivity.this, LoginActivity.class));
                 finish();
             }
@@ -124,5 +128,4 @@ public class ProfileViewActivity extends AppCompatActivity {
             }
         });
     }
-
 }

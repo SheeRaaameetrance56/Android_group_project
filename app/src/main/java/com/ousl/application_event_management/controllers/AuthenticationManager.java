@@ -21,6 +21,11 @@ public class AuthenticationManager {
         return instance;
     }
 
+    public FirebaseAuth authInstance(){
+        auth = FirebaseAuth.getInstance();
+        return auth;
+    }
+
     public FirebaseUser getCurrentUser(){
         user = auth.getCurrentUser();
         return user;
