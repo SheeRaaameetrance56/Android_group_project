@@ -67,16 +67,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/private_event_time_view"
-        app:layout_constraintBottom_toTopOf="@id/chat_button"/>
+        app:layout_constraintBottom_toTopOf="@id/invite_button"/>
 
-    <ImageButton
-        android:id="@+id/chat_button"
+    <Button
+        android:id="@+id/invite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="300dp"
         android:layout_marginBottom="50dp"
-        android:src="@drawable/baseline_chat_24"
+        android:text="@string/invite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dashboardButton"
@@ -88,12 +87,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
         android:text="@string/dashboard"
         android:textColor="#5D4037"
-        app:layout_constraintBottom_toBottomOf="@id/chat_button"
-        app:layout_constraintRight_toLeftOf="@id/chat_button"
+        app:layout_constraintBottom_toBottomOf="@id/invite_button"
+        app:layout_constraintRight_toLeftOf="@id/invite_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/chat_button" />
+        app:layout_constraintTop_toTopOf="@id/invite_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
