@@ -15,8 +15,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.R;
+import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.models.Users;
 import java.util.ArrayList;
 import android.util.SparseBooleanArray;
@@ -27,6 +29,8 @@ import android.widget.TextView;
 import android.content.Context;
 
 import androidx.annotation.Nullable;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class Invite extends AppCompatActivity {
@@ -103,12 +107,32 @@ public class Invite extends AppCompatActivity {
         for (int i = 0; i < userList.size(); i++) {
             if (checked.get(i)) {
                 Users selectedUser = userList.get(i);
-                invitedUserEmails.add(selectedUser.getEmail());
+                String userEmail = selectedUser.getEmail();
+
+                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                Query emailQuery = usersRef.orderByChild("email").equalTo(userEmail);
+
+                emailQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                            String userId = userSnapshot.getKey(); // Retrieve the user ID associated with the email
+                            if (userId != null) {
+                                // Store the event ID under the user's ID node in 'invites'
+                                DatabaseReference eventRef = dataBaseManager.getReferenceInvite().child(userId);
+                                eventRef.push().setValue(eventId);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle onCancelled event
+                    }
+                });
             }
         }
-
-        DatabaseReference eventRef = database.getReference("invites").child(currentUserId).child(eventId);
-        eventRef.setValue(invitedUserEmails);
 
         Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(Invite.this, PrivateEventShowActivity.class));

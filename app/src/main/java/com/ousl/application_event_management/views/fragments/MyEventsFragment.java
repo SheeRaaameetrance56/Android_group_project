@@ -93,4 +93,38 @@ public class MyEventsFragment extends Fragment {
         binding.listedPrivateEvents.setAdapter(privateEventAdapter);
     }
 
+    public void getInvitedEvents(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            String currentUserId = currentUser.getUid();
+            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+            DatabaseReference reference = dataBaseManager.getReferenceInvite().child(currentUserId);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
+                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
+                        PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
+                        privateEventAdapter.addEvent(event);
+                    }
+                    privateEventAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle database read error
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                    builder.setMessage("Please check the mobile connection or WIFI")
+                            .setTitle("Connection Error");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+        }
+
+        binding.listedPrivateEvents.setAdapter(privateEventAdapter);
+    }
+
 }

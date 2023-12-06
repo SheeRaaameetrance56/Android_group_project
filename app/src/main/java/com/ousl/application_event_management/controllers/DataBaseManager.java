@@ -39,4 +39,8 @@ public class DataBaseManager {
     public DatabaseReference getReferencePrivateEvent(){
         return database.getReference("private_event");
     }
+
+    public DatabaseReference getReferenceInvite(){
+        return database.getReference("invites");
+    }
 }
