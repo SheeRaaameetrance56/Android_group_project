@@ -51,4 +51,12 @@ public class UsersOrganization {
     public void setAddressOrg(String addressOrg) {
         this.addressOrg = addressOrg;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
