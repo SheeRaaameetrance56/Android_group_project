@@ -25,21 +25,25 @@ import com.ousl.application_event_management.databinding.FragmentMyEventsBinding
 import com.ousl.application_event_management.models.PrivateEvents;
 import com.ousl.application_event_management.views.EventDisplay;
 import com.ousl.application_event_management.views.ListedEventsActivity;
+import com.ousl.application_event_management.views.adapters.MyEventsAdapter;
 import com.ousl.application_event_management.views.adapters.PrivateEventAdapter;
 
 public class MyEventsFragment extends Fragment {
 
     private FragmentMyEventsBinding binding;
     private PrivateEventAdapter privateEventAdapter;
-
+    private MyEventsAdapter myEventsAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMyEventsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         privateEventAdapter = new PrivateEventAdapter(requireContext());
+        myEventsAdapter = new MyEventsAdapter(requireContext());
+
         binding.listedPrivateEvents.setLayoutManager(new LinearLayoutManager(requireContext()));
         getPrivateEvents();
+        getInvitedEvents();
 
         privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
             @Override
@@ -100,31 +104,45 @@ public class MyEventsFragment extends Fragment {
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
             DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-            DatabaseReference reference = dataBaseManager.getReferenceInvite().child(currentUserId);
+            DatabaseReference invitesReference = dataBaseManager.getReferenceInvite().child(currentUserId);
+            DatabaseReference privateEventsReference = dataBaseManager.getReferencePrivateEvent().child(currentUserId);
 
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            invitesReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot eventsSnapshot) {
-                    for (DataSnapshot eventSnapshot : eventsSnapshot.getChildren()) {
-                        PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
-                        privateEventAdapter.addEvent(event);
+                public void onDataChange(@NonNull DataSnapshot invitesSnapshot) {
+                    for (DataSnapshot inviteSnapshot : invitesSnapshot.getChildren()) {
+                        String eventId = inviteSnapshot.getKey();
+
+                        privateEventsReference.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot eventSnapshot) {
+                                if (eventSnapshot.exists()) {
+                                    PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
+                                    myEventsAdapter.addEvent(event);
+                                    myEventsAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                                builder.setMessage("Please check the mobile connection or WIFI")
+                                        .setTitle("Connection Error");
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                            }
+                        });
                     }
-                    privateEventAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle database read error
-                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                    builder.setMessage("Please check the mobile connection or WIFI")
-                            .setTitle("Connection Error");
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    // Handle database read error for invites
                 }
             });
         }
 
-        binding.listedPrivateEvents.setAdapter(privateEventAdapter);
+        binding.invitations.setAdapter(myEventsAdapter);
     }
 
 }
