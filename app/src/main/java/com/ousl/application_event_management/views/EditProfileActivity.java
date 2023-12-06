@@ -34,7 +34,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private DatabaseReference reference;
     private DatabaseReference referenceOrg;
     private FirebaseAuth authProfile;
-
+    boolean userIsUser;
     private FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +49,40 @@ public class EditProfileActivity extends AppCompatActivity {
         newPassword = binding.editProfileNewPassword;
         editButton = binding.editProfileEditBtn;
         cancelButton = binding.editProfileCancelBtn;
+        userIsUser = false;
 
         authProfile = FirebaseAuth.getInstance();
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
         reference = dataBaseManager.getReferenceUser().child(authProfile.getCurrentUser().getUid());
         referenceOrg = dataBaseManager.getReferenceOrgUser().child(authProfile.getCurrentUser().getUid());
 
+        userChecker(new UserCheckCallback() {
+            @Override
+            public void onUserTypeReceived(boolean isOrganizationUser) {
+                if (isOrganizationUser) {
+                    loadOrgUser();
+                } else {
+                    loadUser();
+                }
+            }
+        });
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+                    userChecker(new UserCheckCallback() {
+                        @Override
+                        public void onUserTypeReceived(boolean isOrganizationUser) {
+                            if (isOrganizationUser) {
+                                editOrgUserDatabaseDetails();
+                            } else {
+                                editUserDatabaseDetails();
+                            }
+                        }
+                    });
                     editAuthenticationDetails();
                 }catch (Exception e){
-                    Toast.makeText(EditProfileActivity.this, "Error. Suggest re-authenticate.", Toast.LENGTH_SHORT).show();
                     Log.e("Error exception", e.toString() );
                 }
 
@@ -144,5 +165,40 @@ public class EditProfileActivity extends AppCompatActivity {
         referenceOrg.child("phoneNumberOrg").setValue(newPhone);
 
     }
+
+    public void userChecker(UserCheckCallback callback){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+
+            DatabaseReference userRef = DataBaseManager.getInstance().getReferenceOrgUser().child(userID);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean isOrganizationUser = false;
+
+                    if (dataSnapshot.child("type").exists()) {
+                        isOrganizationUser = true;
+                    }
+
+                    callback.onUserTypeReceived(isOrganizationUser);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    callback.onUserTypeReceived(false);
+                }
+            });
+        } else {
+            callback.onUserTypeReceived(false);
+        }
+    }
+
+
+    public interface UserCheckCallback {
+        void onUserTypeReceived(boolean isOrganizationUser);
+    }
+
 
 }

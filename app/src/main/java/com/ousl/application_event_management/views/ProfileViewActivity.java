@@ -46,9 +46,9 @@ public class ProfileViewActivity extends AppCompatActivity {
         profileLogoutBtn = binding.profileLogoutBtn;
         listedEventsBtn = binding.profileListedEventButton;
 
-//        FirebaseAuth authProfile = FirebaseAuth.getInstance();
-//        FirebaseUser currentUser = authProfile.getCurrentUser();
-        FirebaseUser currentUser= authManager.getCurrentUser();
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = authProfile.getCurrentUser();
+
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
 
         reference = dataBaseManager.getReferenceUser().child(currentUser.getUid());
@@ -75,7 +75,7 @@ public class ProfileViewActivity extends AppCompatActivity {
         profileLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authManager.authInstance().signOut();
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ProfileViewActivity.this, LoginActivity.class));
                 finish();
             }
