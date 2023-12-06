@@ -23,6 +23,7 @@ public class PrivateEventShowActivity extends AppCompatActivity {
 
     ActivityPrivateEventShowBinding binding;
     TextView title, description, venue, date, time, limitations;
+    String eventId;
     FirebaseDatabase database;
     FirebaseAuth auth;
 
@@ -41,6 +42,8 @@ public class PrivateEventShowActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+
+
 
         // Get the current user's UID
         String currentUserId = auth.getCurrentUser().getUid();
@@ -64,6 +67,7 @@ public class PrivateEventShowActivity extends AppCompatActivity {
                             date.setText(event.getDate());
                             time.setText(event.getTime());
                             limitations.setText(event.getLimitations());
+                            eventId = event.getEventId();
                         }
                     }
                 }
@@ -89,6 +93,7 @@ public class PrivateEventShowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PrivateEventShowActivity.this, Invite.class);
+                intent.putExtra("EVENT_ID",eventId);
                 startActivity(intent);
             }
         });
