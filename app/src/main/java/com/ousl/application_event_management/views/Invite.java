@@ -120,8 +120,8 @@ public class Invite extends AppCompatActivity {
                             String userId = userSnapshot.getKey(); // Retrieve the user ID associated with the email
                             if (userId != null) {
                                 // Store the event ID under the user's ID node in 'invites'
-                                DatabaseReference eventRef = dataBaseManager.getReferenceInvite().child(userId);
-                                eventRef.push().setValue(eventId);
+                                DatabaseReference eventRef = dataBaseManager.getReferenceInvite().child(userId).child(eventId);
+                                eventRef.setValue(eventId);
                             }
                         }
                     }
