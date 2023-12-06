@@ -30,7 +30,7 @@ import java.util.Objects;
 public class EditProfileActivity extends AppCompatActivity {
 
     private ActivityEditProfileBinding binding;
-    private EditText name, email, phoneNo, currentPassword, newPassword;
+    private EditText name, email, phoneNo, address, currentPassword, newPassword;
     private Button editButton, cancelButton;
     private DatabaseReference reference;
     private DatabaseReference referenceOrg;
@@ -46,6 +46,7 @@ public class EditProfileActivity extends AppCompatActivity {
         name = binding.editProfileName;
         email = binding.editProfileEmail;
         phoneNo = binding.editProfilePhone;
+        address = binding.editProfileAddress;
         currentPassword = binding.editProfileCuurentPassword;
         newPassword = binding.editProfileNewPassword;
         editButton = binding.editProfileEditBtn;
@@ -106,6 +107,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 name.setText(snapshot.child("name").getValue(String.class));
                 email.setText(snapshot.child("email").getValue(String.class));
                 phoneNo.setText(snapshot.child("phoneNo").getValue(String.class));
+                address.setFocusable(false);
+                address.setVisibility(View.GONE);
             }
 
             @Override
@@ -122,6 +125,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 name.setText(snapshot.child("nameOrg").getValue(String.class));
                 email.setText(snapshot.child("emailOrg").getValue(String.class));
                 phoneNo.setText(snapshot.child("phoneNumberOrg").getValue(String.class));
+                address.setText(snapshot.child("addressOrg").getValue(String.class));
 
             }
 
@@ -165,10 +169,12 @@ public class EditProfileActivity extends AppCompatActivity {
         String newName = binding.editProfileName.getText().toString().trim();
         String newEmail = binding.editProfileEmail.getText().toString().trim();
         String newPhone = binding.editProfilePhone.getText().toString().trim();
+        String newAddress = binding.editProfileAddress.getText().toString().trim();
 
         referenceOrg.child("emailOrg").setValue(newEmail);
         referenceOrg.child("nameOrg").setValue(newName);
         referenceOrg.child("phoneNumberOrg").setValue(newPhone);
+        referenceOrg.child("addressOrg").setValue(newAddress);
 
     }
 
