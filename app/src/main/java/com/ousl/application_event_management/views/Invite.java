@@ -3,6 +3,7 @@ package com.ousl.application_event_management.views;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,7 +37,7 @@ public class Invite extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference usersReference;
-
+    ArrayList<String> invitedUserEmails = new ArrayList<>();
     ArrayList<Users> userList;
     ArrayAdapter<Users> adapter;
 
@@ -58,13 +59,16 @@ public class Invite extends AppCompatActivity {
         usersListView.setAdapter(adapter);
         usersListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
+
+        String eventId = getIntent().getStringExtra("EVENT_ID");
+
         // Load users from Firebase and display in ListView
         loadUsers();
 
         sendInvitationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendInvitations();
+                sendInvitations(eventId);
             }
         });
     }
@@ -91,43 +95,25 @@ public class Invite extends AppCompatActivity {
 
 
 
-    private void sendInvitations() {
-        // Get selected users
+    private void sendInvitations(String eventId) {
         SparseBooleanArray checked = usersListView.getCheckedItemPositions();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        invitedUserEmails.clear();
+
         for (int i = 0; i < userList.size(); i++) {
             if (checked.get(i)) {
                 Users selectedUser = userList.get(i);
-
+                invitedUserEmails.add(selectedUser.getEmail());
             }
         }
+
+        DatabaseReference eventRef = database.getReference("invites").child(currentUserId).child(eventId);
+        eventRef.setValue(invitedUserEmails);
+
         Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(Invite.this, PrivateEventShowActivity.class));
     }
-
-
-    private static class UserListAdapter extends ArrayAdapter<Users> {
-        private final int resource;
-
-        public UserListAdapter(@NonNull Context context, int resource, @NonNull List<Users> objects) {
-            super(context, resource, objects);
-            this.resource = resource;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(resource, parent, false);
-            }
-
-            Users user = getItem(position);
-            if (user != null) {
-                TextView userNameTextView = convertView.findViewById(R.id.input_create_name);
-                userNameTextView.setText(user.getName());
-            }
-
-            return convertView;
-        }
-    }}
+}
 
 
 
