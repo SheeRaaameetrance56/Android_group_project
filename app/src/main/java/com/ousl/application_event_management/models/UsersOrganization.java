@@ -2,16 +2,17 @@ package com.ousl.application_event_management.models;
 
 public class UsersOrganization {
 
-    private String nameOrg, emailOrg, phoneNumberOrg, addressOrg, passwordOrg;
+    private String nameOrg, emailOrg, phoneNumberOrg, addressOrg, passwordOrg, type;
 
     public UsersOrganization() {
     }
 
-    public UsersOrganization(String nameOrg, String emailOrg, String phoneNumberOrg, String addressOrg) {
+    public UsersOrganization(String nameOrg, String emailOrg, String phoneNumberOrg, String addressOrg, String type) {
         this.nameOrg = nameOrg;
         this.emailOrg = emailOrg;
         this.phoneNumberOrg = phoneNumberOrg;
         this.addressOrg = addressOrg;
+        this.type = type;
     }
 
     public UsersOrganization(String emailOrg, String passwordOrg) {
@@ -49,5 +50,13 @@ public class UsersOrganization {
 
     public void setAddressOrg(String addressOrg) {
         this.addressOrg = addressOrg;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
