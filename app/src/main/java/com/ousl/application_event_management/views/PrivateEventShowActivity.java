@@ -84,6 +84,14 @@ public class PrivateEventShowActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binding.inviteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PrivateEventShowActivity.this, Invite.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
