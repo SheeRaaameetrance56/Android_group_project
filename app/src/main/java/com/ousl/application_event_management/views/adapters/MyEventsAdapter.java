@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ousl.application_event_management.R;
 import com.ousl.application_event_management.models.PrivateEvents;
-import com.ousl.application_event_management.models.PublicEvent;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
     public interface OnItemClickListener {
         void onItemClick(PrivateEvents event, String eventId, String userId);
     }
-    private OnItemClickListener listener;
+    private PrivateEventAdapter.OnItemClickListener listener;
 
     public MyEventsAdapter(Context context){
         this.context = context;
@@ -39,7 +36,7 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
     }
 
     public void setOnItemClickListener(PrivateEventAdapter.OnItemClickListener listener) {
-        this.listener = (OnItemClickListener) listener;
+        this.listener = listener;
 
     }
 

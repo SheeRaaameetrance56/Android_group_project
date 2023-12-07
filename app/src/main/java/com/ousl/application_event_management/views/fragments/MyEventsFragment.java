@@ -45,10 +45,22 @@ public class MyEventsFragment extends Fragment {
         myEventsAdapter = new MyEventsAdapter(requireContext());
 
         binding.listedPrivateEvents.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.invitations.setLayoutManager(new LinearLayoutManager(requireContext()));
         getPrivateEvents();
         getInvitedEvents();
 
         privateEventAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(PrivateEvents event, String eventId, String userId) {
+                Intent intent = new Intent(requireContext(), EventDisplay.class);
+                intent.putExtra("USER_ID", userId);
+                intent.putExtra("EVENT_ID", eventId);
+                intent.putExtra("IS_PUBLIC_EVENT", false);
+                startActivity(intent);
+            }
+        });
+
+        myEventsAdapter.setOnItemClickListener(new PrivateEventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PrivateEvents event, String eventId, String userId) {
                 Intent intent = new Intent(requireContext(), EventDisplay.class);
@@ -100,39 +112,40 @@ public class MyEventsFragment extends Fragment {
         binding.listedPrivateEvents.setAdapter(privateEventAdapter);
     }
 
-    public void getInvitedEvents(){
+    public void getInvitedEvents() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
 
         if (currentUser != null) {
             String currentUserId = currentUser.getUid();
-            DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-            DatabaseReference invitesReference = dataBaseManager.getReferenceInvite().child(currentUserId);
-            DatabaseReference privateEventsReference = dataBaseManager.getReferencePrivateEvent().child(currentUserId);
+            DatabaseReference invitesReference = FirebaseDatabase.getInstance().getReference("invites").child(currentUserId);
+            DatabaseReference privateEventsReference = FirebaseDatabase.getInstance().getReference("private_event");
 
             invitesReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot invitesSnapshot) {
                     for (DataSnapshot inviteSnapshot : invitesSnapshot.getChildren()) {
                         String eventId = inviteSnapshot.getValue(String.class);
-                        Log.w("Event id from invite node", eventId );
 
-                        privateEventsReference.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
+                        privateEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot eventSnapshot) {
-                                if (eventSnapshot.exists()) {
-                                    PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
-                                    myEventsAdapter.addEvent(event);
-                                    myEventsAdapter.notifyDataSetChanged();
-
-                                    // Set the adapter here, after events are fetched and added
-                                    binding.invitations.setAdapter(myEventsAdapter);
+                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                for(DataSnapshot snapshot: userSnapshot.getChildren()){
+                                    if (userSnapshot.exists()) {
+                                        for(DataSnapshot eventSnapshot: snapshot.getChildren()){
+                                            if(eventSnapshot.getKey().equals(eventId)){
+                                                PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
+                                                myEventsAdapter.addEvent(event);
+                                                myEventsAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle error fetching private events
+                                Log.e("FirebaseError", "Error fetching private events: " + error.getMessage());
                             }
                         });
                     }
@@ -140,10 +153,11 @@ public class MyEventsFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle error fetching invites
+                    Log.e("FirebaseError", "Error fetching invites: " + error.getMessage());
                 }
             });
         }
+        binding.invitations.setAdapter(myEventsAdapter);
     }
 
 }
