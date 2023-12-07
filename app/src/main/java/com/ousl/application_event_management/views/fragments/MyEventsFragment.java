@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import com.ousl.application_event_management.views.EventDisplay;
 import com.ousl.application_event_management.views.ListedEventsActivity;
 import com.ousl.application_event_management.views.adapters.MyEventsAdapter;
 import com.ousl.application_event_management.views.adapters.PrivateEventAdapter;
+
+import java.util.List;
 
 public class MyEventsFragment extends Fragment {
 
@@ -111,7 +114,8 @@ public class MyEventsFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot invitesSnapshot) {
                     for (DataSnapshot inviteSnapshot : invitesSnapshot.getChildren()) {
-                        String eventId = inviteSnapshot.getKey();
+                        String eventId = inviteSnapshot.getValue(String.class);
+                        Log.w("Event id from invite node", eventId );
 
                         privateEventsReference.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -120,16 +124,15 @@ public class MyEventsFragment extends Fragment {
                                     PrivateEvents event = eventSnapshot.getValue(PrivateEvents.class);
                                     myEventsAdapter.addEvent(event);
                                     myEventsAdapter.notifyDataSetChanged();
+
+                                    // Set the adapter here, after events are fetched and added
+                                    binding.invitations.setAdapter(myEventsAdapter);
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                                builder.setMessage("Please check the mobile connection or WIFI")
-                                        .setTitle("Connection Error");
-                                AlertDialog dialog = builder.create();
-                                dialog.show();
+                                // Handle error fetching private events
                             }
                         });
                     }
@@ -137,12 +140,10 @@ public class MyEventsFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle database read error for invites
+                    // Handle error fetching invites
                 }
             });
         }
-
-        binding.invitations.setAdapter(myEventsAdapter);
     }
 
 }

@@ -23,6 +23,10 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
     private Context context;
     private List<PrivateEvents> myEventList;
 
+    public interface OnItemClickListener {
+        void onItemClick(PrivateEvents event, String eventId, String userId);
+    }
+    private OnItemClickListener listener;
 
     public MyEventsAdapter(Context context){
         this.context = context;
@@ -34,12 +38,25 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(PrivateEventAdapter.OnItemClickListener listener) {
+        this.listener = (OnItemClickListener) listener;
+
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView title, date;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.private_card_view_title);
             date = itemView.findViewById(R.id.private_card_view_date);
+
+            itemView.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    PrivateEvents clickedEvent = myEventList.get(position);
+                    listener.onItemClick(clickedEvent, clickedEvent.getEventId(), clickedEvent.getUserId());
+                }
+            });
         }
     }
 
@@ -47,7 +64,7 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_private_card_view, parent, false);
-        return new MyViewHolder(view);
+        return new MyEventsAdapter.MyViewHolder(view);
     }
 
     @Override
