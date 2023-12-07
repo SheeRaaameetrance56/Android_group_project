@@ -118,36 +118,41 @@ public class PrivateEventEntry extends AppCompatActivity {
         time = binding.priEventTime.getText().toString();
         limitations = binding.priEventLimitations.getText().toString();
 
-        FirebaseUser currentUser = auth.getCurrentUser();
-        String uID = currentUser.getUid();
-        DatabaseReference userEventReference = firebaseDBManager.getReferencePrivateEvent().child(uID).push();
+        if(!title.isEmpty() || !description.isEmpty() || !venue.isEmpty() || !date.isEmpty() || !time.isEmpty()){
+            FirebaseUser currentUser = auth.getCurrentUser();
+            String uID = currentUser.getUid();
+            DatabaseReference userEventReference = firebaseDBManager.getReferencePrivateEvent().child(uID).push();
 
-        String userId = currentUser.getUid();
-        String eventId = userEventReference.getKey();
+            String userId = currentUser.getUid();
+            String eventId = userEventReference.getKey();
 
-        PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
+            PrivateEvents privateEvent = new PrivateEvents(title, description, venue, date, time, limitations, eventId, userId);
 
-        userEventReference.setValue(privateEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
-                    binding.priEventTitle.setText("");
-                    binding.priEventDescription.setText("");
-                    binding.priEventVenue.setText("");
-                    binding.priEventDate.setText("");
-                    binding.priEventTime.setText("");
-                    binding.priEventLimitations.setText("");
-                    Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
+            userEventReference.setValue(privateEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()) {
+                        binding.priEventTitle.setText("");
+                        binding.priEventDescription.setText("");
+                        binding.priEventVenue.setText("");
+                        binding.priEventDate.setText("");
+                        binding.priEventTime.setText("");
+                        binding.priEventLimitations.setText("");
+                        Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(PrivateEventEntry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    Toast.makeText(PrivateEventEntry.this, "Something went wrong.!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            });
+        }
+        else {
+            Toast.makeText(this, "Title, Description, Venue, Date and Time Required", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
