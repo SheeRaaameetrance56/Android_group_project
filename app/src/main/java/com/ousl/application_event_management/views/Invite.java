@@ -94,23 +94,13 @@ public class Invite extends AppCompatActivity {
     private void sendInvitations() {
         // Get selected users
         SparseBooleanArray checked = usersListView.getCheckedItemPositions();
-
-        // Check if at least one user is selected
-        boolean atLeastOneUserSelected = false;
         for (int i = 0; i < userList.size(); i++) {
             if (checked.get(i)) {
-                atLeastOneUserSelected = true;
                 Users selectedUser = userList.get(i);
-                // Perform actions with the selected user
+
             }
         }
-
-        // Display appropriate message based on user selection
-        if (atLeastOneUserSelected) {
-            Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Please select a user.", Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
     }
 
 
