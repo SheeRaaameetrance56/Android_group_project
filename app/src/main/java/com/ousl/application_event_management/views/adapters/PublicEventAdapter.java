@@ -65,6 +65,11 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
                     PublicEvent clickedEvent = publicEventList.get(position);
                     onItemClickListener.onItemClick(clickedEvent, clickedEvent.getEventID(), clickedEvent.getUserId());
                 }
+
+                public void setEvents(List<PublicEvent> events) {
+        publicEventList = events;
+        notifyDataSetChanged();
+    }
             });
         }
     }
