@@ -92,13 +92,11 @@ public class PublicEventEntry extends AppCompatActivity {
                         String timeFormat = String.format("%02d:%02d", hourOfDay, minute);
 
                         try {
-                            // Convert the 24-hour format to AM/PM format
                             SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm");
                             SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a");
                             Date date = inputFormat.parse(timeFormat);
                             String formattedTime = outputFormat.format(date);
 
-                            // Set the formatted time to the TextView
                             binding.pubEventTime.setText(formattedTime);
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -167,13 +165,10 @@ public class PublicEventEntry extends AppCompatActivity {
             dateStr = binding.pubEventDate.getText().toString();
             timeStr = binding.pubEventTime.getText().toString();
 
-            // Create a new event with a unique key under the user's node
             DatabaseReference userEventsReference = dataBaseManager.getReferencePublicEvent().child(uid).push();
 
             publicEvent.setTimestamp(System.currentTimeMillis());
-//            if (imageUri != null) {
-//                publicEvent.setImageUrl(imageUri.toString());
-//            }
+
 
             imageName = System.currentTimeMillis() + "." + getFileExtension(imageUri);
 
@@ -191,7 +186,6 @@ public class PublicEventEntry extends AppCompatActivity {
             eventId = userEventsReference.getKey();
 
             publicEvent = new PublicEvent(userId, eventId,title, description, venue, limitations, dateStr, timeStr, imageName);
-            // Set the event data under the unique key
             userEventsReference.setValue(publicEvent).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -252,8 +246,6 @@ public class PublicEventEntry extends AppCompatActivity {
     private void storeDownloadUrlInDatabase(String eventKey, String downloadUrl) {
         FirebaseUser currentUser = auth.getCurrentUser();
         String uid = currentUser.getUid();
-//        DatabaseReference urlReference = reference.child("public_events").child(uid).child(eventKey).child("downloadUrl");
-//        urlReference.setValue(downloadUrl);
     }
 
 }

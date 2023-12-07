@@ -60,7 +60,8 @@
             android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
         <activity
             android:name=".views.Invite"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Application_Event_Management.NoActionBar"/>
         <activity
             android:name=".views.PrivateEventEntry"
             android:exported="true"

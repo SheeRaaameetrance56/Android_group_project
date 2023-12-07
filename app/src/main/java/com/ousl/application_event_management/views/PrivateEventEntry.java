@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.ousl.application_event_management.controllers.DataBaseManager;
-import com.ousl.application_event_management.databinding.ActivityIndividualEventEntryBinding;
+import com.ousl.application_event_management.databinding.ActivityPrivateEventEntryBinding;
 import com.ousl.application_event_management.models.PrivateEvents;
 
 import java.text.ParseException;
@@ -33,7 +33,7 @@ import java.util.Date;
 
 public class PrivateEventEntry extends AppCompatActivity {
 
-    private ActivityIndividualEventEntryBinding binding;
+    private ActivityPrivateEventEntryBinding binding;
     private String title, description, venue, date, time, limitations;
     private DatabaseReference reference;
     DataBaseManager firebaseDBManager;
@@ -42,7 +42,7 @@ public class PrivateEventEntry extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityIndividualEventEntryBinding.inflate(getLayoutInflater());
+        binding = ActivityPrivateEventEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         firebaseDBManager = DataBaseManager.getInstance();
@@ -98,14 +98,6 @@ public class PrivateEventEntry extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PrivateEventEntry.this, DashboardActivity.class));
-                finish();
-            }
-        });
-
-        binding.priInviteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PrivateEventEntry.this, Invite.class));
                 finish();
             }
         });

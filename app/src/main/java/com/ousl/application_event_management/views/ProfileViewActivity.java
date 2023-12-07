@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ousl.application_event_management.controllers.AuthenticationManager;
 import com.ousl.application_event_management.controllers.DataBaseManager;
 import com.ousl.application_event_management.databinding.ActivityProfileViewBinding;
 
@@ -24,9 +25,12 @@ import java.util.Date;
 
 public class ProfileViewActivity extends AppCompatActivity {
 
-    TextView profile_name, profile_email, profile_phone, profile_joined;
-    Button profileEditBtn, profileLogoutBtn, listedEventsBtn;
-    ActivityProfileViewBinding binding;
+    private TextView profile_name, profile_email, profile_phone, profile_joined, profile_address;
+    private Button profileEditBtn, profileLogoutBtn, listedEventsBtn;
+    private ActivityProfileViewBinding binding;
+    private DatabaseReference reference;
+    private DatabaseReference referenceOrg;
+    private AuthenticationManager authManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,7 @@ public class ProfileViewActivity extends AppCompatActivity {
         profile_name = binding.profileName;
         profile_email = binding.profileEmail;
         profile_phone = binding.profilePhone;
+        profile_address = binding.profileAddress;
         profile_joined = binding.profileJoined;
         profileEditBtn = binding.profileEditBtn;
         profileLogoutBtn = binding.profileLogoutBtn;
@@ -43,29 +48,22 @@ public class ProfileViewActivity extends AppCompatActivity {
 
         FirebaseAuth authProfile = FirebaseAuth.getInstance();
         FirebaseUser currentUser = authProfile.getCurrentUser();
+
         DataBaseManager dataBaseManager = DataBaseManager.getInstance();
-        DatabaseReference reference = dataBaseManager.getReferenceUser().child(authProfile.getCurrentUser().getUid());
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    profile_name.setText(snapshot.child("name").getValue(String.class));
-                    profile_email.setText(snapshot.child("email").getValue(String.class));
-                    profile_phone.setText(snapshot.child("phoneNo").getValue(String.class));
-                }
-            }
+        reference = dataBaseManager.getReferenceUser().child(currentUser.getUid());
+        referenceOrg = dataBaseManager.getReferenceOrgUser().child(currentUser.getUid());
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        userProfile();
+        userOrgProfile();
 
-            }
-        });
         long creationTimestamp = currentUser.getMetadata().getCreationTimestamp();
         Date creationDate = new Date(creationTimestamp);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(creationDate);
         profile_joined.setText(formattedDate);
+
+
 
         profileEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +75,10 @@ public class ProfileViewActivity extends AppCompatActivity {
         profileLogoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authProfile.signOut();
-                startActivity(new Intent(ProfileViewActivity.this, LoginActivity.class));
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ProfileViewActivity.this, LoginActivity.class);
+                startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
             }
         });
@@ -86,9 +86,58 @@ public class ProfileViewActivity extends AppCompatActivity {
         listedEventsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileViewActivity.this, ListedEventsActivity.class));
+                Intent intent = new Intent(ProfileViewActivity.this, ListedEventsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
+    }
+
+    public void userProfile(){
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    profile_name.setText(snapshot.child("name").getValue(String.class));
+                    profile_email.setText(snapshot.child("email").getValue(String.class));
+                    profile_address.setText("");
+                    binding.textView23.setText("");
+                    profile_phone.setText(snapshot.child("phoneNo").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void userOrgProfile(){
+        referenceOrg.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    profile_name.setText(snapshot.child("nameOrg").getValue(String.class));
+                    profile_email.setText(snapshot.child("emailOrg").getValue(String.class));
+                    profile_address.setText(snapshot.child("addressOrg").getValue(String.class));
+                    profile_phone.setText(snapshot.child("phoneNumberOrg").getValue(String.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ProfileViewActivity.this, DashboardActivity.class));
+        finish();
+        super.onBackPressed();
     }
 }

@@ -55,10 +55,27 @@
         android:padding="10dp"
         android:textColor="@color/black"
         android:elevation="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_profile_cuurent_password"
+        app:layout_constraintBottom_toTopOf="@+id/edit_profile_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_profile_email"
+        tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+    <EditText
+        android:id="@+id/edit_profile_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_text_field_style"
+        android:ems="10"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_profile_cuurent_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_profile_phone"
         tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
     <EditText
