@@ -84,10 +84,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         }
                     });
                     editAuthenticationDetails();
-                    Toast.makeText(EditProfileActivity.this, "Edited credentials", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(EditProfileActivity.this, ProfileViewActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    finish();
+
                 }catch (Exception e){
                     Log.e("Error exception", e.toString() );
                 }
@@ -149,6 +146,11 @@ public class EditProfileActivity extends AppCompatActivity {
         reference.child("name").setValue(newName);
         reference.child("phoneNo").setValue(newPhone);
 
+        Toast.makeText(EditProfileActivity.this, "Edited credentials", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EditProfileActivity.this, ProfileViewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
+
     }
 
     public void editAuthenticationDetails(){
@@ -179,6 +181,11 @@ public class EditProfileActivity extends AppCompatActivity {
         referenceOrg.child("nameOrg").setValue(newName);
         referenceOrg.child("phoneNumberOrg").setValue(newPhone);
         referenceOrg.child("addressOrg").setValue(newAddress);
+
+        Toast.makeText(EditProfileActivity.this, "Edited credentials", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EditProfileActivity.this, ProfileViewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        finish();
 
     }
 
