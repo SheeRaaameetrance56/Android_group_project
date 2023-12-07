@@ -76,7 +76,9 @@ public class ProfileViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileViewActivity.this, LoginActivity.class));
+                Intent intent = new Intent(ProfileViewActivity.this, LoginActivity.class);
+                startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
             }
         });
@@ -84,7 +86,10 @@ public class ProfileViewActivity extends AppCompatActivity {
         listedEventsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileViewActivity.this, ListedEventsActivity.class));
+                Intent intent = new Intent(ProfileViewActivity.this, ListedEventsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -127,5 +132,12 @@ public class ProfileViewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ProfileViewActivity.this, DashboardActivity.class));
+        finish();
+        super.onBackPressed();
     }
 }

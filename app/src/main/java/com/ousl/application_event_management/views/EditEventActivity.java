@@ -358,6 +358,12 @@ public class EditEventActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
+        finish();
+        super.onBackPressed();
+    }
 }
 
 
