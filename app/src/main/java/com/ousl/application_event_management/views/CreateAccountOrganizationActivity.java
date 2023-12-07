@@ -45,6 +45,18 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
                 addressOrg = binding.inputOrganizationAddress.getText().toString();
                 passwordOrg = binding.inputOrganizationPassword.getText().toString();
 
+                // Check if email is in correct format
+                if (!isValidEmail(emailOrg)) {
+                    Toast.makeText(CreateAccountOrganizationActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if password has at least 8 characters
+                if (passwordOrg.length() < 8) {
+                    Toast.makeText(CreateAccountOrganizationActivity.this, "Password must have at least 8 characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(!nameOrg.isEmpty() && !emailOrg.isEmpty() && !addressOrg.isEmpty() &&!passwordOrg.isEmpty() && !phoneNumberOrg.isEmpty()) {
                     createAccount();
                 }
@@ -89,5 +101,9 @@ public class CreateAccountOrganizationActivity extends AppCompatActivity {
                 Toast.makeText(CreateAccountOrganizationActivity.this, "Failed to authenticate", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    // Function to validate email format
+    private boolean isValidEmail(CharSequence target) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

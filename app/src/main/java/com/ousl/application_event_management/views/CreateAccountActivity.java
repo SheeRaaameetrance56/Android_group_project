@@ -50,6 +50,18 @@ public class CreateAccountActivity extends AppCompatActivity {
                 password = binding.inputCreatePassword;
                 phoneNo = binding.inputCreatePhoneNo.getText().toString();
 
+                // Check if email is in correct format
+                if (!isValidEmail(email)) {
+                    Toast.makeText(CreateAccountActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Check if password has at least 8 characters
+                if (password.length() < 8) {
+                    Toast.makeText(CreateAccountActivity.this, "Password must have at least 8 characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if(!name.isEmpty() && !email.isEmpty() && !password.toString().isEmpty() && !phoneNo.isEmpty()) {
 
                     createAccountTask();
@@ -107,6 +119,10 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
 
+    }
+    // Function to validate email format
+    private boolean isValidEmail(CharSequence target) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
 }
