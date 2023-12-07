@@ -101,7 +101,7 @@ public class PublicEventShowActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle any errors that occur.
+                Log.e("error", "onCancelled: "+databaseError );
             }
         });
 

@@ -163,7 +163,6 @@ public class EditEventActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@androidx.annotation.NonNull Exception e) {
-                            // Handle any errors that may occur while getting the download URL
                             Log.e("FirebaseStorage", "Error getting download URL: " + e.getMessage());
                         }
                     });
@@ -235,7 +234,6 @@ public class EditEventActivity extends AppCompatActivity {
                         }
                     });
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
@@ -267,12 +265,10 @@ public class EditEventActivity extends AppCompatActivity {
                     if (snapshot.exists()) {
                         PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
 
-                        // Delete the event first
                         reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    // Event deleted successfully, now delete the associated image
                                     String imageName = publicEvent.getImageName();
                                     String imagePath = userId + "/" + eventId + "/" + imageName;
                                     StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imagePath);
@@ -281,29 +277,24 @@ public class EditEventActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> imageTask) {
                                             if (imageTask.isSuccessful()) {
-                                                // Image deleted successfully
                                                 Log.i("Image_delete", "Deleted");
                                             } else {
-                                                // Handle image deletion failure
                                                 Log.e("Image_delete", "Failed to delete image");
                                             }
                                         }
                                     });
                                 } else {
-                                    // Handle event deletion failure
                                     Log.e("Event_delete", "Failed to delete event");
                                 }
                             }
                         });
                     } else {
-                        // Handle case where event does not exist
                         Log.e("Event_delete", "Event does not exist");
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle database error
                     Log.e("Error", "Database error: " + error.getMessage());
                 }
             });
@@ -322,31 +313,56 @@ public class EditEventActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     PublicEvent publicEvent = snapshot.getValue(PublicEvent.class);
-
-                    // Delete the event first
                     reference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-
+                                deletePrivateEventInvites(eventId);
                             } else {
-                                // Handle event deletion failure
                                 Log.e("Event_delete", "Failed to delete event");
                             }
                         }
                     });
                 } else {
-                    // Handle case where event does not exist
                     Log.e("Event_delete", "Event does not exist");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
                 Log.e("Error", "Database error: " + error.getMessage());
             }
         });
+    }
+
+    public void deletePrivateEventInvites(String eventId){
+        DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+        DatabaseReference invitesReference = dataBaseManager.getReferenceInvite();
+
+        invitesReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot userSnapshot: snapshot.getChildren()){
+                    for (DataSnapshot inviteSnapshot : userSnapshot.getChildren()) {
+                        String inviteEventId = inviteSnapshot.getValue(String.class);
+                        if (inviteEventId != null && inviteEventId.equals(eventId)) {
+                            inviteSnapshot.getRef().removeValue();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Error", "Database error: " + error.getMessage());
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
+        finish();
+        super.onBackPressed();
     }
 }
 

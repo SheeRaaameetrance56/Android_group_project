@@ -94,12 +94,18 @@ public class DashboardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.toolbar_menu_profile){
-            startActivity(new Intent(DashboardActivity.this, ProfileViewActivity.class));
+            Intent intent = new Intent(DashboardActivity.this, ProfileViewActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
         }
         if(id == R.id.dropdown_menu_log_out){
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signOut();
-            startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
+            Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             finish();
         }
         if(id == R.id.dropdown_menu_about){

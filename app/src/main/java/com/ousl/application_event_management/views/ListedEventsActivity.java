@@ -52,6 +52,7 @@ public class ListedEventsActivity extends AppCompatActivity {
                 intent.putExtra("USER_ID", userId);
                 intent.putExtra("PUBLIC_EVENT", String.valueOf(event));
                 intent.putExtra("IS_PUBLIC_EVENT", true);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             }
@@ -141,6 +142,13 @@ public class ListedEventsActivity extends AppCompatActivity {
         }
 
         binding.privateEvents.setAdapter(privateEventAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ListedEventsActivity.this, ProfileViewActivity.class));
+        finish();
+        super.onBackPressed();
     }
 
 }
