@@ -84,6 +84,10 @@ public class EditProfileActivity extends AppCompatActivity {
                         }
                     });
                     editAuthenticationDetails();
+                    Toast.makeText(EditProfileActivity.this, "Edited credentials", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(EditProfileActivity.this, ProfileViewActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finish();
                 }catch (Exception e){
                     Log.e("Error exception", e.toString() );
                 }
