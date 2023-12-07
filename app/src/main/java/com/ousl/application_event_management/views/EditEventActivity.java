@@ -2,8 +2,10 @@ package com.ousl.application_event_management.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -111,9 +113,20 @@ public class EditEventActivity extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteEvent(userId, eventId, isPublicEvent);
-                startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditEventActivity.this);
+                builder.setMessage("Do you want to Delete this event ?");
+                builder.setTitle("Event Delete");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Yes", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    deleteEvent(userId, eventId, isPublicEvent);
+                    startActivity(new Intent(EditEventActivity.this, ListedEventsActivity.class));
+                    finish();
+                });
+                builder.setNegativeButton("No", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    dialog.cancel();
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
