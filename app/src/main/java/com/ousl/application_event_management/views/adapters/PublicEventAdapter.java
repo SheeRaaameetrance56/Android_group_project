@@ -69,6 +69,11 @@ public class PublicEventAdapter extends RecyclerView.Adapter<PublicEventAdapter.
         }
     }
 
+       public void setEvents(List<PublicEvent> events) {
+        publicEventList = events;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
