@@ -137,7 +137,4 @@ public class Invite extends AppCompatActivity {
         Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(Invite.this, PrivateEventShowActivity.class));
     }
-}
-
-
 
