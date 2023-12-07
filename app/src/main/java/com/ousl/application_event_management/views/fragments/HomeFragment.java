@@ -25,10 +25,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ousl.application_event_management.controllers.DataBaseManager;
+import com.ousl.application_event_management.models.PublicEvent;
 import com.ousl.application_event_management.views.EventDisplay;
 import com.ousl.application_event_management.views.adapters.PublicEventAdapter;
 import com.ousl.application_event_management.databinding.FragmentHomeBinding;
-import com.ousl.application_event_management.models.PublicEvent;
+import com.ousl.application_event_management.utilities.PublicEventUtility;
 
 import java.util.ArrayList;
 import java.util.List;
