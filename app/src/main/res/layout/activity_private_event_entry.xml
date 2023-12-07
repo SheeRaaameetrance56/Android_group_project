@@ -11,7 +11,7 @@
         android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="460dp"
-        app:layout_constraintBottom_toTopOf="@+id/pri_invite_btn"
+        app:layout_constraintBottom_toTopOf="@+id/pri_event_publish_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
@@ -157,23 +157,12 @@
         android:id="@+id/pri_event_publish_btn"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
         android:text="@string/publish"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pri_event_cancel_btn"
-        app:layout_constraintTop_toBottomOf="@+id/pri_invite_btn" />
-
-    <Button
-        android:id="@+id/pri_invite_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:text="@string/invite"
-        android:textColor="#0044CC"
-        app:layout_constraintBottom_toTopOf="@+id/pri_event_publish_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView4" />
 
     <TextView
