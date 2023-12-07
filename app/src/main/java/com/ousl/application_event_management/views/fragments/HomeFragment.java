@@ -82,6 +82,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+         PublicEventUtility.getOrderedPublicEvents(recyclerView, publicEventAdapter);
+
         return root;
     }
 
