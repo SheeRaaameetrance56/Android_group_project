@@ -15,74 +15,73 @@
         <activity
             android:name=".views.AboutUsActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.EditEventActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.ListedEventsActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.EditProfileActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.ProfileViewActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".views.EventDisplay"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.ChatActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.PrivateEventShowActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.PublicEventShowActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.Frind_list"
             android:exported="true"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.Invite"
             android:exported="true"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar"/>
+            />
         <activity
             android:name=".views.PrivateEventEntry"
             android:exported="true"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.PublicEventEntry"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.CreateAccountOrganizationActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.CreateAccountActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.Application_Event_Management.NoActionBar" />
+            />
         <activity
             android:name=".views.SplashActivity"
             android:exported="true">

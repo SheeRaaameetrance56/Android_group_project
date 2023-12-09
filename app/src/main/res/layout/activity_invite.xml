@@ -4,35 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
     tools:context=".views.Invite">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_dashboard"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/purple_200"
-        android:backgroundTint="@color/purple_200"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/logo_low"
-        app:title="@string/invite"
-        app:titleMarginStart="15dp"
-        app:titleTextColor="@color/white" />
-
-    <ListView
-        android:id="@+id/userlistview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:choiceMode="multipleChoice"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/sendinvitationbtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_dashboard"/>
 
     <Button
         android:id="@+id/sendinvitationbtn"
@@ -48,6 +20,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userlistview" />
 
+    <ListView
+        android:id="@+id/userlistview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:choiceMode="multipleChoice"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/sendinvitationbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
