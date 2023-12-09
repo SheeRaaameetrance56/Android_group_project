@@ -11,6 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Bottom navigation bar color -->
+        <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
         <!--Action bar customization-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
