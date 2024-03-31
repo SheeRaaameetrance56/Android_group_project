@@ -27,6 +27,8 @@ public class DashboardActivity extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(myToolbar);
 
         binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
         binding.tabLayout.setupWithViewPager(binding.viewPager);
