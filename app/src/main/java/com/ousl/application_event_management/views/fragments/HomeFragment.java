@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         searchView.clearFocus();
         publicEventList = new ArrayList<>();
 
-        binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),3));
+        binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),2));
         recyclerView =binding.publicEventRecycler;
         getPublicEvents();
 
