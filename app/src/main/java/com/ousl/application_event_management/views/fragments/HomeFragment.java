@@ -44,6 +44,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView ;
     private androidx.appcompat.widget.SearchView searchView;
     private List<PublicEvent> publicEventList;
+
+    private int gridHorizonElementCount = 2;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -54,7 +56,7 @@ public class HomeFragment extends Fragment {
         searchView.clearFocus();
         publicEventList = new ArrayList<>();
 
-        binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),2));
+        binding.publicEventRecycler.setLayoutManager(new GridLayoutManager(requireContext(),gridHorizonElementCount));
         recyclerView =binding.publicEventRecycler;
         getPublicEvents();
 
