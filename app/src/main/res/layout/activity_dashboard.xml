@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/purple_200"
-        app:tabGravity="fill"
+        app:tabGravity="start"
         app:tabIndicator="@color/white"
         app:tabMaxWidth="0dp"
         app:tabMode="fixed"
