@@ -200,7 +200,8 @@ public class PublicEventEntry extends AppCompatActivity {
                         binding.pubEventTime.setText("");
                         binding.banner.setImageDrawable(null);
 
-                        Intent intent = new Intent(PublicEventEntry.this, PublicEventShowActivity.class);
+                        // todo change the navigation to event show
+                        Intent intent = new Intent(PublicEventEntry.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
 
