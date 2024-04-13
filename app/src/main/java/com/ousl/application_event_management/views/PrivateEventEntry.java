@@ -140,7 +140,8 @@ public class PrivateEventEntry extends AppCompatActivity {
                         binding.priEventLimitations.setText("");
                         Toast.makeText(PrivateEventEntry.this, "Event added successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(PrivateEventEntry.this, PrivateEventShowActivity.class);
+                        // todo change the navigation to event show
+                        Intent intent = new Intent(PrivateEventEntry.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
                     }
