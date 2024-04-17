@@ -135,7 +135,7 @@ public class Invite extends AppCompatActivity {
         }
 
         Toast.makeText(this, "Invitations sent successfully.", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Invite.this, PrivateEventShowActivity.class));
+        //todo make another button to navigate confirmations
     }
 }
 

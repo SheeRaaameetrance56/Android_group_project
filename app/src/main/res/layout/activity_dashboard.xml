@@ -7,23 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".views.DashboardActivity">
 
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/app_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      android:elevation="4dp"
+      app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
   <LinearLayout
+      android:id="@+id/linear_layout"
       android:layout_width="match_parent"
       android:layout_height="0dp"
       android:orientation="vertical"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      app:layout_constraintTop_toBottomOf="@id/app_toolbar">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/app_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-
-        />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -69,6 +73,7 @@
       android:layout_width="180dp"
       android:layout_height="wrap_content"
       android:backgroundTint="@color/purple_200"
+      android:elevation="5dp"
       android:text="@string/private_event"
       android:visibility="invisible"
       app:cornerRadius="20dp"
@@ -84,6 +89,7 @@
       android:layout_width="180dp"
       android:layout_height="wrap_content"
       android:backgroundTint="@color/purple_200"
+      android:elevation="5dp"
       android:text="@string/public_event"
       android:visibility="invisible"
       app:cornerRadius="20dp"
